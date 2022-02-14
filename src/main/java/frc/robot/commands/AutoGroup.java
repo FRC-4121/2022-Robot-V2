@@ -15,7 +15,7 @@ import frc.robot.ExtraClasses.NetworkTableQuerier;
 public class AutoGroup extends SequentialCommandGroup {
  
   /** Creates a new AutoGroup. */
-  public AutoGroup() {
+  public AutoGroup(Intake intake, Shooter shoot, Drivetrain drive, NetworkTableQuerier table, Processor processor) {
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
