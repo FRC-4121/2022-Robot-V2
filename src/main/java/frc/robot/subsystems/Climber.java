@@ -49,7 +49,7 @@ public class Climber extends SubsystemBase {
   public void climbExtend(double speed){
     
     // setting the speeds for extending
-    leftClimberMotor.set(ControlMode.PercentOutput, -speed);
+    leftClimberMotor.set(ControlMode.PercentOutput, -speed * ClimberLimiter);//need to slow down one motor
     rightClimberMotor.set(ControlMode.PercentOutput, speed);
   
   }
@@ -57,7 +57,7 @@ public class Climber extends SubsystemBase {
   public void climbRetract(double speed){
            
     // setting the speeds for retracting
-    leftClimberMotor.set(ControlMode.PercentOutput, speed);
+    leftClimberMotor.set(ControlMode.PercentOutput, speed * ClimberLimiter);//need to slow down one motor
     rightClimberMotor.set(ControlMode.PercentOutput, -speed);
   
   }
@@ -72,16 +72,16 @@ public class Climber extends SubsystemBase {
   public void rotateClimbOut(double speed){
       
     // setting the speeds for rotating outwards
-    leftClimberMotor.set(ControlMode.PercentOutput, -speed);
-    rightClimberMotor.set(ControlMode.PercentOutput, speed);
+    leftRotateMotor.set(ControlMode.PercentOutput, speed);
+    rightRotateMotor.set(ControlMode.PercentOutput, speed);
   
   }
   
   public void rotateClimbIn(double speed){
            
     // setting the speeds for rotating inwards
-    leftClimberMotor.set(ControlMode.PercentOutput, speed);
-    rightClimberMotor.set(ControlMode.PercentOutput, -speed);
+    leftRotateMotor.set(ControlMode.PercentOutput, speed);
+    rightRotateMotor.set(ControlMode.PercentOutput, speed);
   
   }
   

@@ -42,6 +42,8 @@ public class RobotContainer {
   //Climbing Commands
   private final ExtendClimber extendClimberCommand = new ExtendClimber(climber);
   private final RetractClimber retractClimberCommand = new RetractClimber(climber);
+  private final RotateClimberFront rotateClimberFrontCommand = new RotateClimberFront(climber);
+  private final RotateClimberBack rotateClimberBackCommand = new RotateClimberBack(climber);
 
 
   //Shooting Commands
@@ -68,6 +70,8 @@ public class RobotContainer {
   private final JoystickButton intakeButton;
   private final JoystickButton climberExtendButton;
   private final JoystickButton climberRetractButton;
+  private final JoystickButton climberRotateFrontButton;
+  private final JoystickButton climberRotateBackButton;
   private final JoystickButton shooterButton;
   private final JoystickButton loaderButton;
 
@@ -85,7 +89,7 @@ public class RobotContainer {
   
 
   //testing
-  private boolean testing = false; //true for xbox, false for launchpad
+  private boolean testing = true; //true for xbox, false for launchpad
 
   //===CONSTRUCTOR===//
   public RobotContainer() {
@@ -100,6 +104,8 @@ public class RobotContainer {
     intakeButton = new JoystickButton(xbox, xboxAButton);
     climberExtendButton = new JoystickButton(xbox, xboxLeftBumber);
     climberRetractButton = new JoystickButton(xbox, xboxRightBumber);
+    climberRotateFrontButton = new JoystickButton(xbox, xboxXButton);
+    climberRotateBackButton = new JoystickButton(xbox, xboxYButton);
     shooterButton = new JoystickButton(xbox, xboxAButton);
     loaderButton = new JoystickButton(xbox, xboxBButton);
 
@@ -113,6 +119,8 @@ public class RobotContainer {
      intakeButton = new JoystickButton(launchpad, LaunchPadSwitch2bottom);
      climberExtendButton = new JoystickButton(launchpad, LaunchPadSwitch2bottom);
      climberRetractButton = new JoystickButton(launchpad, LaunchPadSwitch2bottom); //get Id's from constants
+     climberRotateFrontButton = new JoystickButton(xbox, xboxXButton);
+     climberRotateBackButton = new JoystickButton(xbox, xboxYButton);
      shooterButton = new JoystickButton(launchpad, LaunchPadSwitch7);
      loaderButton = new JoystickButton(launchpad, LaunchPadSwitch7);
      
@@ -159,6 +167,8 @@ public class RobotContainer {
     //climber
     climberExtendButton.whileHeld(extendClimberCommand);
     climberRetractButton.whileHeld(retractClimberCommand);
+    climberRotateFrontButton.whileHeld(rotateClimberFrontCommand);
+    climberRotateBackButton.whileHeld(rotateClimberBackCommand);
 
     //shooter
     shooterButton.whileHeld(shooterCommand);

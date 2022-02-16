@@ -28,8 +28,8 @@ public final class Constants {
     //climber motors
     public static final int RIGHT_CLIMBER = 7;
     public static final int LEFT_CLIMBER = 6;
-    public static final int RIGHT_ROTATE_CLIMBER = 998; // need to find
-    public static final int LEFT_ROTATE_CLIMBER = 997; // need to find
+    public static final int RIGHT_ROTATE_CLIMBER = 0; // need to find
+    public static final int LEFT_ROTATE_CLIMBER = 4; // need to find
 
     
     //processor motors
@@ -42,7 +42,7 @@ public final class Constants {
     public static final int PROCESSOR_2 = 8;
 
     //Drive control port IDs
-    public static final int XBOX_PORT = 1;
+    public static final int XBOX_PORT = 0;
 
     //Xbox controller button IDS
     public static final int xboxAButton = 1;
@@ -77,13 +77,14 @@ public final class Constants {
     public static final int kPIDLoopIdxClimb = 0;
     public static final int kTimeoutMsClimb = 20;
     public static final int maxHeight = -135000; //TBD encoder raw sensor units (2048 in one rotation) for max height that climber should go
-    public static final double climberSpeed = 0.3;
-    public static final double rotateSpeed = 0.3;
+    public static final double climberSpeed = 0.2;
+    public static final double rotateSpeed = 0.4;
 
     //General
     public static int BallCount = 0;
     public static boolean killAuto = false;
     public static int ballsOnBoard = 0;
+    public static double ClimberLimiter = 0.88;
 
     public static class DrivetrainConstants {
 
