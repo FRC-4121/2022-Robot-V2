@@ -7,13 +7,16 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 
 public class Intake extends SubsystemBase {
 
-  //motor to run the intake wheels
+  //motors
   private WPI_TalonSRX intakeMain = new WPI_TalonSRX( INTAKE);
   private WPI_TalonSRX intakeRelease = new WPI_TalonSRX(INTAKERELEASE);
+  private CANSparkMax mecanumIntake = new CANSparkMax(MECANUMINTAKE, MotorType.kBrushless); 
 
 
   /** Creates a new Intake. */
@@ -51,6 +54,19 @@ public class Intake extends SubsystemBase {
   {
     //sets motor speed to stop
     intakeRelease.set(0);
+  }
+
+  //method to start the part of the intake with mecanum wheels
+  public void mecanumIntakeStart()
+  {
+    mecanumIntake.set(-0.6);
+  }
+
+  //method to stop the motor for the intake release 
+  public void mecanumIntakeStop()
+  {
+    //sets motor speed to stop
+    mecanumIntake.set(0);
   }
 
 

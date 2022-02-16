@@ -117,9 +117,9 @@ public class RobotContainer {
      intakeButton = new JoystickButton(launchpad, LaunchPadSwitch2bottom);
      climberExtendButton = new JoystickButton(launchpad, LaunchPadSwitch2bottom);
      climberRetractButton = new JoystickButton(launchpad, LaunchPadSwitch2bottom); //get Id's from constants
-     shooterButton = new JoystickButton(launchpad, LaunchPadSwitch6bottom);
-     processorButton = new JoystickButton(launchpad, LaunchPadSwitch6bottom); 
-     loaderButton = new JoystickButton(launchpad, LaunchPadSwitch6bottom);
+     shooterButton = new JoystickButton(launchpad, LaunchPadSwitch7);
+     processorButton = new JoystickButton(launchpad, LaunchPadSwitch7); 
+     loaderButton = new JoystickButton(launchpad, LaunchPadSwitch7);
      
 
     //Driving

@@ -35,6 +35,7 @@ public final class Constants {
     //processor motors
     public static final int INTAKE=5;
     public static final int INTAKERELEASE = 99;
+    public static final int MECANUMINTAKE = 98;//cansparkmax ID, not phoenix
     public static final int LOADER = 27; // need to find
     public static final int SHOOTER = 10;
     public static final int PROCESSOR_1 = 7;
