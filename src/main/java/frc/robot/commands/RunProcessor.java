@@ -18,7 +18,7 @@ public class RunProcessor extends CommandBase {
   public RunProcessor(Processor p){
     // Use addRequirements() here to declare subsystem dependencies.
     processor = p;
-    addRequirements(processor);
+    //addRequirements(processor);
   }
 
 

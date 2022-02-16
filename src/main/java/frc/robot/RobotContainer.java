@@ -20,7 +20,7 @@ public class RobotContainer {
   
   //Driver controllers
   private final XboxController xbox = new XboxController(XBOX_PORT);
-  private final Joystick launchpad = new Joystick(3);
+  private final Joystick launchpad = new Joystick(0);
   
 
   //Subsystems
@@ -86,7 +86,7 @@ public class RobotContainer {
   
 
   //testing
-  private boolean testing = true; //true for xbox, false for launchpad
+  private boolean testing = false; //true for xbox, false for launchpad
 
   //===CONSTRUCTOR===//
   public RobotContainer() {
@@ -108,12 +108,12 @@ public class RobotContainer {
   else{ //using launchpad and xbox as if it's a real match
     
      //Command buttons/switches
-     intakeButton = new JoystickButton(launchpad, 1);
-     climberExtendButton = new JoystickButton(launchpad, 1);
-     climberRetractButton = new JoystickButton(launchpad, 1); //get Id's from constants
-     shooterButton = new JoystickButton(launchpad, LaunchPadSwitch1top);
-     processorButton = new JoystickButton(launchpad, LaunchPadSwitch1top); 
-     loaderButton = new JoystickButton(launchpad, LaunchPadSwitch1top);
+     intakeButton = new JoystickButton(launchpad, LaunchPadSwitch2bottom);
+     climberExtendButton = new JoystickButton(launchpad, LaunchPadSwitch2bottom);
+     climberRetractButton = new JoystickButton(launchpad, LaunchPadSwitch2bottom); //get Id's from constants
+     shooterButton = new JoystickButton(launchpad, LaunchPadSwitch6bottom);
+     processorButton = new JoystickButton(launchpad, LaunchPadSwitch6bottom); 
+     loaderButton = new JoystickButton(launchpad, LaunchPadSwitch6bottom);
      
 
     //Driving

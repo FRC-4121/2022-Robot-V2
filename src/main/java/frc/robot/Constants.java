@@ -41,7 +41,7 @@ public final class Constants {
     public static final int PROCESSOR_2 = 8;
 
     //Drive control port IDs
-    public static final int XBOX_PORT = 0;
+    public static final int XBOX_PORT = 1;
 
     //Xbox controller button IDS
     public static final int xboxAButton = 1;
