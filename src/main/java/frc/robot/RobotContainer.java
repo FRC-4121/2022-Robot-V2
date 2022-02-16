@@ -53,8 +53,6 @@ public class RobotContainer {
   // Intake
   private final PickUpBall intakeCommand = new PickUpBall(intake, processor);
 
-  //Processor
-  private final RunProcessor processorCommand = new RunProcessor(processor);
 
   //loader
   private final RunLoader runloader = new RunLoader(processor);
@@ -71,7 +69,6 @@ public class RobotContainer {
   private final JoystickButton climberExtendButton;
   private final JoystickButton climberRetractButton;
   private final JoystickButton shooterButton;
-  private final JoystickButton processorButton;
   private final JoystickButton loaderButton;
 
   
@@ -104,7 +101,6 @@ public class RobotContainer {
     climberExtendButton = new JoystickButton(xbox, xboxLeftBumber);
     climberRetractButton = new JoystickButton(xbox, xboxRightBumber);
     shooterButton = new JoystickButton(xbox, xboxAButton);
-    processorButton = new JoystickButton(xbox, xboxBButton);
     loaderButton = new JoystickButton(xbox, xboxBButton);
 
     //Driving
@@ -118,7 +114,6 @@ public class RobotContainer {
      climberExtendButton = new JoystickButton(launchpad, LaunchPadSwitch2bottom);
      climberRetractButton = new JoystickButton(launchpad, LaunchPadSwitch2bottom); //get Id's from constants
      shooterButton = new JoystickButton(launchpad, LaunchPadSwitch7);
-     processorButton = new JoystickButton(launchpad, LaunchPadSwitch7); 
      loaderButton = new JoystickButton(launchpad, LaunchPadSwitch7);
      
 
@@ -171,9 +166,6 @@ public class RobotContainer {
     //kill auto
     killAutoButton.whenPressed( killAutoObject);
     killAutoButton.whenReleased( killAutoObject);
-
-    //processor
-    processorButton.whileHeld(processorCommand);
 
     //loader
     loaderButton.whileHeld(runloader);

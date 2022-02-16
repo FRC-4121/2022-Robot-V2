@@ -32,7 +32,8 @@ public class PickUpBall extends CommandBase {
   @Override
   public void execute(){
       mainIntake.runIntake();
-      mainProcessor.runProcessor();      
+      mainProcessor.runProcessor();  
+      mainIntake.mecanumIntakeStart();    
   }
 
   
@@ -41,6 +42,7 @@ public class PickUpBall extends CommandBase {
   public void end(boolean interrupted) {
     mainIntake.stopIntake();
     mainProcessor.stopProcessor();
+    mainIntake.mecanumIntakeStop(); 
   }
 
 
