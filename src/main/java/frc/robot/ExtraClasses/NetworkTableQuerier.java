@@ -48,6 +48,7 @@ public class NetworkTableQuerier implements Runnable {
     private static NetworkTableEntry targetLock;
     private static NetworkTableEntry saveVideo; 
     private static NetworkTableEntry markersFound;
+    private static NetworkTableEntry colorSelection;
 
     // Declare class variables
     private boolean runNetworkTables;
@@ -115,6 +116,7 @@ public class NetworkTableQuerier implements Runnable {
         navxTable = networkTableInstance.getTable("navx");
 
         robotStop = visionTable.getEntry("RobotStop");
+        colorSelection = visionTable.getEntry("ColorSelection");
         zeroGyro = navxTable.getEntry("ZeroGyro");
 
         robotStop.setNumber(0);
@@ -155,6 +157,7 @@ public class NetworkTableQuerier implements Runnable {
         markerOffset1 = visionTable.getEntry("MarkerOffset1");
         markersFound = visionTable.getEntry("MarkersFound");
         foundBall = visionTable.getEntry("FoundBall");
+
 
         foundTape = visionTable.getEntry("FoundTape");
         targetLock = visionTable.getEntry("TargetLock");

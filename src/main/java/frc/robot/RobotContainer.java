@@ -80,6 +80,8 @@ public class RobotContainer {
   private final JoystickButton AutoPos1;
   private final JoystickButton AutoPos2;
   private final JoystickButton AutoPos3;
+  private static JoystickButton redButton;
+  private static JoystickButton blueButton;
 
   //Driving
   private final JoystickButton invertDirectionButton;
@@ -91,6 +93,10 @@ public class RobotContainer {
   //===CONSTRUCTOR===//
   public RobotContainer() {
     
+  //colorButtons
+  redButton = new JoystickButton(launchpad,LaunchPadSwitch5bottom);
+  blueButton = new JoystickButton(launchpad,LaunchPadSwitch5top);
+
   if(testing) //using xbox controller to test
   {
     //xboxButtons
@@ -180,7 +186,18 @@ public class RobotContainer {
   }
 
    
-
+  //gets the color selected for the match
+  public static int getColorSelection()
+  {
+    
+    if (blueButton.get() == true) {
+      return 2;
+    } else if (redButton.get() == true) {
+      return 1;
+    } else {
+      return -1;
+    }
+  }
   
 
   public Command getAutonomousCommand() {
