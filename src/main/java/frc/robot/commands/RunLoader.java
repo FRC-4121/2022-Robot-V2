@@ -29,7 +29,7 @@ public class RunLoader extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute(){
-    loader.runLoader();
+    loader.runLoader(0.2);
   }
 
 

@@ -142,7 +142,7 @@ public class AutoPickUpBall extends CommandBase {
       // Calculate angle correction for driving
       angleCorrection = pidAngle.run(currentGyroAngle, targetGyroAngle);
 
-    }
+    } 
 
     // Determine speed correction based on distance
     if (!slowSpeed) {

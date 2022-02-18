@@ -30,16 +30,19 @@ public class AutoShootLow extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+
+    timer.start();
+    shooter.shooterRun(-30);
+
+  }
 
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute(){
-    
-   timer.start();
-   shooter.shooterRun(-30);
 
+   // Load the balls to the shooter once the shooter gets up to speed
    if(shooter.getRPM() >= shooterTargetRPM)
    {
    processor.runLoader(0.2);
@@ -54,6 +57,8 @@ public class AutoShootLow extends CommandBase {
   @Override
   public void end(boolean interrupted){
     shooter.shooterStop();
+    processor.stopLoader();
+    processor.stopProcessor();
   }
 
   

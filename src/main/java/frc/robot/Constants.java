@@ -86,6 +86,7 @@ public final class Constants {
     public static int ballsOnBoard = 0;
     public static double ClimberLimiter = 0.85;
     public static double shooterTargetRPM = 100;// need to test to figure out
+    public static double highShooterTargetRPM = 100;// also need to figure out
 
     public static class DrivetrainConstants {
 
