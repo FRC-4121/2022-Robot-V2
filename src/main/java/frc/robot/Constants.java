@@ -76,7 +76,7 @@ public final class Constants {
     //Climber
     public static final int kPIDLoopIdxClimb = 0;
     public static final int kTimeoutMsClimb = 20;
-    public static final int maxHeight = -135000; //TBD encoder raw sensor units (2048 in one rotation) for max height that climber should go
+    public static final int maxHeight = -135000; // TBD encoder raw sensor units (2048 in one rotation) for max height that climber should go
     public static final double climberSpeed = 0.2;
     public static final double rotateSpeed = 0.4;
 
@@ -84,7 +84,8 @@ public final class Constants {
     public static int BallCount = 0;
     public static boolean killAuto = false;
     public static int ballsOnBoard = 0;
-    public static double ClimberLimiter = 0.88;
+    public static double ClimberLimiter = 0.85;
+    public static double shooterTargetRPM = 100;// need to test to figure out
 
     public static class DrivetrainConstants {
 

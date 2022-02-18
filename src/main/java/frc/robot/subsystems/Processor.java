@@ -47,9 +47,9 @@ public class Processor extends SubsystemBase {
   }
  
 
-  public void runLoader()
+  public void runLoader(double speed)
   {
-     loader.set(0.2);
+     loader.set(speed);
   }
 
 

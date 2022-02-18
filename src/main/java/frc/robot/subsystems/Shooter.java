@@ -9,11 +9,13 @@ import static frc.robot.Constants.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 
+
 public class Shooter extends SubsystemBase {
 
   //attributes; variables
   private WPI_TalonFX shooterMotor = new WPI_TalonFX(SHOOTER);
   //private WPI_TalonFX processorMotor = new WPI_TalonFX(27);
+  private double speed;
 
   
   /** Creates a new Shooter. */
@@ -49,6 +51,17 @@ public class Shooter extends SubsystemBase {
     //processorMotor.set(ControlMode.PercentOutput, -0.2);
 
   } 
+
+  public void shootRPM(double rpm){
+    //Speed for velocity control is encoder units per 100ms/ so divide by 600 instead of just 60
+    speed = rpm * 2048 / 600; // 2048 is the amount of raw sensor units in a rotation
+    shooterMotor.set(ControlMode.Velocity, speed);
+  }
+
+  public double getRPM()
+  {
+    return shooterMotor.getSelectedSensorVelocity() * 600 / 2048;
+  }
 
   @Override
   public void periodic() {
