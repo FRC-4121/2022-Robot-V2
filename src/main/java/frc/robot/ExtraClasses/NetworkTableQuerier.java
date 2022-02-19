@@ -27,20 +27,9 @@ public class NetworkTableQuerier implements Runnable {
     private static NetworkTableEntry ballAngle0;
     private static NetworkTableEntry ballOffset0;
     private static NetworkTableEntry ballScreenPercent0;
-    private static NetworkTableEntry ballDistance1;
-    private static NetworkTableEntry ballAngle1;
-    private static NetworkTableEntry ballOffset1;
-    private static NetworkTableEntry ballScreenPercent1;
-    private static NetworkTableEntry ballDistance2;
-    private static NetworkTableEntry ballAngle2;
-    private static NetworkTableEntry ballOffset2;
-    private static NetworkTableEntry ballScreenPercent2;
     private static NetworkTableEntry markerDistance0;
     private static NetworkTableEntry markerAngle0;
     private static NetworkTableEntry markerOffset0;
-    private static NetworkTableEntry markerDistance1;
-    private static NetworkTableEntry markerAngle1;
-    private static NetworkTableEntry markerOffset1;
     private static NetworkTableEntry foundBall;
     private static NetworkTableEntry foundTape;
     private static NetworkTableEntry tapeDistance;
@@ -141,24 +130,11 @@ public class NetworkTableQuerier implements Runnable {
         ballAngle0 = visionTable.getEntry("BallAngle0");
         ballOffset0 = visionTable.getEntry("BallOffset0");
         ballScreenPercent0 = visionTable.getEntry("BallScreenPercent0");
-        ballDistance1 = visionTable.getEntry("BallDistance1");
-        ballAngle1 = visionTable.getEntry("BallAngle1");
-        ballOffset1 = visionTable.getEntry("BallOffset1");
-        ballScreenPercent1 = visionTable.getEntry("BallScreenPercent1");
-        ballDistance2 = visionTable.getEntry("BallDistance2");
-        ballAngle2 = visionTable.getEntry("BallAngle2");
-        ballOffset2 = visionTable.getEntry("BallOffset2");
-        ballScreenPercent2 = visionTable.getEntry("BallScreenPercent2");
         markerDistance0 = visionTable.getEntry("MarkerDistance0");
         markerAngle0 = visionTable.getEntry("MarkerAngle0");
         markerOffset0 = visionTable.getEntry("MarkerOffset0");
-        markerDistance1 = visionTable.getEntry("MarkerDistance1");
-        markerAngle1 = visionTable.getEntry("MarkerAngle1");
-        markerOffset1 = visionTable.getEntry("MarkerOffset1");
         markersFound = visionTable.getEntry("MarkersFound");
         foundBall = visionTable.getEntry("FoundBall");
-
-
         foundTape = visionTable.getEntry("FoundTape");
         targetLock = visionTable.getEntry("TargetLock");
         tapeDistance = visionTable.getEntry("TapeDistance");

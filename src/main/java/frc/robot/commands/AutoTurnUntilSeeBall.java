@@ -99,7 +99,6 @@ public class AutoTurnUntilSeeBall extends CommandBase {
       return true;
     else if (stopTime <= time - startTime)
       return true;
-
     else if (killAuto == true)
       return true;
 

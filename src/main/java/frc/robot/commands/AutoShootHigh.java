@@ -34,7 +34,8 @@ public class AutoShootHigh extends CommandBase {
 
     timer.start();
     //We are going to need some kind of way to make sure we are targeting the goal, if we do it in here
-    shooter.shooterRun(-50);
+    //Find the distacne to the goal
+    shooter.shooterRun(-50);//may change based off of distance
     
 
   }

@@ -34,6 +34,7 @@ public class AutoShootLow extends CommandBase {
 
     timer.start();
     //We are going to need some kind of way to make sure we are targeting the goal, if we do it in here
+    //we also need to find the distance from the goal that we are, and change the speed accordingly
     shooter.shooterRun(-30);
 
   }
@@ -49,10 +50,8 @@ public class AutoShootLow extends CommandBase {
    processor.runLoader(0.2);
    processor.runProcessor();
    }
-
-    
+  
   }
-
 
   // Called once the command ends or is interrupted.
   @Override

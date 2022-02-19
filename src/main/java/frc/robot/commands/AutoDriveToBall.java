@@ -109,11 +109,11 @@ public class AutoDriveToBall extends CommandBase {
     }
     
     // Calculate speed correction based on distance
-    if ((ballDistance > 30) && foundBall == true){
-      speedCorrection = 1;
-    }else{
-      speedCorrection = 1;
-    }
+   // if ((ballDistance > 30) && foundBall == true){
+     // speedCorrection = 1;
+    //}else{
+      //speedCorrection = 1;
+    //}
     SmartDashboard.putNumber("SpeedCorrect", speedCorrection);
 
     // Run drive train

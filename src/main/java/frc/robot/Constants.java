@@ -57,16 +57,16 @@ public final class Constants {
     public static final int LaunchPadButton2=  17; 
     public static final int LaunchPadButton3= 19 ;
     public static final int LaunchPadButton4=  18;
-    public static final int LaunchPadSwitch1top=1  ;
-    public static final int LaunchPadSwitch1bottom=2  ;
-    public static final int LaunchPadSwitch2top=3  ;
-    public static final int LaunchPadSwitch2bottom=4  ;
+    public static final int LaunchPadSwitch1bottom=1  ;
+    public static final int LaunchPadSwitch1top=2  ;
+    public static final int LaunchPadSwitch2bottom=3  ;
+    public static final int LaunchPadSwitch2top=4  ;
     public static final int LaunchPadSwitch3 = 5;
     public static final int LaunchPadSwitch4 = 6;
-    public static final int LaunchPadSwitch5top=8  ;
-    public static final int LaunchPadSwitch5bottom=9  ;
-    public static final int LaunchPadSwitch6top=10  ;
-    public static final int LaunchPadSwitch6bottom=11 ;
+    public static final int LaunchPadSwitch5bottom=8  ;
+    public static final int LaunchPadSwitch5top=9  ;
+    public static final int LaunchPadSwitch6bottom=10  ;
+    public static final int LaunchPadSwitch6top=11 ;
     public static final int LaunchPadSwitch7 = 12;
     public static final int LaunchPadSwitch8 = 13;
     public static final int LaunchPadDial1 = 14; // low bit
@@ -76,18 +76,21 @@ public final class Constants {
     //Climber
     public static final int kPIDLoopIdxClimb = 0;
     public static final int kTimeoutMsClimb = 20;
-    public static final int maxHeight = -135000; // TBD encoder raw sensor units (2048 in one rotation) for max height that climber should go
+    public static final int climberMaxEncoder = -135000; // TBD encoder raw sensor units (2048 in one rotation) for max height that climber should go
+    public static final int climberMinEncoder = -135000;//need to find
     public static final double climberSpeed = 0.2;
     public static final double rotateSpeed = 0.4;
-
-    //General
-    public static int BallCount = 0;
-    public static boolean killAuto = false;
-    public static int ballsOnBoard = 0;
     public static double ClimberLimiter = 0.95;
     public static double rotateClimberLimiter = 0.9;
+    //many will be needed
+
+    //Shooter
     public static double shooterTargetRPM = 100;// need to test to figure out
     public static double highShooterTargetRPM = 100;// also need to figure out
+
+    //General
+    public static boolean killAuto = false;
+    public static int ballsOnBoard = 0;
 
     public static class DrivetrainConstants {
 

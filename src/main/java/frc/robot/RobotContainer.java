@@ -95,8 +95,8 @@ public class RobotContainer {
   public RobotContainer() {
     
   //colorButtons
-  redButton = new JoystickButton(launchpad,LaunchPadSwitch5bottom);
-  blueButton = new JoystickButton(launchpad,LaunchPadSwitch5top);
+  redButton = new JoystickButton(launchpad,LaunchPadSwitch5top);
+  blueButton = new JoystickButton(launchpad,LaunchPadSwitch5bottom);
 
   if(testing) //using xbox controller to test
   {
@@ -116,9 +116,9 @@ public class RobotContainer {
   else{ //using launchpad and xbox as if it's a real match
     
      //Command buttons/switches
-     intakeButton = new JoystickButton(launchpad, LaunchPadSwitch2bottom);
-     climberExtendButton = new JoystickButton(launchpad, LaunchPadSwitch2bottom);
-     climberRetractButton = new JoystickButton(launchpad, LaunchPadSwitch2bottom); //get Id's from constants
+     intakeButton = new JoystickButton(launchpad, LaunchPadSwitch2top);
+     climberExtendButton = new JoystickButton(launchpad, LaunchPadSwitch2top);
+     climberRetractButton = new JoystickButton(launchpad, LaunchPadSwitch2top); //get Id's from constants
      climberRotateFrontButton = new JoystickButton(xbox, xboxXButton);
      climberRotateBackButton = new JoystickButton(xbox, xboxYButton);
      shooterButton = new JoystickButton(launchpad, LaunchPadSwitch7);

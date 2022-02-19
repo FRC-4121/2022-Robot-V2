@@ -43,7 +43,14 @@ public class RetractClimber extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    
+    boolean thereYet = false;
+    
+    if(m_climber.getLeftClimbEncoderPosition() <= climberMinEncoder || m_climber.getRightCLimbEncoderPosition() <= climberMinEncoder )
+    {
+      thereYet = true;
+    }
+    return thereYet;
   }
   
 }
