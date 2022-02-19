@@ -33,6 +33,7 @@ public class AutoShootLow extends CommandBase {
   public void initialize() {
 
     timer.start();
+    //We are going to need some kind of way to make sure we are targeting the goal, if we do it in here
     shooter.shooterRun(-30);
 
   }
