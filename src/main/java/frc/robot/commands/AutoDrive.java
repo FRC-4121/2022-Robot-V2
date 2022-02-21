@@ -111,7 +111,6 @@ public class AutoDrive extends CommandBase {
     SmartDashboard.putNumber("DriveSpeed", driveSpeed);
     // Enforce minimum speed
     // if (Math.abs(driveSpeed) < kAutoDriveSpeedMin) {
-
     //   angleCorrection = 0;
     //   if (driveSpeed < 0){
     //     driveSpeed = -kAutoDriveSpeedMin;
