@@ -28,8 +28,8 @@ public final class Constants {
     //climber motors
     public static final int RIGHT_CLIMBER = 7;
     public static final int LEFT_CLIMBER = 6;
-    public static final int RIGHT_ROTATE_CLIMBER = 0; // need to find
-    public static final int LEFT_ROTATE_CLIMBER = 4; // need to find
+    public static final int RIGHT_ROTATE_CLIMBER = 0; 
+    public static final int LEFT_ROTATE_CLIMBER = 4; 
 
     
     //processor motors

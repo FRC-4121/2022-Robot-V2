@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 import static frc.robot.Constants.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class ExtendClimber extends CommandBase {
@@ -32,7 +33,8 @@ public class ExtendClimber extends CommandBase {
   public void execute() {
 
     m_climber.climbExtend(climberSpeed);
-
+   // SmartDashboard.putNumber("left climb encoder", m_climber.getLeftClimbEncoderPosition());
+    //SmartDashboard.putNumber("Right climb encoder", m_climber.getRightCLimbEncoderPosition());
   }
 
 
@@ -51,10 +53,10 @@ public class ExtendClimber extends CommandBase {
     
     boolean thereYet = false;
     
-    if(m_climber.getLeftClimbEncoderPosition() >= climberMaxEncoder || m_climber.getRightCLimbEncoderPosition() >= climberMaxEncoder )
-    {
-      thereYet = true;
-    }
+    //*if(m_climber.getLeftClimbEncoderPosition() >= climberMaxEncoder || m_climber.getRightCLimbEncoderPosition() >= climberMaxEncoder )
+   // {
+     // thereYet = true;
+    //}
     return thereYet;
 
   }
