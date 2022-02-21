@@ -44,6 +44,7 @@ public class RobotContainer {
   private final RetractClimber retractClimberCommand = new RetractClimber(climber);
   private final RotateClimberFront rotateClimberFrontCommand = new RotateClimberFront(climber);
   private final RotateClimberBack rotateClimberBackCommand = new RotateClimberBack(climber);
+  //private final AutoClimb autoClimbCommand = new AutoClimb(climber);
 
 
   //Shooting Commands
@@ -83,6 +84,7 @@ public class RobotContainer {
   private final JoystickButton AutoPos3;
   private static JoystickButton redButton;
   private static JoystickButton blueButton;
+  //private final JoystickButton autoClimbButton;
 
   //Driving
   private final JoystickButton invertDirectionButton;
@@ -124,6 +126,7 @@ public class RobotContainer {
      shooterButton = new JoystickButton(launchpad, LaunchPadSwitch7);
      loaderButton = new JoystickButton(launchpad, LaunchPadSwitch7);
      
+    //autoClimbButton = new JoystickButton(launchpad, LaunchPadSwitch?);
 
     //Driving
      invertDirectionButton = new JoystickButton(xbox, 6);
@@ -169,6 +172,7 @@ public class RobotContainer {
     climberRetractButton.whileHeld(retractClimberCommand);
     climberRotateFrontButton.whileHeld(rotateClimberFrontCommand);
     climberRotateBackButton.whileHeld(rotateClimberBackCommand);
+    //autoClimbButton.whileHeld(autoClimbCommand);
 
     //shooter
     shooterButton.whileHeld(shooterCommand);
