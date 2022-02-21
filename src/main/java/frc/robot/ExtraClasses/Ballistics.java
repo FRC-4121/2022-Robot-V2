@@ -228,7 +228,9 @@ public class Ballistics {
             
             double[] [] table = ballistics.generateBallisticsTable(); 
 
-            File file = new File("C:/Users/113281/Desktop/2022-Robot/src/main/java/frc/robot/ExtraClasses/outputTable.txt");
+
+            String address = "C:/Users/113281/Documents/GitHub/2022-Robot-V2/src/main/java/frc/robot/ExtraClasses" + "/outputTable.txt";//you can replace the address...also replace all \ with /
+            File file = new File(address);
 
             // if file doesnt exists, then create it
             if (!file.exists()) {
