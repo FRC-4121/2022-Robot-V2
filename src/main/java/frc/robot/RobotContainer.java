@@ -4,6 +4,7 @@ package frc.robot;
 import static frc.robot.Constants.*;
 ////import static frc.robot.Constants.ShooterConstants.*;
 import frc.robot.subsystems.*;
+import frc.robot.ExtraClasses.BallData;
 import frc.robot.ExtraClasses.NetworkTableQuerier;
 import frc.robot.commands.*;
 //import frc.robot.extraClasses.*;
@@ -33,6 +34,7 @@ public class RobotContainer {
 
 
   private final NetworkTableQuerier table = new NetworkTableQuerier();
+  private final BallData data = new BallData();
 
 
   //===COMMANDS===//
@@ -213,22 +215,22 @@ public class RobotContainer {
 
     //Auto setup
     int plan = 1; //1-4; 1 being leftmost position and 4 being right most
-    // public AutoGroup(Intake intake, Shooter shoot, Drivetrain drive, NetworkTableQuerier table, Processor processor, double driveAngle1, double driveDistance1) {
-    if (plan == 1)
+    // public AutoGroup(Intake intake, Shooter shoot, Drivetrain drive, NetworkTableQuerier table, Processor processor, double driveAngle1, double driveDistance1, BallData data) {
+      if (plan == 1)
     {
-      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12);
+      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12, data); //change numbers.
     }
     else if (plan == 2)
     {
-      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12);
+      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12, data);
     }
     else if (plan == 3)
     {
-      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12);
+      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12, data);
     }
     else if (plan == 4)
     {
-      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12);
+      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12, data);
     }
     return null;
 
