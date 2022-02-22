@@ -135,7 +135,7 @@ public class AutoPickUpBall extends CommandBase {
     } else if (holdAngle == false) {
 
       // Calculate angle correction for driving
-      angleCorrection = pidAngle.run(ballOffset, 0);
+      angleCorrection = pidAngle.run(ballOffset, 0); //is this dead code?? cuz it's else if but same condition.
 
     } else {
 
