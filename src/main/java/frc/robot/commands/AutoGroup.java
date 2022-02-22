@@ -15,11 +15,11 @@ import frc.robot.ExtraClasses.NetworkTableQuerier;
 public class AutoGroup extends SequentialCommandGroup {
  
   /** Creates a new AutoGroup. */
-  public AutoGroup(Intake intake, Shooter shoot, Drivetrain drive, NetworkTableQuerier table, Processor processor) {
+  public AutoGroup(Intake intake, Shooter shoot, Drivetrain drive, NetworkTableQuerier table, Processor processor, double driveAngle1, double driveDistance1) {
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new DropIntake(intake), new AutoShootLow(shoot,processor,2), new AutoPickUpBall(drive,intake,processor,table,0.01,3), new AutoDrive(drive,12, 0, -1, 3), new AutoShootHigh(shoot,processor,3)); // we need to add commands in this for evrerything we do in auto
+    addCommands(new DropIntakeAndShootLow(intake, shoot, processor), new AutoPickUpBall(drive,intake,processor,table,0.01,3), new AutoDrive(drive,driveDistance1, driveAngle1, -1, 3), new AutoShootHigh(shoot,processor,3)); // we need to add commands in this for evrerything we do in auto
 
   }
 }
