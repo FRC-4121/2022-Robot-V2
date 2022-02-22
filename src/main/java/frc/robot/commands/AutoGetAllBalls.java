@@ -334,7 +334,7 @@ public class AutoGetAllBalls extends CommandBase {
 
       } else {
 
-        if(/*drivetrain.getProcessorEntry() i think this is a sensor to detect a ball coming in*/true == false) {
+        if(/*drivetrain.getProcessorEntry()  a sensor to detect a ball coming in*/true != false) {
 
           // Increment ball count
           ballCount++;
