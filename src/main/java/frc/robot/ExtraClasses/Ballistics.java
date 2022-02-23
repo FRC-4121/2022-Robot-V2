@@ -43,6 +43,7 @@ public class Ballistics {
     public double targetHeight; //change in heights. target height - launcher height.
     public double wheelCircumference;
     public double missileMaxSpeed;
+    public double [] timeInAir; //quadratic equations have 2 roots. One of these is a positive time.
 
     //Ballistics array configuration values
     public static int minDistance = 24;//in inches
@@ -164,6 +165,22 @@ public class Ballistics {
 
         return height;
     }
+    
+    //range formula -- Elia, so it's wrong and doesn't work
+    //calculateHorizontalDistanceToGoal
+    public double calcHorizDistToGoal( double DegreesAngle )
+    {
+        missileMaxSpeed = maxSpeedRPM * wheelCircumference * wheelSlip / 60;//in/s //the 60 is to convert RPM to RPS. wheel circumference converts RPS to in/s
+        // y = vt -g/2t^2
+        //-g/2t^2 + vt - y = 0
+        //[quadratic] t=-v +/- sqrt(v^2 -4 * -g/2 * -y) )/2*-4.9
+        //v(of y) = v sin angle
+        double horizVelocity = missileMaxSpeed * Math.sin(Math.toRadians(DegreesAngle));
+        //timeInAir[0] = (0-horizVelocity) + Math.sqrt(Math.pow(horizVelocity, 2) - (4* ((0-g)/2) * (0-heightTolerance)));
+        //timeInAir[1] = (0-horizVelocity) - Math.sqrt(Math.pow(horizVelocity, 2) - (4* ((0-g)/2) * (0-targetHeight)));
+        //System.out.println("HAHAHA timeInAir[0]" + timeInAir[0] + "\n timeInAir[1]" + timeInAir[1]);
+        return 20;
+    }
 
 
     //Actually grab shot configurations from the table
@@ -222,7 +239,7 @@ public class Ballistics {
 
         
 
-        Ballistics ballistics = new Ballistics(98.25, 22.5, 5, 6050, 6, .25);
+        Ballistics ballistics = new Ballistics(98.25, 22.5, 5, 5000, 6, .25);
 
         //elia
         try {
@@ -230,7 +247,8 @@ public class Ballistics {
             double[] [] table = ballistics.generateBallisticsTable(); 
 
 
-            String address = "C:/Users/113281/Documents/GitHub/2022-Robot-V2/src/main/java/frc/robot/ExtraClasses" + "/outputTable.txt";//you can replace the address...also replace all \ with /
+            //String address = "C:/Users/113281/Documents/GitHub/2022-Robot-V2/src/main/java/frc/robot/ExtraClasses" + "/outputTable.txt";//you can replace the address...also replace all \ with /
+            String address = "C:/Users/113281/Desktop/2022-Robot-V2/src/main/java/frc/robot/ExtraClasses" + "/outputTable.txt";//you can replace the address...also replace all \ with /
             File file = new File(address);
 
             // if file doesnt exists, then create it
@@ -241,10 +259,10 @@ public class Ballistics {
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write("[distance\t angle\t speed\t height\t possibility] \n");
-            for (double i = 0; i< table.length/5; i++ )
+            for (int i = 0; i< table.length; i++ )
             {
                 for(int j = 0; j<5;j++)
-                bw.write(" \t " + Math.round(table[(int) i][j]) + " ");
+                bw.write(" \t " + Math.round(table[i][j]) + " ");
                 bw.write("\n");
             }
             bw.close();
@@ -284,7 +302,7 @@ public class Ballistics {
                 System.out.println("    Angle: " + tableQuery[1] + " degrees.");
                 System.out.println("    Speed: " + tableQuery[2] + " percent.");
                 System.out.println("    Distance used: " + tableQuery[3] + " inches.");
-            
+                System.out.println("    [this is inaccurate information cuz didn't work ->]Horizontal distance to goal " + ballistics.calcHorizDistToGoal( 60/*degrees*/) +  " inches.");
             } else {
 
                 System.out.println("Shot not possible at distance of " + distance + " inches.");
