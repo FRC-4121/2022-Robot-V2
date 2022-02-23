@@ -165,6 +165,7 @@ public class Ballistics {
         return height;
     }
 
+
     //Actually grab shot configurations from the table
     public double[] queryBallisticsTable(double distance){
 
