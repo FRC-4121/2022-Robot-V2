@@ -106,13 +106,13 @@ public class RobotContainer {
   if(testing) //using xbox controller to test
   {
     //xboxButtons
-    intakeButton = new JoystickButton(xbox, xboxAButton);
-    climberExtendButton = new JoystickButton(xbox, xboxLeftBumber);
+    intakeButton = new JoystickButton(xbox, xboxLeftBumber);
+    climberExtendButton = new JoystickButton(xbox, xboxRightBumber);
     climberRetractButton = new JoystickButton(xbox, xboxRightBumber);
     climberRotateFrontButton = new JoystickButton(xbox, xboxXButton);
     climberRotateBackButton = new JoystickButton(xbox, xboxYButton);
-    shooterButton = new JoystickButton(xbox, xboxAButton);
-    loaderButton = new JoystickButton(xbox, xboxBButton);
+    shooterButton = new JoystickButton(xbox, xboxLeftBumber);
+    loaderButton = new JoystickButton(xbox, xboxAButton);
 
     //Driving
      invertDirectionButton = new JoystickButton(xbox, 6);

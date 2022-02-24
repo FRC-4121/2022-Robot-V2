@@ -21,7 +21,7 @@ public class AutoGroup extends SequentialCommandGroup {
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new DropIntakeAndShootLow(intake, shoot, processor), new AutoPickUpBall(drive,intake,processor,table,0.01,3), new AutoDrive(drive,12, 0, -1, 3) /* drive extra to make sure bot out of section*/, new AutoShootHigh(shoot,processor,3), new AutoGetAllBalls(drive, processor, table, data, 0.01, 7)); // we need to add commands in this for evrerything we do in auto
+    addCommands(new DropIntakeAndShootLow(intake, shoot, processor), new AutoPickUpBall(drive,intake,processor,table,0.01,3), new AutoDrive(drive,12, 0, -1, 3) /* drive extra to make sure bot out of section*/, new AutoShootHigh(shoot,processor,3)); // we need to add commands in this for evrerything we do in auto
 
   }
 }

@@ -17,7 +17,7 @@ public class RunLoader extends CommandBase {
   public RunLoader(Processor load){
     // Use addRequirements() here to declare subsystem dependencies.
     loader = load;
-    addRequirements(loader);
+   // addRequirements(loader);
   }
 
 

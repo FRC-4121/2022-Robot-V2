@@ -27,6 +27,8 @@ public class AutoTurnUntilSeeBall extends CommandBase {
   private boolean ballOnBoard;
   private int direction;
   private double kAutoDriveSpeed = 60;
+  private boolean closeToBall;
+
 
   /** Creates a new AutoTurnUntilSeeBall. */
   // figure out which way direction takes you. Basically when the rest of the
@@ -54,6 +56,7 @@ public class AutoTurnUntilSeeBall extends CommandBase {
     speedCorrection = 1;
     direction = -1;
     ballOnBoard = true; // what's this variable.
+    foundBall = false;
 
     // WE will only use the gyro in auto so make code in here i think
 
@@ -66,7 +69,7 @@ public class AutoTurnUntilSeeBall extends CommandBase {
     ballOffset = ntables.getVisionDouble("BallOffset0");
     ballDistance = ntables.getVisionDouble("BallDistance0");
     foundBall = ntables.getVisionBoolean("FoundBall");
-    SmartDashboard.putBoolean("FoundBAll", foundBall);
+    SmartDashboard.putBoolean("FoundBall", foundBall);
 
     // Run drive train
     if (!foundBall) {
@@ -74,7 +77,10 @@ public class AutoTurnUntilSeeBall extends CommandBase {
       drivetrain.autoDrive(speedCorrection * direction * kAutoDriveSpeed + angleCorrection * direction,
           speedCorrection * direction * kAutoDriveSpeed - angleCorrection * direction);
     } else {
+
       drivetrain.autoDrive(kAutoDriveSpeed * direction, direction * kAutoDriveSpeed);// found ball, so move forward.
+      //add another boolean like closeToBall to end this code.
+
     }
     SmartDashboard.putNumber("Angle Correction", angleCorrection);
     SmartDashboard.putNumber("direction", direction);
@@ -95,7 +101,7 @@ public class AutoTurnUntilSeeBall extends CommandBase {
   @Override
   public boolean isFinished() {
     double time = timer.get();
-    if (/* check if the robot intook the ball */ false)
+    if (foundBall)
       return true;
     else if (stopTime <= time - startTime)
       return true;
