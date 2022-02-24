@@ -36,10 +36,10 @@ public class Shooter extends SubsystemBase {
 
   public void shooterRun(){
   
-    shooterMotor.set(ControlMode.PercentOutput, -0.35);
+    shooterMotor.set(ControlMode.PercentOutput, -0.36);
     //~30 percent for low goal right against the goal
     //40 decent from one robot length away, 43 without having the shooter warm up to the rpm
-
+    //with 6 feet away, 35 percent or just over 2000 rpm with two balls
     //~50 percent for high goal
     //processorMotor.set(ControlMode.PercentOutput, -0.2);
 

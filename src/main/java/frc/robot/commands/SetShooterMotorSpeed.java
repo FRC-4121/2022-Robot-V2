@@ -4,16 +4,20 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
 public class SetShooterMotorSpeed extends CommandBase {
   private Shooter shooter = new Shooter();
+  private Joystick joy;
   public double Speed; //just change it when you need to outside of this class. Also it's in RPM
   /** Creates a new Shoot_Ball. */ 
-  public SetShooterMotorSpeed(Shooter S, double speed) {
+
+  public SetShooterMotorSpeed(Shooter S, double speed, Joystick j) {
     shooter = S;
     Speed = speed;
+    joy = j;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

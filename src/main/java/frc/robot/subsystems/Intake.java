@@ -8,8 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 
 public class Intake extends SubsystemBase {
@@ -20,7 +19,12 @@ public class Intake extends SubsystemBase {
 
 
   /** Creates a new Intake. */
-  public Intake() {}
+  public Intake() {
+
+        // setting the encoders for the intake release
+        intakeRelease.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kPIDLoopIdxClimb, kTimeoutMsClimb);
+        intakeRelease.setSelectedSensorPosition(0);
+  }
 
 
   @Override
@@ -56,6 +60,13 @@ public class Intake extends SubsystemBase {
     intakeRelease.set(0);
   }
 
-  
+    // getting the current position of the left climber motor encoder
+    public double getIntakeReleaseEncoderPosition()
+    {
+    
+      return intakeRelease.getSelectedSensorPosition();
+    
+    }
+    
 
 }
