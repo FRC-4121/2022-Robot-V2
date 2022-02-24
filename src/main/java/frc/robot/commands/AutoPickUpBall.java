@@ -82,7 +82,7 @@ public class AutoPickUpBall extends CommandBase {
     startTime = timer.get();
 
     // Initialize class variables
-    direction = -1;
+    direction = -1; //? this is going to be constant and not change but ok
     angleCorrection = 0;
     speedCorrection = 1;
     targetGyroAngle = 0;

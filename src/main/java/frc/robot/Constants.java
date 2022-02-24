@@ -17,6 +17,8 @@ package frc.robot;
  */
 
 public final class Constants {
+
+    public static final int plan = 1; //1-4; 1 being leftmost starting position and 4 being right most on the field
     
     //Talon SRX and FX IDs (must be unique, may range from 0+)
     //drivetrain motors

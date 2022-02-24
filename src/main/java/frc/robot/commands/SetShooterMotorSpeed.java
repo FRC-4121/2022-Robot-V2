@@ -9,7 +9,7 @@ import frc.robot.subsystems.Shooter;
 
 public class SetShooterMotorSpeed extends CommandBase {
   private Shooter shooter = new Shooter();
-  private double Speed;
+  public double Speed; //just change it when you need to outside of this class. Also it's in RPM
   /** Creates a new Shoot_Ball. */ 
   public SetShooterMotorSpeed(Shooter S, double speed) {
     shooter = S;

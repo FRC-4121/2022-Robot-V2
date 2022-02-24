@@ -17,11 +17,11 @@ public class AutoGroup extends SequentialCommandGroup {
  
   /** Creates a new AutoGroup. 
    * @param data */
-  public AutoGroup(Intake intake, Shooter shoot, Drivetrain drive, NetworkTableQuerier table, Processor processor, double driveAngle1, double driveDistance1, BallData data) {
+  public AutoGroup(Intake intake, Shooter shoot, Drivetrain drive, NetworkTableQuerier table, Processor processor, double driveAngle1, double driveDistance1, BallData data, int dir) {
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new DropIntakeAndShootLow(intake, shoot, processor), new AutoPickUpBall(drive,intake,processor,table,0.01,3), new AutoDrive(drive,12, 0, -1, 3) /* drive extra to make sure bot out of section*/, new AutoShootHigh(shoot,processor,3)); // we need to add commands in this for evrerything we do in auto
+    addCommands(new DropIntakeAndShootLow(intake, shoot, processor), new AutoPickUpBall(drive,intake,processor,table,0.01,3), new AutoDrive(drive,12, 0, -1, 3) /* drive extra to make sure bot out of section*/, new AutoShootHigh(shoot,processor,3), new AutoTurnUntilSeeBall(drive, table, 7, dir), new AutoPickUpBall(drive,intake,processor,table,0.01,3)); // we need to add commands in this for evrerything we do in auto
 
   }
 }

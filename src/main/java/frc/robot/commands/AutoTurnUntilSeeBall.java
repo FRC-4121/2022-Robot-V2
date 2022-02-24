@@ -27,7 +27,7 @@ public class AutoTurnUntilSeeBall extends CommandBase {
   private boolean ballOnBoard;
   private int direction;
   private double kAutoDriveSpeed = 60;
-  private boolean closeToBall;
+  private boolean closeToBall; //end the code when you're close to the ball and lined up with it.
 
 
   /** Creates a new AutoTurnUntilSeeBall. */
@@ -54,8 +54,8 @@ public class AutoTurnUntilSeeBall extends CommandBase {
     angleCorrection = 0;
     angleError = 0;
     speedCorrection = 1;
-    direction = -1;
-    ballOnBoard = true; // what's this variable.
+    //direction = -1; //this ovrrides what's in the constructor.
+    ballOnBoard = false; // whenever the ball is in the robot, this should become true. but i think its useless
     foundBall = false;
 
     // WE will only use the gyro in auto so make code in here i think
@@ -101,7 +101,7 @@ public class AutoTurnUntilSeeBall extends CommandBase {
   @Override
   public boolean isFinished() {
     double time = timer.get();
-    if (foundBall)
+    if (closeToBall)
       return true;
     else if (stopTime <= time - startTime)
       return true;

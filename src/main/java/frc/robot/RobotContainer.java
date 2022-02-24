@@ -214,23 +214,22 @@ public class RobotContainer {
 
 
     //Auto setup
-    int plan = 1; //1-4; 1 being leftmost position and 4 being right most
-    // public AutoGroup(Intake intake, Shooter shoot, Drivetrain drive, NetworkTableQuerier table, Processor processor, double driveAngle1, double driveDistance1, BallData data) {
+    //plan(in constants): 1-4; 1 being leftmost position and 4 being right most
       if (plan == 1)
     {
-      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12, data); //change numbers.
+      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12, data, 1); //change numbers.
     }
     else if (plan == 2)
     {
-      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12, data);
+      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12, data, 1);
     }
     else if (plan == 3)
     {
-      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12, data);
+      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12, data , -1 );
     }
     else if (plan == 4)
     {
-      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12, data);
+      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12, data, -1);
     }
     return null;
 
