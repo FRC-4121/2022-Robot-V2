@@ -26,7 +26,9 @@ public class KillAutoCommand extends CommandBase {
   public void execute() {
     if(killAuto == false){
       killAuto = true;
-    } 
+    } else {
+      killAuto = false;
+    }
      //if kill button clicked execute
   }
 

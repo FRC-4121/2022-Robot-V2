@@ -53,6 +53,11 @@ public final class Constants {
     public static final int xboxYButton = 4;
     public static final int xboxLeftBumber = 5;
     public static final int xboxRightBumber = 6;
+    public static final int xboxBackButton = 7;//this button is in the middle of the xbox controller
+    public static final int xboxStartButton = 8;//this button is in the middle of the xbox controller
+    public static final int xboxLeftJoystickButton = 9;
+    public static final int xboxRightJoystickButton = 10;
+
 
     //LaunchPad button IDs
     public static final int LaunchPadButton1= 7 ;
@@ -89,6 +94,9 @@ public final class Constants {
     //Shooter
     public static double shooterTargetRPM = 100;// need to test to figure out
     public static double highShooterTargetRPM = 100;// also need to figure out
+
+    //Intake
+    public static double intakeReleaseEncoderLimit = 10000;//need to find out
 
     //General
     public static boolean killAuto = false;

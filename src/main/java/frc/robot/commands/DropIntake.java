@@ -51,7 +51,8 @@ public class DropIntake extends CommandBase {
     double time = timer.get();
     boolean thereYet = false;
 
-    if (false /* if encoder value reached bottom */ ) {
+    //if(getIntakeReleaseEncoderValue() == intakeReleaseEncoderLimit){}
+    if (false  ) {
       thereYet = true;
     }
     else if (time - startTime >= stopTime) {
