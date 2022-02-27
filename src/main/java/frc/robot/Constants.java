@@ -96,7 +96,8 @@ public final class Constants {
     public static double highShooterTargetRPM = 100;// also need to figure out
 
     //Intake
-    public static double intakeReleaseEncoderLimit = 10000;//need to find out
+    public static double intakeRaiseEncoderLimit = 10000;//need to find out
+    public static double intakeLowerEncoderLimit = 10000;//also need to find
 
     //General
     public static boolean killAuto = false;

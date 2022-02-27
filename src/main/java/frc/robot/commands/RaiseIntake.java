@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj.Timer;
+import static frc.robot.Constants.*;
 
 
 public class RaiseIntake extends CommandBase {
@@ -51,8 +52,7 @@ public class RaiseIntake extends CommandBase {
     double time = timer.get();
     boolean thereYet = false;
 
-    //if(getIntakeReleaseEncoderValue() == intakeReleaseEncoderLimit){}
-    if (false  ) {
+    if (intake.getIntakeReleaseEncoderPosition() >= intakeRaiseEncoderLimit ) {
       thereYet = true;
     }
     else if (time - startTime >= stopTime) {
