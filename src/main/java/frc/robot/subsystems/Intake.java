@@ -47,9 +47,15 @@ public class Intake extends SubsystemBase {
 
 
   //method to start the motor for the intake release
-  public void intakeRelease()
+  public void intakeLower()
   {
       intakeRelease.set(0.1);
+  }
+
+  //method to start the motor for the intake release
+  public void intakeRaise()
+  {
+      intakeRelease.set(-0.1);
   }
 
 

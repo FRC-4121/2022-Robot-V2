@@ -45,7 +45,7 @@ public class AutoShootLow extends CommandBase {
   public void execute(){
 
    // Load the balls to the shooter once the shooter gets up to speed
-   if(shooter.getRPM() >= shooterTargetRPM)
+   if(Math.abs(shooter.getRPM()) >= shooterTargetRPM)
    {
    processor.runLoader(0.2);
    processor.runProcessor();
