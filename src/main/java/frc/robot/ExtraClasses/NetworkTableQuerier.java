@@ -27,9 +27,6 @@ public class NetworkTableQuerier implements Runnable {
     private static NetworkTableEntry ballAngle0;
     private static NetworkTableEntry ballOffset0;
     private static NetworkTableEntry ballScreenPercent0;
-    private static NetworkTableEntry markerDistance0;
-    private static NetworkTableEntry markerAngle0;
-    private static NetworkTableEntry markerOffset0;
     private static NetworkTableEntry foundBall;
     private static NetworkTableEntry foundTape;
     private static NetworkTableEntry tapeDistance;
@@ -130,10 +127,6 @@ public class NetworkTableQuerier implements Runnable {
         ballAngle0 = visionTable.getEntry("BallAngle0");
         ballOffset0 = visionTable.getEntry("BallOffset0");
         ballScreenPercent0 = visionTable.getEntry("BallScreenPercent0");
-        markerDistance0 = visionTable.getEntry("MarkerDistance0");
-        markerAngle0 = visionTable.getEntry("MarkerAngle0");
-        markerOffset0 = visionTable.getEntry("MarkerOffset0");
-        markersFound = visionTable.getEntry("MarkersFound");
         foundBall = visionTable.getEntry("FoundBall");
         foundTape = visionTable.getEntry("FoundTape");
         targetLock = visionTable.getEntry("TargetLock");

@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import static frc.robot.Constants.*;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Timer;  
 
 
 public class AutoClimb extends CommandBase {
@@ -48,8 +48,9 @@ public class AutoClimb extends CommandBase {
     //rotate back forward and then down to rest the arms on the second rung, and pull up to where the second bards are in position like the first
     //repeat the process with new constants to get to the third rung
     
-    //if(in position) f
+    //if(in position) 
     //climber.climbExtend(0.2);
+    //drivetrain
 
   }
 

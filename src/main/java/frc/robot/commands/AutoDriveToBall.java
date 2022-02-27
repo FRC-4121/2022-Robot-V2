@@ -45,15 +45,14 @@ public class AutoDriveToBall extends CommandBase {
 
 
   public AutoDriveToBall(Drivetrain drive, NetworkTableQuerier table, double time) {
-    // processor = process;
+   
     drivetrain = drive;
-    //shifter = shift; //pneumatics
     ntables = table;
-    //addRequirements(drivetrain, shifter);
-
     stopTime = time;
 
-    //pidAngle = new PIDControl(kP_Turn, kI_Turn, kD_Turn);
+    addRequirements(drive);
+
+    
   }
 
   // Called when the command is initially scheduled.

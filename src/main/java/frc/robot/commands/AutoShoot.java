@@ -11,7 +11,7 @@ import static frc.robot.Constants.*;
 import edu.wpi.first.wpilibj.Timer;
 
 
-public class AutoShootLow extends CommandBase {
+public class AutoShoot extends CommandBase {
 
   //attributes; variables
   private final Shooter shooter;
@@ -20,7 +20,7 @@ public class AutoShootLow extends CommandBase {
   private double endTime;
   
   /** Creates a new ShootBall. */
-  public AutoShootLow(Shooter subsystem, Processor anotherSubsystem, double time) {
+  public AutoShoot(Shooter subsystem, Processor anotherSubsystem, double time) {
     shooter = subsystem;
     processor = anotherSubsystem;
     endTime = time;
@@ -35,7 +35,6 @@ public class AutoShootLow extends CommandBase {
     timer.start();
     //We are going to need some kind of way to make sure we are targeting the goal, if we do it in here
     //we also need to find the distance from the goal that we are, and change the speed accordingly
-    shooter.shooterRun(-30);
 
   }
 
@@ -44,12 +43,13 @@ public class AutoShootLow extends CommandBase {
   @Override
   public void execute(){
 
-   // Load the balls to the shooter once the shooter gets up to speed
-   if(Math.abs(shooter.getRPM()) >= shooterTargetRPM)
-   {
-   processor.runLoader(0.2);
-   processor.runProcessor();
-   }
+    shooter.shooterRun(-30);
+
+    // Load the balls to the shooter once the shooter gets up to speed
+    if (Math.abs(shooter.getRPM()) >= shooterTargetRPM) {
+      processor.runLoader(0.2);
+      processor.runProcessor();
+    }
   
   }
 

@@ -44,6 +44,15 @@ public class Shooter extends SubsystemBase {
     //processorMotor.set(ControlMode.PercentOutput, -0.2);
 
   } 
+
+  public void shooterRun(double speed){
+  
+    shooterMotor.set(ControlMode.PercentOutput, speed);
+    //~30 percent for low goal
+    //~50 percent for high goal
+    //processorMotor.set(ControlMode.PercentOutput, -0.2);
+
+  } 
   
   public void shooterRun(int percent){
   

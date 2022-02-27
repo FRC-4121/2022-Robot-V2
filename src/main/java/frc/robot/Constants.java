@@ -93,7 +93,11 @@ public final class Constants {
 
     //Shooter
     public static double shooterTargetRPM = 100;// need to test to figure out
-    public static double highShooterTargetRPM = 100;// also need to figure out
+     //PID constants for shooter
+     public static final double kP_Shoot = 0.00015; //was 0.1
+     public static final double kI_Shoot = 0.0000;
+     public static final double kD_Shoot = 0;
+     public static final double kF_Shoot = -1; 
 
     //Intake
     public static double intakeRaiseEncoderLimit = 10000;//need to find out
@@ -142,7 +146,9 @@ public final class Constants {
 
         public static int DIRECTION_MULTIPLIER = 1;//Controls whether forward on joysticks is forward or backward on robot
         
-        
+        public static double kLowGearMultiplier = 0.40;
+        public static double kHighGearMultiplier = 0.80;
+        public static double currentGear = kHighGearMultiplier; 
     
     }
 }
