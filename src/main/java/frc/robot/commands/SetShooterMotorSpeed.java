@@ -29,6 +29,7 @@ public class SetShooterMotorSpeed extends CommandBase {
   @Override
   public void execute() {
     shooter.shootRPM(Speed);
+    shooter.shootRPM(joy.getY() * 2040); //this is definitely wrong but oh well.
   }
 
   // Called once the command ends or is interrupted.
