@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Timer;
 import static frc.robot.Constants.*;
 
 
-public class DropIntake extends CommandBase {
+public class RaiseIntake extends CommandBase {
 
   private Intake intake = new Intake();
   private Timer timer = new Timer();
@@ -18,7 +18,7 @@ public class DropIntake extends CommandBase {
   private double stopTime;
 
   /** Creates a new DropIntake. */
-  public DropIntake(Intake i) {
+  public RaiseIntake(Intake i) {
     intake = i;
     // stopTime = stoptime;
     addRequirements(intake);
@@ -34,7 +34,7 @@ public class DropIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.intakeLower();
+    intake.intakeRaise();
 
   }
 
@@ -52,7 +52,7 @@ public class DropIntake extends CommandBase {
     double time = timer.get();
     boolean thereYet = false;
 
-    if (intake.getIntakeReleaseEncoderPosition() >= intakeLowerEncoderLimit) {
+    if (intake.getIntakeReleaseEncoderPosition() >= intakeRaiseEncoderLimit ) {
       thereYet = true;
     }
     else if (time - startTime >= stopTime) {

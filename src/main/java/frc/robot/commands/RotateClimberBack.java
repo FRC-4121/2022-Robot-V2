@@ -24,7 +24,7 @@ public class RotateClimberBack extends CommandBase {
     @Override
     public void initialize() {}
   
-    // Called every time the scheduler runs while the command is scheduled.
+    // Called every time the scheduler runs while the comma      nd is scheduled.
     @Override
     public void execute() {
   

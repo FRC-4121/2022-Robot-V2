@@ -13,12 +13,15 @@ import edu.wpi.first.wpilibj.XboxController;
 public class DriveWithJoysticks extends CommandBase {
 
   private Drivetrain drivetrain;
-  private XboxController xboxJoysticks;
+  private XboxController Xbox;
+  private boolean gearChanged;
+  private boolean directionChanged;
+
 
   public DriveWithJoysticks(Drivetrain drive, XboxController xbox) {
 
     drivetrain = drive;
-    xboxJoysticks = xbox;
+    Xbox = xbox;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
@@ -28,6 +31,9 @@ public class DriveWithJoysticks extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+  
+    gearChanged = false;
+    directionChanged = false;
   }
 
 
@@ -35,10 +41,28 @@ public class DriveWithJoysticks extends CommandBase {
   @Override
   public void execute() {
 
+    if((Xbox.getRightTriggerAxis() >= 0.5) && !gearChanged){
+
+      drivetrain.changeGears();
+      gearChanged = true;
+    } else if(Xbox.getRightTriggerAxis() == 0)
+    {
+      gearChanged = false;
+    }
+
+    if((Xbox.getLeftTriggerAxis() >= 0.5) && !directionChanged){
+
+      drivetrain.invertDirection();
+      directionChanged = true;
+    } else if(Xbox.getLeftTriggerAxis() == 0)
+    {
+      directionChanged = false;
+    }
+
     // Drive using xbox joystick values
     // kSpeedCorrection is to slow down the right motors because left motors were
     // running slower
-    drivetrain.drive(kJoystickSpeedCorr * xboxJoysticks.getLeftY(), kJoystickSpeedCorr * xboxJoysticks.getRightY());
+    drivetrain.drive(kJoystickSpeedCorr * Xbox.getLeftY(), kJoystickSpeedCorr * Xbox.getRightY());
 
   }
 

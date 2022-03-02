@@ -165,20 +165,18 @@ public class Drivetrain extends SubsystemBase {
    */
   public void drive(double leftJoyY, double rightJoyY) {
 
-    //Configure software-based voltage protection measure (will require testing to determine optimal values)
-    double speedCap = kLowGearSpeedCap;
 
     // Drive the motors
     // Direction multiplier indicates drive direction
     if(DIRECTION_MULTIPLIER == 1){
-      SmartDashboard.putNumber("Left Drive Speed", speedCap * DIRECTION_MULTIPLIER * leftJoyY);
-      SmartDashboard.putNumber("Right Drive Speed", speedCap * DIRECTION_MULTIPLIER * rightJoyY);
-      drivetrain.tankDrive(speedCap * DIRECTION_MULTIPLIER * leftJoyY, speedCap * DIRECTION_MULTIPLIER * rightJoyY);    
+      SmartDashboard.putNumber("Left Drive Speed", currentGear * DIRECTION_MULTIPLIER * leftJoyY);
+      SmartDashboard.putNumber("Right Drive Speed", currentGear * DIRECTION_MULTIPLIER * rightJoyY);
+      drivetrain.tankDrive(currentGear * DIRECTION_MULTIPLIER * leftJoyY, currentGear * DIRECTION_MULTIPLIER * rightJoyY);    
     }
     else{
-      SmartDashboard.putNumber("Left Drive Speed", speedCap * DIRECTION_MULTIPLIER * rightJoyY);
-      SmartDashboard.putNumber("Right Drive Speed", speedCap * DIRECTION_MULTIPLIER * leftJoyY);
-      drivetrain.tankDrive(speedCap * DIRECTION_MULTIPLIER * rightJoyY, speedCap * DIRECTION_MULTIPLIER * leftJoyY);    
+      SmartDashboard.putNumber("Left Drive Speed", currentGear * DIRECTION_MULTIPLIER * rightJoyY);
+      SmartDashboard.putNumber("Right Drive Speed", currentGear * DIRECTION_MULTIPLIER * leftJoyY);
+      drivetrain.tankDrive(currentGear * DIRECTION_MULTIPLIER * rightJoyY, currentGear * DIRECTION_MULTIPLIER * leftJoyY);    
     }
 
    // SmartDashboard.putNumber("Left Master Voltage", leftMasterFalcon.getOutputVoltage());
@@ -305,6 +303,16 @@ public class Drivetrain extends SubsystemBase {
 
   }
 
+  public void changeGears(){
+
+    if(currentGear == kLowGearMultiplier)
+    {
+      currentGear = kHighGearMultiplier;
+    } else{
+
+      currentGear = kLowGearMultiplier;
+    }
+  }
   
   public double getGyroAngle(){
 

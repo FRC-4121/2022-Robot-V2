@@ -5,43 +5,39 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.Constants.*;
+import frc.robot.subsystems.Drivetrain;
 
+public class ChangeGear extends CommandBase {
+  
+  private Drivetrain drive;
+  
+  public ChangeGear(Drivetrain drivetrain ) {
 
-public class KillAutoCommand extends CommandBase {
+    drive = drivetrain;
 
-  /** Creates a new KillAutoCommand. */
-  public KillAutoCommand() {
+    addRequirements( drive);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
-  
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
-
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(killAuto == false){
-      killAuto = true;
-    } else {
-      killAuto = false;
-    }
-     //if kill button clicked execute
+    drive.changeGears();
   }
-
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
-
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return true;
   }
-  
 }

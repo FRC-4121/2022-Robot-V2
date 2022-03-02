@@ -34,13 +34,14 @@ public class RobotContainer {
 
 
   private final NetworkTableQuerier table = new NetworkTableQuerier();
-  private final BallData data = new BallData();
 
 
   //===COMMANDS===//
 
   //Driving Commands
   private final DriveWithJoysticks driveCommand = new DriveWithJoysticks(drivetrain, xbox);
+  private final InvertDirection invertDirectionCommand = new InvertDirection(drivetrain);
+  private final ChangeGear changeGearCommand = new ChangeGear(drivetrain);
 
   //Climbing Commands
   private final ExtendClimber extendClimberCommand = new ExtendClimber(climber);
@@ -51,13 +52,16 @@ public class RobotContainer {
 
 
   //Shooting Commands
-  private final ShootBall shooterCommand = new ShootBall(shooter);
+  private final ShootBall shooterCommand = new ShootBall(shooter,processor, table);
 
   //KillAuto Command
   private final KillAutoCommand killAutoObject = new KillAutoCommand(); 
 
   // Intake
   private final PickUpBall intakeCommand = new PickUpBall(intake, processor);
+  private final DropIntake dropintakeCommand = new DropIntake(intake);
+  private final RaiseIntake raiseIntakeCommand = new RaiseIntake(intake);
+
 
 
   //loader
@@ -72,6 +76,7 @@ public class RobotContainer {
 
   //xboxButtons
   private final JoystickButton intakeButton;
+  private final JoystickButton moveIntake;
   private final JoystickButton climberExtendButton;
   private final JoystickButton climberRetractButton;
   private final JoystickButton climberRotateFrontButton;
@@ -91,6 +96,7 @@ public class RobotContainer {
 
   //Driving
   private final JoystickButton invertDirectionButton;
+  private final JoystickButton changeGearButton;
   
 
   //testing
@@ -106,21 +112,24 @@ public class RobotContainer {
   if(testing) //using xbox controller to test
   {
     //xboxButtons
-    intakeButton = new JoystickButton(xbox, xboxLeftBumber);
-    climberExtendButton = new JoystickButton(xbox, xboxRightBumber);
-    climberRetractButton = new JoystickButton(xbox, xboxRightBumber);
+    moveIntake = new JoystickButton(xbox, xboxBButton);
+    intakeButton = new JoystickButton(xbox, xboxLeftBumber); //feeds to processor
+    climberExtendButton = new JoystickButton(xbox, xboxStartButton);
+    climberRetractButton = new JoystickButton(xbox, xboxBackButton);
     climberRotateFrontButton = new JoystickButton(xbox, xboxXButton);
     climberRotateBackButton = new JoystickButton(xbox, xboxYButton);
-    shooterButton = new JoystickButton(xbox, xboxLeftBumber);
+    shooterButton = new JoystickButton(xbox, xboxRightBumber);
     loaderButton = new JoystickButton(xbox, xboxAButton);
 
     //Driving
      invertDirectionButton = new JoystickButton(xbox, 6);
+     changeGearButton = new JoystickButton(xbox,7);
      
   }
   else{ //using launchpad and xbox as if it's a real match
     
      //Command buttons/switches
+     moveIntake = new JoystickButton(xbox, xboxRightBumber);
      intakeButton = new JoystickButton(launchpad, LaunchPadSwitch2top);
      climberExtendButton = new JoystickButton(launchpad, LaunchPadSwitch2top);
      climberRetractButton = new JoystickButton(launchpad, LaunchPadSwitch2top); //get Id's from constants
@@ -133,6 +142,7 @@ public class RobotContainer {
 
     //Driving
      invertDirectionButton = new JoystickButton(xbox, 6);
+     changeGearButton = new JoystickButton(xbox,7);
      
   }
 
@@ -167,8 +177,13 @@ public class RobotContainer {
   
   private void configureButtonBindings() {
     
+    //drivetrain
+    invertDirectionButton.whenPressed(invertDirectionCommand);
+    changeGearButton.whenPressed(changeGearCommand);
+
     //intake
-    intakeButton.whileHeld(intakeCommand);
+    intakeButton.toggleWhenActive(intakeCommand); //whileHeld
+    moveIntake.whileHeld(dropintakeCommand);
 
     //climber
     climberExtendButton.whileHeld(extendClimberCommand);
@@ -178,7 +193,7 @@ public class RobotContainer {
     //autoClimbButton.whileHeld(autoClimbCommand);
 
     //shooter
-    shooterButton.whileHeld(shooterCommand);
+    shooterButton.toggleWhenActive(shooterCommand);
 
     //kill auto
     killAutoButton.whenPressed( killAutoObject);
@@ -217,19 +232,19 @@ public class RobotContainer {
     //plan(in constants): 1-4; 1 being leftmost position and 4 being right most
       if (plan == 1)
     {
-      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12, data, 1); //change numbers.
+      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12, 1); //change numbers.
     }
     else if (plan == 2)
     {
-      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12, data, 1);
+      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12,  1);
     }
     else if (plan == 3)
     {
-      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12, data , -1 );
+      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12,  -1 );
     }
     else if (plan == 4)
     {
-      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12, data, -1);
+      return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12,  -1);
     }
     return null;
 

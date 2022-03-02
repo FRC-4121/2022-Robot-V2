@@ -17,6 +17,6 @@ public class DropIntakeAndShootLow extends ParallelCommandGroup {
   public DropIntakeAndShootLow(Intake intake, Shooter shoot, Processor processor) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new DropIntake(intake), new AutoShootLow(shoot,processor,2));
+    addCommands(new DropIntake(intake), new AutoShoot(shoot,processor,2 ));
   }
 }

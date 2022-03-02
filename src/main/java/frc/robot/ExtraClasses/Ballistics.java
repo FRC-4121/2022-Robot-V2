@@ -176,10 +176,10 @@ public class Ballistics {
         //[quadratic] t=-v +/- sqrt(v^2 -4 * -g/2 * -y) )/2*-4.9
         //v(of y) = v sin angle
         double horizVelocity = missileMaxSpeed * Math.sin(Math.toRadians(DegreesAngle));
-        //timeInAir[0] = (0-horizVelocity) + Math.sqrt(Math.pow(horizVelocity, 2) - (4* ((0-g)/2) * (0-heightTolerance)));
+        timeInAir[0] = (0-horizVelocity) + Math.sqrt(Math.pow(horizVelocity, 2) - (4* ((0-g)/2) * (0-heightTolerance)));
         //timeInAir[1] = (0-horizVelocity) - Math.sqrt(Math.pow(horizVelocity, 2) - (4* ((0-g)/2) * (0-targetHeight)));
         //System.out.println("HAHAHA timeInAir[0]" + timeInAir[0] + "\n timeInAir[1]" + timeInAir[1]);
-        return 20;
+        return horizVelocity;
     }
 
  

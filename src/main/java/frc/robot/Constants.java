@@ -53,6 +53,11 @@ public final class Constants {
     public static final int xboxYButton = 4;
     public static final int xboxLeftBumber = 5;
     public static final int xboxRightBumber = 6;
+    public static final int xboxBackButton = 7;//this button is in the middle of the xbox controller
+    public static final int xboxStartButton = 8;//this button is in the middle of the xbox controller
+    public static final int xboxLeftJoystickButton = 9;
+    public static final int xboxRightJoystickButton = 10;
+
 
     //LaunchPad button IDs
     public static final int LaunchPadButton1= 7 ;
@@ -88,7 +93,15 @@ public final class Constants {
 
     //Shooter
     public static double shooterTargetRPM = 100;// need to test to figure out
-    public static double highShooterTargetRPM = 100;// also need to figure out
+     //PID constants for shooter
+     public static final double kP_Shoot = 0.00015; //was 0.1
+     public static final double kI_Shoot = 0.0000;
+     public static final double kD_Shoot = 0;
+     public static final double kF_Shoot = -1; 
+
+    //Intake
+    public static double intakeRaiseEncoderLimit = 10000;//need to find out
+    public static double intakeLowerEncoderLimit = 10000;//also need to find
 
     //General
     public static boolean killAuto = false;
@@ -133,7 +146,9 @@ public final class Constants {
 
         public static int DIRECTION_MULTIPLIER = 1;//Controls whether forward on joysticks is forward or backward on robot
         
-        
+        public static double kLowGearMultiplier = 0.40;
+        public static double kHighGearMultiplier = 0.80;
+        public static double currentGear = kHighGearMultiplier; 
     
     }
 }
