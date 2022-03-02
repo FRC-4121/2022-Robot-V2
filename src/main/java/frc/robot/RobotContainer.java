@@ -4,7 +4,6 @@ package frc.robot;
 import static frc.robot.Constants.*;
 ////import static frc.robot.Constants.ShooterConstants.*;
 import frc.robot.subsystems.*;
-import frc.robot.ExtraClasses.BallData;
 import frc.robot.ExtraClasses.NetworkTableQuerier;
 import frc.robot.commands.*;
 //import frc.robot.extraClasses.*;

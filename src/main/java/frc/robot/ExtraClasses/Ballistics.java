@@ -51,10 +51,12 @@ public class Ballistics {
     public int distanceIncrement = 1;//not recommended to change this value
     
     //Can be configured for a 'continuous' angle or a two-angle system
-    public int minAngle = 50;//in degrees
+    public int minAngle = 60;//in degrees
     public int maxAngle = 60;//in degrees
     public int angleIncrement = 1;//make sure this is a factor of the difference between min and max angle, unless you are only using one angle, then make it 1
-    
+    public int constantAngle = 60;//degrees... use this if you can't adjust the angle.
+
+
     public int minSpeed = 60;//percent
     public int maxSpeed = 100;//percent
     public int argumentCount = 5;//distance, angle, speed, height, possibility(is the shot possible) (0 is false)
@@ -110,7 +112,7 @@ public class Ballistics {
         for(int i = 0; i < table.length; i++){ //length is number of rows. which is different distances
  
             //At each foot, calculate the optimal angle and speed
-            double optimalAngle = 0;
+            //double optimalAngle = 0;
             double optimalSpeed = 0;
             double shotPossible = 0;
 
@@ -118,33 +120,33 @@ public class Ballistics {
             double bestHeight = 0;
             
             //For each angle...
-            for(int a = minAngle; a <= maxAngle; a += angleIncrement){
+            //for(int a = minAngle; a <= maxAngle; a += angleIncrement){
 
                 //and each speed at each angle...
                 for(int s = minSpeed; s <= maxSpeed; s++){
 
                     //calculate the height that the ball will be at when it hits the wall and error from target
                     double speed = s / 100.0;
-                    double height = calculateHeight(startDistance, a, speed);
+                    double height = calculateHeight(startDistance, constantAngle, speed); //height of where the shot will land
                     double error = abs(targetHeight - height);
 
                     //If the error is the smallest yet, assign values of this configuration to place in the table
                     if(error < minError){
 
                         optimalSpeed = speed;
-                        optimalAngle = a;
+                        //optimalAngle = a;
                         minError = error;
                         bestHeight = height;
                         shotPossible = 1;
                     }
 
-                }
+                //}
 
             }
 
             //Assign table values
             table[i][0] = startDistance;
-            table[i][1] = optimalAngle;
+            table[i][1] = constantAngle;
             table[i][2] = optimalSpeed;
             table[i][3] = bestHeight;
             table[i][4] = shotPossible;
@@ -156,7 +158,7 @@ public class Ballistics {
         return table;
     }
 
-    //Input distance in feet, angle in degrees, speed in percent; output height in inches
+    //Input distance in feet, angle in degrees, speed in percent; output height(the ball will land at distance away) in inches
     public double calculateHeight(double distance, double angle, double speed){
         //this equation looks like the one from @Link:https://byjus.com/trajectory-formula/#:~:text=Trajectory%20formula%20is%20given%20by%20y%20%3D%20xtan%CE%B8%E2%88%92,2%20%CE%B8%20Where%2C%20y%20is%20the%20horizontal%20component%2C
         

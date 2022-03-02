@@ -139,10 +139,10 @@ public class Drivetrain extends SubsystemBase {
     rightSlaveFalcon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kPIDLoopIdxDrive, kTimeoutMsDrive);
 
     //Invert appropriately
-    leftMasterFalcon.setInverted(!kMotorInvert);
-    leftSlaveFalcon.setInverted(!kMotorInvert);
-    rightMasterFalcon.setInverted(kMotorInvert);
-    rightSlaveFalcon.setInverted(kMotorInvert);
+    leftMasterFalcon.setInverted(kMotorInvert);
+    leftSlaveFalcon.setInverted(kMotorInvert);
+    rightMasterFalcon.setInverted(!kMotorInvert);
+    rightSlaveFalcon.setInverted(!kMotorInvert);
 
     //Zero encoders
     leftMasterFalcon.setSelectedSensorPosition(0);

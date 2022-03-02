@@ -30,18 +30,17 @@ public final class Constants {
     //climber motors
     public static final int RIGHT_CLIMBER = 7;
     public static final int LEFT_CLIMBER = 5;
-    public static final int RIGHT_ROTATE_CLIMBER = 0; 
-    public static final int LEFT_ROTATE_CLIMBER = 4; 
+    public static final int RIGHT_ROTATE_CLIMBER = 0; // don't know
+    public static final int LEFT_ROTATE_CLIMBER = 4;// don't know 
 
     
     //processor motors
-    public static final int INTAKE=5;
-    public static final int INTAKERELEASE = 99;
-    public static final int MECANUMINTAKE = 98;//cansparkmax ID, not phoenix
-    public static final int LOADER = 27; // need to find
+    public static final int INTAKE=20;
+    public static final int INTAKERELEASE = 0;
+    public static final int LOADER = 27; 
     public static final int SHOOTER = 10;
-    public static final int PROCESSOR_1 = 7;
-    public static final int PROCESSOR_2 = 8;
+    public static final int PROCESSOR_1 = 8;
+    public static final int PROCESSOR_2 = 6;
 
     //Drive control port IDs
     public static final int XBOX_PORT = 0;

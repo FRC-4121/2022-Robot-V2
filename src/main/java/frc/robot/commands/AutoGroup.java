@@ -7,7 +7,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
-import frc.robot.ExtraClasses.BallData;
 import frc.robot.ExtraClasses.NetworkTableQuerier;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
