@@ -122,7 +122,7 @@ public final class Constants {
         public static final double kWheelDiameter = 6.0;
         public static final double kLowGearSpeedCap = 0.8;//In case full speed draws excessive power, these are an emergency measure
         public static final double kHighGearSpeedCap = 1.0;
-        public static final double kJoystickSpeedCorr = 0.65;
+        public static final double kJoystickSpeedCorr = 0.72;
         public static final double kManualDriveSpeed = 0.75;
         public static final double kAutoDriveSpeed = .4;
         public static final double kAutoDriveSpeedMin = 0.25;

@@ -41,7 +41,6 @@ public class ShootBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute(){
-    shooter.shooterRun(-60);
 
 
   //  if (Math.abs(shooter.getRPM()) >= shooterTargetRPM) {
@@ -55,7 +54,6 @@ public class ShootBall extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted){
-    shooter.shooterStop();
     processor.stopLoader();
     processor.stopProcessor();
   }

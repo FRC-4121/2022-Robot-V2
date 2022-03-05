@@ -20,8 +20,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   
   //Driver controllers
-  private final XboxController xbox = new XboxController(XBOX_PORT);
-  private final XboxController xboxClimber = new XboxController(1);
+  private final XboxController xbox = new XboxController(1);
+  private final XboxController xboxClimber = new XboxController(2);
   private final Joystick launchpad = new Joystick(0);
   
 
@@ -151,7 +151,7 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(driveCommand);
 
     //Shooter -> run shooter all of the time with auto speed control
-    //shooter.setDefaultCommand(autoShoot);
+    shooter.setDefaultCommand(autoShoot);
   }
   
   private void configureButtonBindings() {

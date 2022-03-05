@@ -35,7 +35,7 @@ public class ControlShooterSpeed extends CommandBase {
   private double speed;
   private double shooterSpeedCorrection;
   private double shotPossible;//Ballistics value; 0 is false, 1 is true
-  
+  private boolean runShooter = false;
 
   private boolean runSpeedControl = true;
 
@@ -68,84 +68,95 @@ public class ControlShooterSpeed extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  
-    //Get lidar distance
-    lidarDistance = lidar.getDistance();
-    SmartDashboard.putNumber("Lidar Distance: ", lidarDistance);
 
-    // Get target lock from shooter camera
-    targetLock = ntQuerier.getTargetLockFlag();
-    SmartDashboard.putBoolean("TargetLock", targetLock);
+    if (runShooter) {
 
-    if (targetLock) {
-      
-      //get the camera distance
-      cameraDistance = ntQuerier.getTapeDistance();
-      SmartDashboard.putNumber("Camera Distance: ", cameraDistance);
+      // Get lidar distance
+      lidarDistance = lidar.getDistance();
+      SmartDashboard.putNumber("Lidar Distance: ", lidarDistance);
 
-     // ballisticsData = ballistics.queryBallisticsTable(distance);
+      // Get target lock from shooter camera
+      targetLock = ntQuerier.getTargetLockFlag();
+      SmartDashboard.putBoolean("TargetLock", targetLock);
 
-      shotPossible = ballisticsData[0];
+      if (targetLock) {
 
-      if (shotPossible == 0) {
-        SmartDashboard.putBoolean("Shot Possible", false);
-        targetSpeed = speed;
-      } else {
-        SmartDashboard.putBoolean("Shot Possible", true);
-        targetSpeed = ballisticsData[2];
-      }
-      SmartDashboard.putNumber("BallisticsTarget", targetSpeed);
-      targetRPM = targetSpeed * shooterTargetRPM;
-      SmartDashboard.putNumber("BallisticsRPM", targetSpeed * shooterTargetRPM);
-      currentRPM = Math.abs(shooter.getRPM());
+        // get the camera distance
+        cameraDistance = ntQuerier.getTapeDistance();
+        SmartDashboard.putNumber("Camera Distance: ", cameraDistance);
 
-      if (Math.abs(currentRPM - targetRPM) > 50) {
-        if (currentRPM < targetRPM) {
-          shooterSpeedCorrection += 0.0005;
+        // ballisticsData = ballistics.queryBallisticsTable(distance);
+
+        shotPossible = ballisticsData[0];
+
+        if (shotPossible == 0) {
+          SmartDashboard.putBoolean("Shot Possible", false);
+          targetSpeed = speed;
         } else {
-          shooterSpeedCorrection -= 0.0005;
+          SmartDashboard.putBoolean("Shot Possible", true);
+          targetSpeed = ballisticsData[2];
         }
+        SmartDashboard.putNumber("BallisticsTarget", targetSpeed);
+        targetRPM = targetSpeed * shooterTargetRPM;
+        SmartDashboard.putNumber("BallisticsRPM", targetSpeed * shooterTargetRPM);
+        currentRPM = Math.abs(shooter.getRPM());
+
+        if (Math.abs(currentRPM - targetRPM) > 50) {
+          if (currentRPM < targetRPM) {
+            shooterSpeedCorrection += 0.0005;
+          } else {
+            shooterSpeedCorrection -= 0.0005;
+          }
+        }
+
+        // Calculate speed correction
+        // shooterSpeedCorrection = pidShooterSpeed.run(shooter.getShooterRPM(),
+        // targetSpeed*kShooterMaxRPM);
+        SmartDashboard.putNumber("correction", shooterSpeedCorrection);
+
+        // Correct shooter speed control input
+        // targetShooterSpeedCorrected = targetShooterSpeed * kSpeedCorrectionFactor;
+        targetShooterSpeedCorrected = targetSpeed + shooterSpeedCorrection;
+
+        // Ensure corrected speed is within bounds
+        if (targetShooterSpeedCorrected > 1) {
+          targetShooterSpeedCorrected = 1;
+        } else if (targetShooterSpeedCorrected < -1) {
+          targetShooterSpeedCorrected = -1;
+        }
+
+        // Write key values to dashboard
+        SmartDashboard.putNumber("Ballistics Speed", targetShooterSpeedCorrected);
+
+        // targetSpeedCorrected = targetSpeed * kSpeedCorrectionFactor;
+        // SmartDashboard.putNumber("Ballistics Speed", targetSpeed);
+
+        shooter.shooterRun(targetShooterSpeedCorrected);
+        // I have battery concerns about this implementation. If we notice that battery
+        // draw during a match is problematic for speed control, we
+        // will need to revert to a pid for RPM in some way. This would be sufficiently
+        // complicated that it is a low priority, however.
+      } else if (lidarDistance > lidarMin && lidarDistance < lidarMax) /* need a max distance as well */ {
+
+      } else {
+        shooterSpeedCorrection = 0;
+        speed = 0.4;
+        shooter.shooterRun(speed);
       }
-
-      // Calculate speed correction
-      // shooterSpeedCorrection = pidShooterSpeed.run(shooter.getShooterRPM(),
-      // targetSpeed*kShooterMaxRPM);
-      SmartDashboard.putNumber("correction", shooterSpeedCorrection);
-
-      // Correct shooter speed control input
-      // targetShooterSpeedCorrected = targetShooterSpeed * kSpeedCorrectionFactor;
-      targetShooterSpeedCorrected = targetSpeed + shooterSpeedCorrection;
-
-      // Ensure corrected speed is within bounds
-      if (targetShooterSpeedCorrected > 1) {
-        targetShooterSpeedCorrected = 1;
-      } else if (targetShooterSpeedCorrected < -1) {
-        targetShooterSpeedCorrected = -1;
-      }
-
-      // Write key values to dashboard
-      SmartDashboard.putNumber("Ballistics Speed", targetShooterSpeedCorrected);
-
-      // targetSpeedCorrected = targetSpeed * kSpeedCorrectionFactor;
-      // SmartDashboard.putNumber("Ballistics Speed", targetSpeed);
-
-      shooter.shooterRun(targetShooterSpeedCorrected);
-      // I have battery concerns about this implementation. If we notice that battery
-      // draw during a match is problematic for speed control, we
-      // will need to revert to a pid for RPM in some way. This would be sufficiently
-      // complicated that it is a low priority, however.
-    } else if(lidarDistance > lidarMin && lidarDistance < lidarMax) /* need a max distance as well */   {
-     
-      
-    } else {
+    }
+    else{
       shooterSpeedCorrection = 0;
-      speed = 0.4;
+      speed = -0.30;
       shooter.shooterRun(speed);
     }
 
     //SmartDashboard.putNumber("Shooter Speed", shooter.getShooterSpeed());
     SmartDashboard.putNumber("Shooter RPM", shooter.getRPM());
+ 
+ 
   }
+
+
 
   // Called once the command ends or is interrupted.
   @Override
