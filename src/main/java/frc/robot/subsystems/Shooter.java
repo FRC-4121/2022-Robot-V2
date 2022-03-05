@@ -6,7 +6,9 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import static frc.robot.Constants.*;
+import static frc.robot.Constants.DrivetrainConstants.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import edu.wpi.first.math.filter.MedianFilter;
 
 
 
@@ -16,12 +18,13 @@ public class Shooter extends SubsystemBase {
   private WPI_TalonFX shooterMotor = new WPI_TalonFX(SHOOTER);
   //private WPI_TalonFX processorMotor = new WPI_TalonFX(27);
   private double speed;
-
+  
+  private MedianFilter rpmFilter;
   
   /** Creates a new Shooter. */
   public Shooter(){
   
-    //nothing here yet :>
+    rpmFilter = new MedianFilter(FILTER_WINDOW_SIZE);
 
   }
 
@@ -71,7 +74,7 @@ public class Shooter extends SubsystemBase {
 
   public double getRPM()
   {
-    return shooterMotor.getSelectedSensorVelocity() * 600 / 2048;
+    return rpmFilter.calculate(shooterMotor.getSelectedSensorVelocity() * 600 / 2048);
   }
 
   @Override

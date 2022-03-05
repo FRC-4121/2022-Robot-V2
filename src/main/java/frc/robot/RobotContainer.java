@@ -21,6 +21,7 @@ public class RobotContainer {
   
   //Driver controllers
   private final XboxController xbox = new XboxController(XBOX_PORT);
+  private final XboxController xboxClimber = new XboxController(1);
   private final Joystick launchpad = new Joystick(0);
   
 
@@ -39,26 +40,26 @@ public class RobotContainer {
 
   //Driving Commands
   private final DriveWithJoysticks driveCommand = new DriveWithJoysticks(drivetrain, xbox);
-  private final InvertDirection invertDirectionCommand = new InvertDirection(drivetrain);
-  private final ChangeGear changeGearCommand = new ChangeGear(drivetrain);
 
   //Climbing Commands
-  private final ExtendClimber extendClimberCommand = new ExtendClimber(climber);
+  /*private final ExtendClimber extendClimberCommand = new ExtendClimber(climber);
   private final RetractClimber retractClimberCommand = new RetractClimber(climber);
   private final RotateClimberFront rotateClimberFrontCommand = new RotateClimberFront(climber);
   private final RotateClimberBack rotateClimberBackCommand = new RotateClimberBack(climber);
-  //private final AutoClimb autoClimbCommand = new AutoClimb(climber);
+ */ //private final AutoClimb autoClimbCommand = new AutoClimb(climber);
 
 
   //Shooting Commands
   private final ShootBall shooterCommand = new ShootBall(shooter,processor, table);
+  private final RunShooter runShooterCommand = new RunShooter(shooter);
+  private final ControlShooterSpeed autoShoot = new ControlShooterSpeed(shooter, table);
 
   //KillAuto Command
   private final KillAutoCommand killAutoObject = new KillAutoCommand(); 
 
   // Intake
   private final PickUpBall intakeCommand = new PickUpBall(intake, processor);
-  private final DropIntake dropintakeCommand = new DropIntake(intake);
+  private final MoveIntake dropintakeCommand = new MoveIntake(intake);
   private final RaiseIntake raiseIntakeCommand = new RaiseIntake(intake);
 
 
@@ -76,12 +77,14 @@ public class RobotContainer {
   //xboxButtons
   private final JoystickButton intakeButton;
   private final JoystickButton moveIntake;
-  private final JoystickButton climberExtendButton;
+ /* private final JoystickButton climberExtendButton;
   private final JoystickButton climberRetractButton;
   private final JoystickButton climberRotateFrontButton;
   private final JoystickButton climberRotateBackButton;
-  private final JoystickButton shooterButton;
+*/  private final JoystickButton shooterButton;
   private final JoystickButton loaderButton;
+  private final JoystickButton raiseButton;
+  private final JoystickButton runShooterButton;
 
   
   //launchpad buttons/switches
@@ -93,57 +96,31 @@ public class RobotContainer {
   private static JoystickButton blueButton;
   //private final JoystickButton autoClimbButton;
 
-  //Driving
-  private final JoystickButton invertDirectionButton;
-  private final JoystickButton changeGearButton;
   
 
-  //testing
-  private boolean testing = true; //true for xbox, false for launchpad
 
   //===CONSTRUCTOR===//
-  public RobotContainer() {
+  public RobotContainer() { 
     
   //colorButtons
   redButton = new JoystickButton(launchpad,LaunchPadSwitch5top);
   blueButton = new JoystickButton(launchpad,LaunchPadSwitch5bottom);
 
-  if(testing) //using xbox controller to test
-  {
+  
     //xboxButtons
-    moveIntake = new JoystickButton(xbox, xboxBButton);
+    moveIntake = new JoystickButton(xbox, xboxXButton);
     intakeButton = new JoystickButton(xbox, xboxLeftBumber); //feeds to processor
-    climberExtendButton = new JoystickButton(xbox, xboxStartButton);
-    climberRetractButton = new JoystickButton(xbox, xboxBackButton);
-    climberRotateFrontButton = new JoystickButton(xbox, xboxXButton);
-    climberRotateBackButton = new JoystickButton(xbox, xboxYButton);
-    shooterButton = new JoystickButton(xbox, xboxRightBumber);
+  /*  climberExtendButton = new JoystickButton(xboxClimber, xboxRightBumber);
+    climberRetractButton = new JoystickButton(xboxClimber, xboxLeftBumber);
+    climberRotateFrontButton = new JoystickButton(xboxClimber, xboxXButton);
+    climberRotateBackButton = new JoystickButton(xboxClimber, xboxYButton);
+  */shooterButton = new JoystickButton(xbox, xboxRightBumber);
+    runShooterButton = new JoystickButton(xbox,xboxBButton);
     loaderButton = new JoystickButton(xbox, xboxAButton);
-
-    //Driving
-     invertDirectionButton = new JoystickButton(xbox, 6);
-     changeGearButton = new JoystickButton(xbox,7);
-     
-  }
-  else{ //using launchpad and xbox as if it's a real match
-    
-     //Command buttons/switches
-     moveIntake = new JoystickButton(xbox, xboxRightBumber);
-     intakeButton = new JoystickButton(launchpad, LaunchPadSwitch2top);
-     climberExtendButton = new JoystickButton(launchpad, LaunchPadSwitch2top);
-     climberRetractButton = new JoystickButton(launchpad, LaunchPadSwitch2top); //get Id's from constants
-     climberRotateFrontButton = new JoystickButton(xbox, xboxXButton);
-     climberRotateBackButton = new JoystickButton(xbox, xboxYButton);
-     shooterButton = new JoystickButton(launchpad, LaunchPadSwitch7);
-     loaderButton = new JoystickButton(launchpad, LaunchPadSwitch7);
-     
+    raiseButton = new JoystickButton(xbox, xboxYButton);
     //autoClimbButton = new JoystickButton(launchpad, LaunchPadSwitch?);
 
-    //Driving
-     invertDirectionButton = new JoystickButton(xbox, 6);
-     changeGearButton = new JoystickButton(xbox,7);
-     
-  }
+  
 
     //launchpad buttons/switches
     killAutoButton = new JoystickButton(launchpad,LaunchPadButton1);
@@ -172,27 +149,28 @@ public class RobotContainer {
 
     //Drivetrain -> drive with xbox joysticks
     drivetrain.setDefaultCommand(driveCommand);
+
+    //Shooter -> run shooter all of the time with auto speed control
+    //shooter.setDefaultCommand(autoShoot);
   }
   
   private void configureButtonBindings() {
     
-    //drivetrain
-    invertDirectionButton.whenPressed(invertDirectionCommand);
-    changeGearButton.whenPressed(changeGearCommand);
 
     //intake
-    intakeButton.toggleWhenActive(intakeCommand); //whileHeld
+    intakeButton.whileHeld(intakeCommand); //whileHeld
     moveIntake.whileHeld(dropintakeCommand);
-
+    raiseButton.whileHeld(raiseIntakeCommand);
+/*
     //climber
     climberExtendButton.whileHeld(extendClimberCommand);
     climberRetractButton.whileHeld(retractClimberCommand);
     climberRotateFrontButton.whileHeld(rotateClimberFrontCommand);
     climberRotateBackButton.whileHeld(rotateClimberBackCommand);
     //autoClimbButton.whileHeld(autoClimbCommand);
-
+*/
     //shooter
-    shooterButton.toggleWhenActive(shooterCommand);
+    shooterButton.whileHeld(shooterCommand);
 
     //kill auto
     killAutoButton.whenPressed( killAutoObject);

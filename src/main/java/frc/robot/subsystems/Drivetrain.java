@@ -168,6 +168,7 @@ public class Drivetrain extends SubsystemBase {
 
     // Drive the motors
     // Direction multiplier indicates drive direction
+    SmartDashboard.putNumber("Invert DRive", DIRECTION_MULTIPLIER);
     if(DIRECTION_MULTIPLIER == 1){
       SmartDashboard.putNumber("Left Drive Speed", currentGear * DIRECTION_MULTIPLIER * leftJoyY);
       SmartDashboard.putNumber("Right Drive Speed", currentGear * DIRECTION_MULTIPLIER * rightJoyY);

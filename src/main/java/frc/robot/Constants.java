@@ -30,8 +30,8 @@ public final class Constants {
     //climber motors
     public static final int RIGHT_CLIMBER = 7;
     public static final int LEFT_CLIMBER = 5;
-    public static final int RIGHT_ROTATE_CLIMBER = 0; // don't know
-    public static final int LEFT_ROTATE_CLIMBER = 4;// don't know 
+    public static final int RIGHT_ROTATE_CLIMBER = 9; 
+    public static final int LEFT_ROTATE_CLIMBER = 11;
 
     
     //processor motors
@@ -39,8 +39,8 @@ public final class Constants {
     public static final int INTAKERELEASE = 0;
     public static final int LOADER = 27; 
     public static final int SHOOTER = 10;
-    public static final int PROCESSOR_1 = 8;
-    public static final int PROCESSOR_2 = 6;
+    public static final int LEFT_PROCESSOR = 8;
+    public static final int RIGHT_PROCESSOR = 6;
 
     //Drive control port IDs
     public static final int XBOX_PORT = 0;
@@ -92,6 +92,9 @@ public final class Constants {
 
     //Shooter
     public static double shooterTargetRPM = 100;// need to test to figure out
+    public static boolean shootLow = true;
+    public static double lidarMin = 3;
+    public static double lidarMax = 900;//need to test to find
      //PID constants for shooter
      public static final double kP_Shoot = 0.00015; //was 0.1
      public static final double kI_Shoot = 0.0000;
@@ -102,9 +105,13 @@ public final class Constants {
     public static double intakeRaiseEncoderLimit = 10000;//need to find out
     public static double intakeLowerEncoderLimit = 10000;//also need to find
 
+    //sensors
+    public static final int LIDAR_PORT = 0;
+
     //General
     public static boolean killAuto = false;
     public static int ballsOnBoard = 0;
+    
 
     public static class DrivetrainConstants {
 
@@ -115,7 +122,7 @@ public final class Constants {
         public static final double kWheelDiameter = 6.0;
         public static final double kLowGearSpeedCap = 0.8;//In case full speed draws excessive power, these are an emergency measure
         public static final double kHighGearSpeedCap = 1.0;
-        public static final double kJoystickSpeedCorr = 0.55;
+        public static final double kJoystickSpeedCorr = 0.65;
         public static final double kManualDriveSpeed = 0.75;
         public static final double kAutoDriveSpeed = .4;
         public static final double kAutoDriveSpeedMin = 0.25;

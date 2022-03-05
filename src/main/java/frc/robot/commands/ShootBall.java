@@ -41,13 +41,13 @@ public class ShootBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute(){
-    shooter.shooterRun(-30);
+    shooter.shooterRun(-60);
 
 
-    if (Math.abs(shooter.getRPM()) >= shooterTargetRPM) {
-      processor.runLoader(0.2);
-      processor.runProcessor();
-    }
+  //  if (Math.abs(shooter.getRPM()) >= shooterTargetRPM) {
+    processor.runLoader(0.2);
+    processor.runProcessor();
+   // }
     SmartDashboard.putNumber("Shooter RPM", shooter.getRPM());
   }
 

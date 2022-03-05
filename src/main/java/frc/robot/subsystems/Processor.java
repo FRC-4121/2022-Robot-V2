@@ -12,8 +12,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class Processor extends SubsystemBase {
 
   //we have two motors facing each other but both running to feed in, so one of them must be in the opposite direction AKA negative.
-  private WPI_TalonSRX processor1 = new WPI_TalonSRX(PROCESSOR_1);
-  private WPI_TalonSRX processor2 = new WPI_TalonSRX(PROCESSOR_2);
+  private WPI_TalonSRX leftProcessor = new WPI_TalonSRX(LEFT_PROCESSOR);
+  private WPI_TalonSRX rightProcessor = new WPI_TalonSRX(RIGHT_PROCESSOR);
 
   //loader motor
   private WPI_TalonSRX loader = new WPI_TalonSRX(LOADER);
@@ -32,8 +32,8 @@ public class Processor extends SubsystemBase {
   // method to run tyhe motor for the processor wheels
   public void runProcessor()
   {
-    processor1.set(-0.15);
-    processor2.set(0.15);
+    leftProcessor.set(0.15);
+    rightProcessor.set(-0.15);
     
   }
 
@@ -41,8 +41,8 @@ public class Processor extends SubsystemBase {
   // method to stop the motor for the processor wheels
   public void stopProcessor()
   {
-    processor1.set(0);
-    processor2.set(0);
+    leftProcessor.set(0);
+    rightProcessor.set(0);
     
   }
  
