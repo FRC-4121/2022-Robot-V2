@@ -29,7 +29,7 @@ private final Climber m_climber;
   @Override
   public void execute() {
 
-    m_climber.rotateClimbOut(rotateSpeed);
+    m_climber.rotateClimbOut(-rotateSpeed);
   }
 
   // Called once the command ends or is interrupted.

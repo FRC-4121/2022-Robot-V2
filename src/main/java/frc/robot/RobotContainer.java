@@ -20,9 +20,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   
   //Driver controllers
-  private final XboxController xbox = new XboxController(1);
-  private final XboxController xboxClimber = new XboxController(2);
-  private final Joystick launchpad = new Joystick(0);
+  private final XboxController xbox = new XboxController(0);
+  private final XboxController xboxClimber = new XboxController(1);
+  private final Joystick launchpad = new Joystick(2);
   
 
   //Subsystems
@@ -42,11 +42,11 @@ public class RobotContainer {
   private final DriveWithJoysticks driveCommand = new DriveWithJoysticks(drivetrain, xbox);
 
   //Climbing Commands
-  /*private final ExtendClimber extendClimberCommand = new ExtendClimber(climber);
+  private final ExtendClimber extendClimberCommand = new ExtendClimber(climber);
   private final RetractClimber retractClimberCommand = new RetractClimber(climber);
   private final RotateClimberFront rotateClimberFrontCommand = new RotateClimberFront(climber);
   private final RotateClimberBack rotateClimberBackCommand = new RotateClimberBack(climber);
- */ //private final AutoClimb autoClimbCommand = new AutoClimb(climber);
+ //private final AutoClimb autoClimbCommand = new AutoClimb(climber);
 
 
   //Shooting Commands
@@ -77,11 +77,11 @@ public class RobotContainer {
   //xboxButtons
   private final JoystickButton intakeButton;
   private final JoystickButton moveIntake;
- /* private final JoystickButton climberExtendButton;
+  private final JoystickButton climberExtendButton;
   private final JoystickButton climberRetractButton;
   private final JoystickButton climberRotateFrontButton;
   private final JoystickButton climberRotateBackButton;
-*/  private final JoystickButton shooterButton;
+  private final JoystickButton shooterButton;
   private final JoystickButton loaderButton;
   private final JoystickButton raiseButton;
   private final JoystickButton runShooterButton;
@@ -110,11 +110,11 @@ public class RobotContainer {
     //xboxButtons
     moveIntake = new JoystickButton(xbox, xboxXButton);
     intakeButton = new JoystickButton(xbox, xboxLeftBumber); //feeds to processor
-  /*  climberExtendButton = new JoystickButton(xboxClimber, xboxRightBumber);
+    climberExtendButton = new JoystickButton(xboxClimber, xboxRightBumber);
     climberRetractButton = new JoystickButton(xboxClimber, xboxLeftBumber);
-    climberRotateFrontButton = new JoystickButton(xboxClimber, xboxXButton);
-    climberRotateBackButton = new JoystickButton(xboxClimber, xboxYButton);
-  */shooterButton = new JoystickButton(xbox, xboxRightBumber);
+    climberRotateFrontButton = new JoystickButton(xboxClimber, xboxYButton);
+    climberRotateBackButton = new JoystickButton(xboxClimber, xboxXButton);
+    shooterButton = new JoystickButton(xbox, xboxRightBumber);
     runShooterButton = new JoystickButton(xbox,xboxBButton);
     loaderButton = new JoystickButton(xbox, xboxAButton);
     raiseButton = new JoystickButton(xbox, xboxYButton);
@@ -161,14 +161,14 @@ public class RobotContainer {
     intakeButton.whileHeld(intakeCommand); //whileHeld
     moveIntake.whileHeld(dropintakeCommand);
     raiseButton.whileHeld(raiseIntakeCommand);
-/*
+
     //climber
     climberExtendButton.whileHeld(extendClimberCommand);
     climberRetractButton.whileHeld(retractClimberCommand);
     climberRotateFrontButton.whileHeld(rotateClimberFrontCommand);
     climberRotateBackButton.whileHeld(rotateClimberBackCommand);
     //autoClimbButton.whileHeld(autoClimbCommand);
-*/
+
     //shooter
     shooterButton.whileHeld(shooterCommand);
 

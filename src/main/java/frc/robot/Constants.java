@@ -91,7 +91,7 @@ public final class Constants {
     public static final int climberMinEncoder = -135000;//need to find
     public static final double climberSpeed = 0.5;
     public static final double rotateSpeed = 0.5;
-    public static double ClimberLimiter = 0.95;
+    public static double ClimberLimiter = 0.90;
     public static double rotateClimberLimiter = 0.9;
     //many will be needed
 
@@ -100,6 +100,7 @@ public final class Constants {
     public static boolean shootLow = true;
     public static double lidarMin = 3;
     public static double lidarMax = 900;//need to test to find
+    public static double visionDistanceTolerance = 10;
     public static double defaultShooterSpeed = 0.3;
     public static final double kP_Shoot = 0.00015; //was 0.1
     public static final double kI_Shoot = 0.0000;

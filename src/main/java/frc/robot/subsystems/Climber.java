@@ -12,7 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.AnalogInput;
-
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class Climber extends SubsystemBase {
 
@@ -43,6 +43,12 @@ public class Climber extends SubsystemBase {
     rightRotateMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kPIDLoopIdxClimb, kTimeoutMsClimb);
     leftRotateMotor.setSelectedSensorPosition(0);
     rightRotateMotor.setSelectedSensorPosition(0);
+
+    //setting all motors to brake mode
+    leftClimberMotor.setNeutralMode(NeutralMode.Brake);
+    rightClimberMotor.setNeutralMode(NeutralMode.Brake);
+    leftRotateMotor.setNeutralMode(NeutralMode.Brake);
+    rightRotateMotor.setNeutralMode(NeutralMode.Brake);
     
   }
 
@@ -56,15 +62,15 @@ public class Climber extends SubsystemBase {
   public void climbExtend(double speed){
     
     // setting the speeds for extending
-    leftClimberMotor.set(ControlMode.PercentOutput, -speed* ClimberLimiter);//need to slow down one motor
-    rightClimberMotor.set(ControlMode.PercentOutput, speed );
+    leftClimberMotor.set(ControlMode.PercentOutput, speed);//need to slow down one motor
+    rightClimberMotor.set(ControlMode.PercentOutput, speed* ClimberLimiter );
   
   }
   
   public void climbRetract(double speed){
            
     // setting the speeds for retracting
-    leftClimberMotor.set(ControlMode.PercentOutput, speed);//need to slow down one motor
+    leftClimberMotor.set(ControlMode.PercentOutput, -speed);//need to slow down one motor
     rightClimberMotor.set(ControlMode.PercentOutput, -speed * ClimberLimiter);
   
   }

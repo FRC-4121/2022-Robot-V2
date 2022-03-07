@@ -28,7 +28,7 @@ public class RotateClimberBack extends CommandBase {
     @Override
     public void execute() {
   
-      m_climber.rotateClimbIn(-rotateSpeed);
+      m_climber.rotateClimbIn(rotateSpeed);
     }
   
     // Called once the command ends or is interrupted.
