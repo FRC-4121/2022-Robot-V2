@@ -89,8 +89,8 @@ public final class Constants {
     public static final int kTimeoutMsClimb = 20;
     public static final int climberMaxEncoder = -135000; // TBD encoder raw sensor units (2048 in one rotation) for max height that climber should go
     public static final int climberMinEncoder = -135000;//need to find
-    public static final double climberSpeed = 0.2;
-    public static final double rotateSpeed = 0.4;
+    public static final double climberSpeed = 0.5;
+    public static final double rotateSpeed = 0.5;
     public static double ClimberLimiter = 0.95;
     public static double rotateClimberLimiter = 0.9;
     //many will be needed
