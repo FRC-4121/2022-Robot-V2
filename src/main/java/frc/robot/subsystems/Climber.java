@@ -11,6 +11,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.AnalogInput;
+
 
 public class Climber extends SubsystemBase {
 
@@ -21,6 +23,11 @@ public class Climber extends SubsystemBase {
   // setting up the falcons for rotating the climber
   private final WPI_TalonFX leftRotateMotor = new WPI_TalonFX(LEFT_ROTATE_CLIMBER);
   private final WPI_TalonFX rightRotateMotor = new WPI_TalonFX(RIGHT_ROTATE_CLIMBER);
+
+  // setting up the absolute encoders for climber angle
+  private final AnalogInput leftAngleEncoder = new AnalogInput(LEFT_CLIMBER_ANGLE);
+  private final AnalogInput rightAngleEncoder = new AnalogInput(RIGHT_CLIMBER_ANGLE);
+
 
   /** Creates a new Climber. */
   public Climber() {
@@ -99,6 +106,37 @@ public class Climber extends SubsystemBase {
   
     return rightClimberMotor.getSelectedSensorPosition();
   
+  }
+
+  // getting the current position of the left rotate motor encoder
+  public double getLeftRotateEncoderPosition()
+  {
+
+    return leftRotateMotor.getSelectedSensorPosition();
+
+  }
+
+  // getting the current position of the right rotate motor encoder 
+  public double getRightRotateEncoderPosition()
+  {
+
+    return rightRotateMotor.getSelectedSensorPosition();
+
+  }
+
+  // getting the current left climber angle
+  public double getLeftClimberAngle()
+  {
+
+    return (leftAngleEncoder.getVoltage()/5.0)*360.0;
+
+  }
+
+  public double getRightClimberAngle()
+  {
+
+    return (rightAngleEncoder.getVoltage()/5.0)*360.0;
+
   }
   
   @Override

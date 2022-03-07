@@ -26,6 +26,7 @@ public class ControlShooterSpeed extends CommandBase {
   private PIDControl pidShooterSpeed;
   private double cameraDistance;
   private double lidarDistance;
+  private boolean lidarDistanceGood;
   private boolean targetLock;
   private double targetOffset;
   private double targetSpeed;
@@ -35,22 +36,33 @@ public class ControlShooterSpeed extends CommandBase {
   private double speed;
   private double shooterSpeedCorrection;
   private double shotPossible;//Ballistics value; 0 is false, 1 is true
+<<<<<<< HEAD
   private boolean runShooter = false;
 
   private boolean runSpeedControl = true;
+=======
+  
+  private boolean runAutoSpeedControl = true;
+>>>>>>> a62387668e9e7a6dbcdfcaba4c44e59773b4f2a2
 
   private double[] ballisticsData;
   
   public ControlShooterSpeed(Shooter shoot, NetworkTableQuerier querier) {
 
+    // Initialize class variables
     shooter = shoot;
     ntQuerier = querier;
-    ballisticsHigh = new Ballistics(103     , 34, 5, 6050, 6, .25);
+
+    // Create ballistics tables for high and low goals
+    ballisticsHigh = new Ballistics(103, 34, 5, 6050, 6, .25);
     ballisticsLow = new Ballistics(41, 34, 5, 6050, 6, 0.25);
+
+    // Initialize LIDAR distance sensor
     lidar = new LidarSensor(new DigitalInput(LIDAR_PORT));
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shoot);
+
   }
 
   // Called when the command is initially scheduled.
@@ -68,6 +80,7 @@ public class ControlShooterSpeed extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+<<<<<<< HEAD
 
     if (runShooter) {
 
@@ -87,6 +100,29 @@ public class ControlShooterSpeed extends CommandBase {
 
         // ballisticsData = ballistics.queryBallisticsTable(distance);
 
+=======
+  
+    // Check if auto speed control should be run
+    if (runAutoSpeedControl)
+    {
+
+      // Get lidar distance
+      lidarDistance = lidar.getDistance();
+      SmartDashboard.putNumber("Lidar Distance: ", lidarDistance);
+
+      // Get target lock from shooter camera
+      targetLock = ntQuerier.getTargetLockFlag();
+      SmartDashboard.putBoolean("TargetLock", targetLock);
+
+      if (targetLock) {
+
+        // get the camera distance
+        cameraDistance = ntQuerier.getTapeDistance();
+        SmartDashboard.putNumber("Camera Distance: ", cameraDistance);
+
+        // ballisticsData = ballistics.queryBallisticsTable(distance);
+
+>>>>>>> a62387668e9e7a6dbcdfcaba4c44e59773b4f2a2
         shotPossible = ballisticsData[0];
 
         if (shotPossible == 0) {
@@ -140,6 +176,7 @@ public class ControlShooterSpeed extends CommandBase {
 
       } else {
         shooterSpeedCorrection = 0;
+<<<<<<< HEAD
         speed = 0.4;
         shooter.shooterRun(speed);
       }
@@ -148,7 +185,20 @@ public class ControlShooterSpeed extends CommandBase {
       shooterSpeedCorrection = 0;
       speed = -0.30;
       shooter.shooterRun(speed);
+=======
+        shooter.shooterRun(defaultShooterSpeed);
+      }
+
+>>>>>>> a62387668e9e7a6dbcdfcaba4c44e59773b4f2a2
     }
+    else
+    {
+
+      shooterSpeedCorrection = 0;
+      shooter.shooterRun(defaultShooterSpeed);
+
+    }
+
 
     //SmartDashboard.putNumber("Shooter Speed", shooter.getShooterSpeed());
     SmartDashboard.putNumber("Shooter RPM", shooter.getRPM());

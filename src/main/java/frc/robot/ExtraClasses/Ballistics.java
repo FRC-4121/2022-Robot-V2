@@ -57,7 +57,7 @@ public class Ballistics {
     public int constantAngle = 60;//degrees... use this if you can't adjust the angle.
 
 
-    public int minSpeed = 60;//percent
+    public int minSpeed = 20;//percent
     public int maxSpeed = 100;//percent
     public int argumentCount = 5;//distance, angle, speed, height, possibility(is the shot possible) (0 is false)
 
