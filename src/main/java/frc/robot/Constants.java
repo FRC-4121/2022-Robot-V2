@@ -21,20 +21,23 @@ public final class Constants {
     public static final int plan = 1; //1-4; 1 being leftmost starting position and 4 being right most on the field
     
     //Talon SRX and FX IDs (must be unique, may range from 0+)
-    //drivetrain motors
+    //drivetrain motor IDs
     public static final int LEFT_MASTER_F = 3;
     public static final int LEFT_SLAVE_F = 2;
     public static final int RIGHT_MASTER_F = 1;
     public static final int RIGHT_SLAVE_F = 4;
 
-    //climber motors
+    //climber motor IDs
     public static final int RIGHT_CLIMBER = 7;
     public static final int LEFT_CLIMBER = 5;
     public static final int RIGHT_ROTATE_CLIMBER = 9; 
     public static final int LEFT_ROTATE_CLIMBER = 11;
 
+    //climber angle encoders
+    public static final int LEFT_CLIMBER_ANGLE = 0;
+    public static final int RIGHT_CLIMBER_ANGLE = 1;
     
-    //processor motors
+    //processor motor IDs
     public static final int INTAKE=20;
     public static final int INTAKERELEASE = 0;
     public static final int LOADER = 27; 
@@ -57,7 +60,6 @@ public final class Constants {
     public static final int xboxLeftJoystickButton = 9;
     public static final int xboxRightJoystickButton = 10;
 
-
     //LaunchPad button IDs
     public static final int LaunchPadButton1= 7 ;
     public static final int LaunchPadButton2=  17; 
@@ -79,7 +81,10 @@ public final class Constants {
     public static final int LaunchPadDial2 = 15;
     public static final int LaunchPadDial3 = 16; // high bit
 
-    //Climber
+    //Sensor port IDs
+    public static final int LIDAR_PORT = 0;
+
+    //Climber variables
     public static final int kPIDLoopIdxClimb = 0;
     public static final int kTimeoutMsClimb = 20;
     public static final int climberMaxEncoder = -135000; // TBD encoder raw sensor units (2048 in one rotation) for max height that climber should go
@@ -90,25 +95,22 @@ public final class Constants {
     public static double rotateClimberLimiter = 0.9;
     //many will be needed
 
-    //Shooter
+    //Shooter variables
     public static double shooterTargetRPM = 100;// need to test to figure out
     public static boolean shootLow = true;
     public static double lidarMin = 3;
     public static double lidarMax = 900;//need to test to find
-     //PID constants for shooter
-     public static final double kP_Shoot = 0.00015; //was 0.1
-     public static final double kI_Shoot = 0.0000;
-     public static final double kD_Shoot = 0;
-     public static final double kF_Shoot = -1; 
+    public static double defaultShooterSpeed = 0.3;
+    public static final double kP_Shoot = 0.00015; //was 0.1
+    public static final double kI_Shoot = 0.0000;
+    public static final double kD_Shoot = 0;
+    public static final double kF_Shoot = -1;
 
-    //Intake
+    //Intake variables
     public static double intakeRaiseEncoderLimit = 10000;//need to find out
     public static double intakeLowerEncoderLimit = 10000;//also need to find
 
-    //sensors
-    public static final int LIDAR_PORT = 0;
-
-    //General
+    //General variables
     public static boolean killAuto = false;
     public static int ballsOnBoard = 0;
     
