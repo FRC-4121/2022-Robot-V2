@@ -106,7 +106,7 @@ public final class Constants {
     public static final double kI_Shoot = 0.0000;
     public static final double kD_Shoot = 0;
     public static final double kF_Shoot = -1;
-    public static final double distanceCorrection = 0;//need to find
+    public static final double distanceCorrection = 12;//need to find
     public static final int kPIDLoopIdxShoot = 0;
     public static final int kTimeoutMsShoot = 20;
     public static final int kShooterMaxRPM = 6100;
