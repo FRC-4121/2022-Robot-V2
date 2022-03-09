@@ -29,7 +29,10 @@ public class RetractClimber extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(m_climber.getLeftClimbEncoderPosition() >= climberMinEncoder && m_climber.getRightCLimbEncoderPosition() >= climberMinEncoder){
       m_climber.climbRetract(climberSpeed);
+    }
+      
       SmartDashboard.putNumber("left climb encoder", m_climber.getLeftClimbEncoderPosition());
       SmartDashboard.putNumber("Right climb encoder", m_climber.getRightCLimbEncoderPosition());
   }

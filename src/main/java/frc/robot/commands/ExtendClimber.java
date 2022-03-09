@@ -31,9 +31,12 @@ public class ExtendClimber extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(m_climber.getLeftClimbEncoderPosition() <= climberMaxEncoder && m_climber.getRightCLimbEncoderPosition()<= climberMaxEncoder){
+      m_climber.climbExtend(climberSpeed);
+    }
 
-    m_climber.climbExtend(climberSpeed);
-   // SmartDashboard.putNumber("left climb encoder", m_climber.getLeftClimbEncoderPosition());
+    
+   //SmartDashboard.putNumber("left climb encoder", m_climber.getLeftClimbEncoderPosition());
     //SmartDashboard.putNumber("Right climb encoder", m_climber.getRightCLimbEncoderPosition());
   }
 

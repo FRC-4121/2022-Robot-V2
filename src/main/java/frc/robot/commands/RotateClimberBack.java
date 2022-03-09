@@ -9,6 +9,9 @@ import frc.robot.subsystems.Climber;
 import static frc.robot.Constants.*;
 
 public class RotateClimberBack extends CommandBase {
+
+  public static final int climberMaxRotateEncoder = 0; // Move these to constants
+  public static final int climberMinRotateEncoder = 0;
  
   private final Climber m_climber;
   
@@ -27,8 +30,10 @@ public class RotateClimberBack extends CommandBase {
     // Called every time the scheduler runs while the comma      nd is scheduled.
     @Override
     public void execute() {
-  
-      m_climber.rotateClimbIn(rotateSpeed);
+      if(m_climber.getLeftRotateEncoderPosition() >= climberMinRotateEncoder && m_climber.getRightRotateEncoderPosition() >= climberMinRotateEncoder){
+        m_climber.rotateClimbIn(rotateSpeed);
+      }
+      
     }
   
     // Called once the command ends or is interrupted.

@@ -10,6 +10,9 @@ import static frc.robot.Constants.*;
 
 
 public class RotateClimberFront extends CommandBase {
+
+  public static final int climberMaxRotateEncoder = 0; // Move these to constants
+  public static final int climberMinRotateEncoder = 0;
  
 private final Climber m_climber;
 
@@ -28,8 +31,9 @@ private final Climber m_climber;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    m_climber.rotateClimbOut(-rotateSpeed);
+    if(m_climber.getLeftRotateEncoderPosition() <= climberMaxRotateEncoder && m_climber.getRightRotateEncoderPosition() <= climberMaxRotateEncoder){
+      m_climber.rotateClimbOut(-rotateSpeed);
+    }
   }
 
   // Called once the command ends or is interrupted.
