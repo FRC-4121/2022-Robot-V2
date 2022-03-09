@@ -9,14 +9,13 @@ import static frc.robot.Constants.*;
 import static frc.robot.Constants.DrivetrainConstants.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.math.filter.MedianFilter;
-
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 
 public class Shooter extends SubsystemBase {
 
   //attributes; variables
   private WPI_TalonFX shooterMotor = new WPI_TalonFX(SHOOTER);
-  //private WPI_TalonFX processorMotor = new WPI_TalonFX(27);
   private double speed;
   
   private MedianFilter rpmFilter;
@@ -24,6 +23,16 @@ public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
   public Shooter(){
   
+    //Set up encoder for speed control
+    shooterMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kPIDLoopIdxShoot, kTimeoutMsShoot);
+
+    //Config speed PID
+    shooterMotor.config_kP(kPIDLoopIdxShoot, kP_Shoot, kTimeoutMsShoot);
+    shooterMotor.config_kI(kPIDLoopIdxShoot, kI_Shoot, kTimeoutMsShoot);
+    shooterMotor.config_kD(kPIDLoopIdxShoot, kD_Shoot, kTimeoutMsShoot);
+    shooterMotor.config_kF(kPIDLoopIdxShoot, kF_Shoot, kTimeoutMsShoot); 
+
+    //Set filter for smoothing rpm
     rpmFilter = new MedianFilter(FILTER_WINDOW_SIZE);
 
   }

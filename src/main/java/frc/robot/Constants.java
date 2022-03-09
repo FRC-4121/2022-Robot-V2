@@ -99,14 +99,18 @@ public final class Constants {
     public static double shooterTargetRPM = 100;// need to test to figure out
     public static boolean shootLow = true;
     public static double lidarMin = 3;
-    public static double lidarMax = 900;//need to test to find
+    public static double lidarMax = 100;//need to test to find
     public static double visionDistanceTolerance = 10;
     public static double defaultShooterSpeed = 0.3;
-    public static final double kP_Shoot = 0.00015; //was 0.1
+    public static final double kP_Shoot = 0.000075; //was 0.1
     public static final double kI_Shoot = 0.0000;
     public static final double kD_Shoot = 0;
     public static final double kF_Shoot = -1;
-
+    public static final double distanceCorrection = 0;//need to find
+    public static final int kPIDLoopIdxShoot = 0;
+    public static final int kTimeoutMsShoot = 20;
+    public static final int kShooterMaxRPM = 6100;
+    
     //Intake variables
     public static double intakeRaiseEncoderLimit = 10000;//need to find out
     public static double intakeLowerEncoderLimit = 10000;//also need to find

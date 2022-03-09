@@ -52,13 +52,13 @@ public class MoveIntake extends CommandBase {
     double time = timer.get();
     boolean thereYet = false;
 
-    if (intake.getIntakeReleaseEncoderPosition() >= intakeLowerEncoderLimit) {
+   /* if (intake.getIntakeReleaseEncoderPosition() >= intakeLowerEncoderLimit) {
       thereYet = true;
     }
     else if (time - startTime >= stopTime) {
         thereYet = true;
     }
-
+*/
     return thereYet;
   }
   

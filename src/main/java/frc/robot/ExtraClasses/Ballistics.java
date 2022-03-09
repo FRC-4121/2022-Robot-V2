@@ -51,10 +51,9 @@ public class Ballistics {
     public int distanceIncrement = 1;//not recommended to change this value
     
     //Can be configured for a 'continuous' angle or a two-angle system
-    public int minAngle = 60;//in degrees
-    public int maxAngle = 60;//in degrees
+    public int minAngle = 50;//in degrees
+    public int maxAngle = 50;//in degrees
     public int angleIncrement = 1;//make sure this is a factor of the difference between min and max angle, unless you are only using one angle, then make it 1
-    public int constantAngle = 60;//degrees... use this if you can't adjust the angle.
 
 
     public int minSpeed = 20;//percent
@@ -112,7 +111,7 @@ public class Ballistics {
         for(int i = 0; i < table.length; i++){ //length is number of rows. which is different distances
  
             //At each foot, calculate the optimal angle and speed
-            //double optimalAngle = 0;
+            double optimalAngle = 0;
             double optimalSpeed = 0;
             double shotPossible = 0;
 
@@ -120,33 +119,33 @@ public class Ballistics {
             double bestHeight = 0;
             
             //For each angle...
-            //for(int a = minAngle; a <= maxAngle; a += angleIncrement){
+            for(int a = minAngle; a <= maxAngle; a += angleIncrement){
 
                 //and each speed at each angle...
                 for(int s = minSpeed; s <= maxSpeed; s++){
 
                     //calculate the height that the ball will be at when it hits the wall and error from target
                     double speed = s / 100.0;
-                    double height = calculateHeight(startDistance, constantAngle, speed); //height of where the shot will land
+                    double height = calculateHeight(startDistance, a, speed); //height of where the shot will land
                     double error = abs(targetHeight - height);
 
                     //If the error is the smallest yet, assign values of this configuration to place in the table
                     if(error < minError){
 
                         optimalSpeed = speed;
-                        //optimalAngle = a;
+                        optimalAngle = a;
                         minError = error;
                         bestHeight = height;
                         shotPossible = 1;
                     }
 
-                //}
+                }
 
             }
 
             //Assign table values
             table[i][0] = startDistance;
-            table[i][1] = constantAngle;
+            table[i][1] = optimalAngle;
             table[i][2] = optimalSpeed;
             table[i][3] = bestHeight;
             table[i][4] = shotPossible;
@@ -164,7 +163,9 @@ public class Ballistics {
         
         //Derived from parametric equations of t based on basic trajectories.  Does not account for air resistance; this should be accounted for in the 'slip factor'
         double height = tan(toRadians(angle)) * distance - 0.5 * g * pow(distance / (cos(toRadians(angle)) * missileMaxSpeed * speed), 2);
-
+        //The equation^ is
+         // y = vt -g/2t^2
+         //where t = x(Distance)/vx(horizontal distance )
         return height;
     }
     
@@ -241,7 +242,7 @@ public class Ballistics {
 
         
 
-        Ballistics ballistics = new Ballistics(98.25, 22.5, 5, 5000, 6, .25);
+        Ballistics ballistics = new Ballistics(41, 34, 5, 6100, 6, .25);
 
         //elia
         try {
@@ -250,7 +251,7 @@ public class Ballistics {
 
 
             //String address = "C:/Users/113281/Documents/GitHub/2022-Robot-V2/src/main/java/frc/robot/ExtraClasses" + "/outputTable.txt";//you can replace the address...also replace all \ with /
-            String address = "C:/Users/113281/Desktop/2022-Robot-V2/src/main/java/frc/robot/ExtraClasses" + "/outputTable.txt";//you can replace the address...also replace all \ with /
+            String address = "C:/Users/team4/OneDrive/Documents/GitHub/2022-Robot-V2/src/main/java/frc/robot/ExtraClasses" + "/outputTable.txt";//you can replace the address...also replace all \ with /
             File file = new File(address);
 
             // if file doesnt exists, then create it
@@ -304,7 +305,7 @@ public class Ballistics {
                 System.out.println("    Angle: " + tableQuery[1] + " degrees.");
                 System.out.println("    Speed: " + tableQuery[2] + " percent.");
                 System.out.println("    Distance used: " + tableQuery[3] + " inches.");
-                System.out.println("    [this is inaccurate information cuz didn't work ->]Horizontal distance to goal " + ballistics.calcHorizDistToGoal( 60/*degrees*/) +  " inches.");
+                //System.out.println("    [this is inaccurate information cuz didn't work ->]Horizontal distance to goal " + ballistics.calcHorizDistToGoal( 60/*degrees*/) +  " inches.");
             } else {
 
                 System.out.println("Shot not possible at distance of " + distance + " inches.");
