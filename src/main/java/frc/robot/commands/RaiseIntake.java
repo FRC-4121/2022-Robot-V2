@@ -12,6 +12,9 @@ import static frc.robot.Constants.*;
 
 public class RaiseIntake extends CommandBase {
 
+  public static final int intakeMaxRotateEncoder = 0; // Move these to constants
+  public static final int intakeMinIntakeEncoder = 0;
+
   private Intake intake = new Intake();
   private Timer timer = new Timer();
   private double startTime;
@@ -34,8 +37,9 @@ public class RaiseIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.intakeRaise();
-
+    if(intake.getIntakeReleaseEncoderPosition() >= intakeRaiseEncoderLimit){
+      intake.intakeRaise();
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -52,13 +56,13 @@ public class RaiseIntake extends CommandBase {
     double time = timer.get();
     boolean thereYet = false;
 
-   /* if (intake.getIntakeReleaseEncoderPosition() >= intakeRaiseEncoderLimit ) {
+    if (intake.getIntakeReleaseEncoderPosition() >= intakeRaiseEncoderLimit ) {
       thereYet = true;
     }
     else if (time - startTime >= stopTime) {
         thereYet = true;
     }
-*/
+
     return thereYet;
   }
   
