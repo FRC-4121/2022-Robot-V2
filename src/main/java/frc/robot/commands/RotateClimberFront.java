@@ -31,9 +31,9 @@ private final Climber m_climber;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_climber.getLeftRotateEncoderPosition() <= climberMaxRotateEncoder && m_climber.getRightRotateEncoderPosition() <= climberMaxRotateEncoder){
+    //if(m_climber.getLeftRotateEncoderPosition() <= climberMaxRotateEncoder && m_climber.getRightRotateEncoderPosition() <= climberMaxRotateEncoder){
       m_climber.rotateClimbOut(-rotateSpeed);
-    }
+    //}
   }
 
   // Called once the command ends or is interrupted.

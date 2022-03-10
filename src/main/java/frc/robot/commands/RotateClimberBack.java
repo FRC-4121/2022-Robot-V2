@@ -30,9 +30,9 @@ public class RotateClimberBack extends CommandBase {
     // Called every time the scheduler runs while the comma      nd is scheduled.
     @Override
     public void execute() {
-      if(m_climber.getLeftRotateEncoderPosition() >= climberMinRotateEncoder && m_climber.getRightRotateEncoderPosition() >= climberMinRotateEncoder){
+      //if(m_climber.getLeftRotateEncoderPosition() >= climberMinRotateEncoder && m_climber.getRightRotateEncoderPosition() >= climberMinRotateEncoder){
         m_climber.rotateClimbIn(rotateSpeed);
-      }
+      //}
       
     }
   

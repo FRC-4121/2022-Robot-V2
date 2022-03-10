@@ -89,122 +89,135 @@ public class ControlShooterSpeed extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
-     
-    targetDistance = -1;
-
-    // Check if auto speed control should be run
-    if (runAutoSpeedControl)
-    {
-
-      // Get lidar distance
-      lidarDistance = lidar.getDistance();
-      avgLidarDistance = lidarFilter.calculate(lidarDistance);
-      SmartDashboard.putNumber("Lidar Distance: ", avgLidarDistance);
+    if(toggleShooterOnOrOff){
       
-      //check the distance from lidar
-      if(avgLidarDistance >= lidarMin && avgLidarDistance <= lidarMax)
-      {
-        lidarDistanceGood = true;
-      }
+      targetDistance = -1;
 
-      // Get target lock from shooter camera
-      targetLock = ntQuerier.getTargetLockFlag();
-      SmartDashboard.putBoolean("TargetLock", targetLock);
-
-      // Get camera distance
-      cameraDistance = ntQuerier.getTapeDistance();
-      avgCameraDistance = cameraFilter.calculate(cameraDistance);
-      SmartDashboard.putNumber("Camera Distance: ", avgCameraDistance);
-
-      // Choose proper target distance
-      if (false)
+      // Check if auto speed control should be run
+      if (runAutoSpeedControl)
       {
 
-        targetDistance = avgCameraDistance;
-        SmartDashboard.putNumber("Target Distance: ", targetDistance);
-
-      } else if (lidarDistanceGood) /* need a max distance as well */ {
-
-        targetDistance = avgLidarDistance;
-        SmartDashboard.putNumber("Target Distance: ", targetDistance);
-
-      } 
-
-      
-
-      if (targetDistance > 0) {
-
-        // get tballistics data
-        if (shootLow) {
-          ballisticsDataLow = ballisticsLow.queryBallisticsTable(targetDistance -distanceCorrection);
-          shotPossible = ballisticsDataLow[0];
-        } else {
-          ballisticsDataHigh = ballisticsHigh.queryBallisticsTable(targetDistance-distanceCorrection);
-          shotPossible = ballisticsDataHigh[0];
+        // Get lidar distance
+        lidarDistance = lidar.getDistance();
+        avgLidarDistance = lidarFilter.calculate(lidarDistance);
+        SmartDashboard.putNumber("Lidar Distance: ", avgLidarDistance);
+        
+        //check the distance from lidar
+        if(avgLidarDistance >= lidarMin && avgLidarDistance <= lidarMax)
+        {
+          lidarDistanceGood = true;
         }
+
+        // Get target lock from shooter camera
+        targetLock = ntQuerier.getTargetLockFlag();
+        SmartDashboard.putBoolean("TargetLock", targetLock);
+
+        // Get camera distance
+        cameraDistance = ntQuerier.getTapeDistance();
+        avgCameraDistance = cameraFilter.calculate(cameraDistance);
+        SmartDashboard.putNumber("Camera Distance: ", avgCameraDistance);
+
+        // Choose proper target distance
+        if (false)
+        {
+
+          targetDistance = avgCameraDistance;
+          SmartDashboard.putNumber("Target Distance: ", targetDistance);
+
+        } else if (lidarDistanceGood) /* need a max distance as well */ {
+
+          targetDistance = avgLidarDistance;
+          SmartDashboard.putNumber("Target Distance: ", targetDistance);
+
+        } 
+
         
 
-        if (shotPossible == 0) {
-          SmartDashboard.putBoolean("Shot Possible", false);
-          //setting the target speed to the default speed
-          targetSpeed = defaultShooterSpeed;
-        } else {
-          SmartDashboard.putBoolean("Shot Possible", true);
-          if (shootLow)
-          {
-            targetSpeed = ballisticsDataLow[2];
-            System.out.println("LOW" + targetSpeed);
+        if (targetDistance > 0) {
+
+          // get tballistics data
+          if (shootLow) {
+            ballisticsDataLow = ballisticsLow.queryBallisticsTable(targetDistance -distanceCorrection);
+            shotPossible = ballisticsDataLow[0];
           } else {
-            targetSpeed = ballisticsDataHigh[2];
-            System.out.println("HIGH" + targetSpeed);
+            ballisticsDataHigh = ballisticsHigh.queryBallisticsTable(targetDistance-distanceCorrection);
+            shotPossible = ballisticsDataHigh[0];
           }
           
+
+          if (shotPossible == 0) {
+            SmartDashboard.putBoolean("Shot Possible", false);
+            //setting the target speed to the default speed
+            targetSpeed = defaultShooterSpeed;
+          } else {
+            SmartDashboard.putBoolean("Shot Possible", true);
+            if (shootLow)
+            {
+              targetSpeed = ballisticsDataLow[2];
+              //System.out.println("LOW" + targetSpeed);
+              //System.out.println("Possiblity low" + ballisticsDataLow[0] + "\n and high " + ballisticsDataHigh[0] + " other things idk" + ballisticsDataLow[1] + ballisticsDataLow[2]);
+              System.out.println("HELLO" + ballisticsDataHigh[0]);
+            } else {
+              targetSpeed = ballisticsDataHigh[2];
+              //System.out.println("HIGH" + targetSpeed);
+            }
+            
+          }
+          SmartDashboard.putNumber("BallisticsTarget", targetSpeed);
+          targetRPM = targetSpeed * kShooterMaxRPM;
+          SmartDashboard.putNumber("BallisticsRPM", targetSpeed * kShooterMaxRPM);
+          currentRPM = Math.abs(shooter.getRPM());
+
+          // Correct speed based on PID
+          shooterSpeedCorrection = -pidShooterSpeed.run(currentRPM, targetRPM);
+
+          // if (Math.abs(currentRPM - targetRPM) > 50) {
+          //   if (currentRPM < targetRPM) {
+          //     shooterSpeedCorrection += 0.0005;
+          //   } else {
+          //     shooterSpeedCorrection -= 0.0005;
+          //   }
+          // }
+
+          // Calculate speed correction
+          // shooterSpeedCorrection = pidShooterSpeed.run(shooter.getShooterRPM(),
+          // targetSpeed*kShooterMaxRPM);
+          SmartDashboard.putNumber("Shooter Speed Correction", shooterSpeedCorrection);
+
+          // Correct shooter speed control input
+          // targetShooterSpeedCorrected = targetShooterSpeed * kSpeedCorrectionFactor;
+          targetShooterSpeedCorrected = targetSpeed + shooterSpeedCorrection;
+
+          // Ensure corrected speed is within bounds
+          if (targetShooterSpeedCorrected > 1) {
+            targetShooterSpeedCorrected = 1;
+          } else if (targetShooterSpeedCorrected < -1) {
+            targetShooterSpeedCorrected = -1;  
+          }
+
+          // Write key values to dashboard
+          SmartDashboard.putNumber("Ballistics Speed", targetShooterSpeedCorrected);
+
+          // targetSpeedCorrected = targetSpeed * kSpeedCorrectionFactor;
+          // SmartDashboard.putNumber("Ballistics Speed", targetSpeed);
+
+          shooter.shooterRun(-targetShooterSpeedCorrected);
+          // I have battery concerns about this implementation. If we notice that battery
+          // draw during a match is problematic for speed control, we
+          // will need to revert to a pid for RPM in some way. This would be sufficiently
+          // complicated that it is a low priority, however.
+
+        } else {
+
+          //Run shooter at default speed
+          shooterSpeedCorrection = 0;
+          shooter.shooterRun(-defaultShooterSpeed);
+
         }
-        SmartDashboard.putNumber("BallisticsTarget", targetSpeed);
-        targetRPM = targetSpeed * kShooterMaxRPM;
-        SmartDashboard.putNumber("BallisticsRPM", targetSpeed * kShooterMaxRPM);
-        currentRPM = Math.abs(shooter.getRPM());
 
-        // Correct speed based on PID
-        shooterSpeedCorrection = -pidShooterSpeed.run(currentRPM, targetRPM);
-
-        // if (Math.abs(currentRPM - targetRPM) > 50) {
-        //   if (currentRPM < targetRPM) {
-        //     shooterSpeedCorrection += 0.0005;
-        //   } else {
-        //     shooterSpeedCorrection -= 0.0005;
-        //   }
-        // }
-
-        // Calculate speed correction
-        // shooterSpeedCorrection = pidShooterSpeed.run(shooter.getShooterRPM(),
-        // targetSpeed*kShooterMaxRPM);
-        SmartDashboard.putNumber("Shooter Speed Correction", shooterSpeedCorrection);
-
-        // Correct shooter speed control input
-        // targetShooterSpeedCorrected = targetShooterSpeed * kSpeedCorrectionFactor;
-        targetShooterSpeedCorrected = targetSpeed + shooterSpeedCorrection;
-
-        // Ensure corrected speed is within bounds
-        if (targetShooterSpeedCorrected > 1) {
-          targetShooterSpeedCorrected = 1;
-        } else if (targetShooterSpeedCorrected < -1) {
-          targetShooterSpeedCorrected = -1;  
-        }
-
-        // Write key values to dashboard
-        SmartDashboard.putNumber("Ballistics Speed", targetShooterSpeedCorrected);
-
-        // targetSpeedCorrected = targetSpeed * kSpeedCorrectionFactor;
-        // SmartDashboard.putNumber("Ballistics Speed", targetSpeed);
-
-        shooter.shooterRun(-targetShooterSpeedCorrected);
-        // I have battery concerns about this implementation. If we notice that battery
-        // draw during a match is problematic for speed control, we
-        // will need to revert to a pid for RPM in some way. This would be sufficiently
-        // complicated that it is a low priority, however.
-
-      } else {
+      }
+      else
+      {
 
         //Run shooter at default speed
         shooterSpeedCorrection = 0;
@@ -212,21 +225,14 @@ public class ControlShooterSpeed extends CommandBase {
 
       }
 
+
+      //SmartDashboard.putNumber("Shooter Speed", shooter.getShooterSpeed());
+      SmartDashboard.putNumber("Shooter RPM", shooter.getRPM());
     }
-    else
-    {
-
-      //Run shooter at default speed
-      shooterSpeedCorrection = 0;
-      shooter.shooterRun(-defaultShooterSpeed);
-
+    else{
+      shooter.shooterStop();
     }
-
-
-    //SmartDashboard.putNumber("Shooter Speed", shooter.getShooterSpeed());
-    SmartDashboard.putNumber("Shooter RPM", shooter.getRPM());
- 
- 
+  
   }
 
 

@@ -110,6 +110,7 @@ public final class Constants {
     public static final int kPIDLoopIdxShoot = 0;
     public static final int kTimeoutMsShoot = 20;
     public static final int kShooterMaxRPM = 6100;
+    public static boolean toggleShooterOnOrOff = false; //true runs the shooter motors, false keeps them off.
     
     //Intake variables
     public static double intakeRaiseEncoderLimit = 10000;//need to find out

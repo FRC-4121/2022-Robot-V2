@@ -53,6 +53,7 @@ public class RobotContainer {
   private final ShootBall shooterCommand = new ShootBall(shooter,processor, table);
   private final RunShooter runShooterCommand = new RunShooter(shooter);
   private final ControlShooterSpeed autoShoot = new ControlShooterSpeed(shooter, table);
+  private final ToggleShooter toggleShoot = new ToggleShooter();
 
   //KillAuto Command
   private final KillAutoCommand killAutoObject = new KillAutoCommand(); 
@@ -85,7 +86,7 @@ public class RobotContainer {
   private final JoystickButton loaderButton;
   private final JoystickButton raiseButton;
   private final JoystickButton runShooterButton;
-
+  private final JoystickButton toggleShooter;
   
   //launchpad buttons/switches
   private final JoystickButton killAutoButton;
@@ -118,6 +119,7 @@ public class RobotContainer {
     runShooterButton = new JoystickButton(xbox,xboxBButton);
     loaderButton = new JoystickButton(xbox, xboxAButton);
     raiseButton = new JoystickButton(xbox, xboxYButton);
+    toggleShooter = new JoystickButton (xboxClimber, xboxAButton);
     //autoClimbButton = new JoystickButton(launchpad, LaunchPadSwitch?);
 
   
@@ -151,7 +153,7 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(driveCommand);
 
     //Shooter -> run shooter all of the time with auto speed control
-    shooter.setDefaultCommand(autoShoot);
+    //shooter.setDefaultCommand(autoShoot);
   }
   
   private void configureButtonBindings() {
@@ -171,6 +173,7 @@ public class RobotContainer {
 
     //shooter
     shooterButton.whileHeld(shooterCommand);
+    toggleShooter.whenPressed(toggleShoot);
 
     //kill auto
     killAutoButton.whenPressed( killAutoObject);
