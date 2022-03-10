@@ -34,7 +34,7 @@ public class MoveIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {   
-    if(intake.getIntakeReleaseEncoderPosition() <= intakeRaiseEncoderLimit){
+    if(intake.getIntakeReleaseEncoderPosition() <= intakeRaiseEncoderLimit){ //shouldn't it be intakeLowerEncoderLimit
       intake.intakeLower();
     }      
   }

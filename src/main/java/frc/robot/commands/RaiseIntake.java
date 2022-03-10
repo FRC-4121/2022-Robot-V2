@@ -12,8 +12,7 @@ import static frc.robot.Constants.*;
 
 public class RaiseIntake extends CommandBase {
 
-  public static final int intakeMaxRotateEncoder = 0; // Move these to constants
-  public static final int intakeMinIntakeEncoder = 0;
+  
 
   private Intake intake = new Intake();
   private Timer timer = new Timer();

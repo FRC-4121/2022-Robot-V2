@@ -114,6 +114,7 @@ public final class Constants {
     //Intake variables
     public static double intakeRaiseEncoderLimit = 10000;//need to find out
     public static double intakeLowerEncoderLimit = 10000;//also need to find
+    
 
     //General variables
     public static boolean killAuto = false;
