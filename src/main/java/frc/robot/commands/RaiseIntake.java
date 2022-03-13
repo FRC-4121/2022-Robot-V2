@@ -6,40 +6,46 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
-import edu.wpi.first.wpilibj.Timer;
 import static frc.robot.Constants.*;
 
 
 public class RaiseIntake extends CommandBase {
 
-  public static final int intakeMaxRotateEncoder = 0; // Move these to constants
-  public static final int intakeMinIntakeEncoder = 0;
-
   private Intake intake = new Intake();
-  private Timer timer = new Timer();
-  private double startTime;
-  private double stopTime;
 
-  /** Creates a new DropIntake. */
+  /** Creates a new RaiseIntake. */
   public RaiseIntake(Intake i) {
+
+    // Initialize class variables
     intake = i;
-    // stopTime = stoptime;
+
+    // Add subsystem requirements
     addRequirements(intake);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.start();
-    startTime = timer.get();
+
+    if(!intakeEncodersInit)
+    {
+      intake.zeroIntakeEncoder();
+      intakeEncodersInit = true;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(intake.getIntakeReleaseEncoderPosition() >= intakeRaiseEncoderLimit){
-      intake.intakeRaise();
+
+    // Only move intake if within bounds
+    double intakePos = intake.getIntakeReleaseEncoderPosition();
+    if (intakePos >= intakeLowerEncoderLimit + intakeEncoderTolerance && intakePos <= intakeRaiseEncoderLimit - intakeEncoderTolerance)
+    {
+      intake.runIntakeRelease(-kIntakeSpeed);
     }
+
   }
 
   // Called once the command ends or is interrupted.
@@ -53,17 +59,8 @@ public class RaiseIntake extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    double time = timer.get();
-    boolean thereYet = false;
+    return false;
 
-    if (intake.getIntakeReleaseEncoderPosition() >= intakeRaiseEncoderLimit ) {
-      thereYet = true;
-    }
-    else if (time - startTime >= stopTime) {
-        thereYet = true;
-    }
-
-    return thereYet;
   }
   
 }

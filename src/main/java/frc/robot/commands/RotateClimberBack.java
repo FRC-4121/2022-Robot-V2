@@ -25,7 +25,14 @@ public class RotateClimberBack extends CommandBase {
   
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {}
+    public void initialize() {
+
+      if (!climberEncoderInit) {
+        m_climber.zeroClimberEncoders();
+        m_climber.zeroRotateClimberEncoders();
+        climberEncoderInit = true;
+      }
+    }
   
     // Called every time the scheduler runs while the comma      nd is scheduled.
     @Override

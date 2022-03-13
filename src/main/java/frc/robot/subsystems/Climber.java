@@ -9,8 +9,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.AnalogInput;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
@@ -35,14 +33,10 @@ public class Climber extends SubsystemBase {
     // setting the encoders for the extend retract
     leftClimberMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kPIDLoopIdxClimb, kTimeoutMsClimb);
     rightClimberMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kPIDLoopIdxClimb, kTimeoutMsClimb);
-    leftClimberMotor.setSelectedSensorPosition(0);
-    rightClimberMotor.setSelectedSensorPosition(0);
 
     // setting the encoders for the rotating motors
     leftRotateMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kPIDLoopIdxClimb, kTimeoutMsClimb);
     rightRotateMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kPIDLoopIdxClimb, kTimeoutMsClimb);
-    leftRotateMotor.setSelectedSensorPosition(0);
-    rightRotateMotor.setSelectedSensorPosition(0);
 
     //setting all motors to brake mode
     leftClimberMotor.setNeutralMode(NeutralMode.Brake);
@@ -59,20 +53,18 @@ public class Climber extends SubsystemBase {
 
   }
 
-  public void climbExtend(double speed){
-    
-    // setting the speeds for extending
+  
+  
+  public void runLeftClimber(double speed){
+
     leftClimberMotor.set(ControlMode.PercentOutput, speed);//need to slow down one motor
-    rightClimberMotor.set(ControlMode.PercentOutput, -speed* ClimberLimiter );
-  
+
   }
-  
-  public void climbRetract(double speed){
-           
-    // setting the speeds for retracting
-    leftClimberMotor.set(ControlMode.PercentOutput, -speed);//need to slow down one motor
-    rightClimberMotor.set(ControlMode.PercentOutput, speed * ClimberLimiter);
-  
+
+  public void runRightClimber(double speed){
+
+    rightClimberMotor.set(ControlMode.PercentOutput, speed);
+
   }
   
   public void rotateClimbStop(){
@@ -102,7 +94,7 @@ public class Climber extends SubsystemBase {
   public double getLeftClimbEncoderPosition()
   {
   
-    return leftClimberMotor.getSelectedSensorPosition();
+    return Math.abs(leftClimberMotor.getSelectedSensorPosition());
   
   }
   
@@ -110,8 +102,15 @@ public class Climber extends SubsystemBase {
   public double getRightCLimbEncoderPosition()
   {
   
-    return rightClimberMotor.getSelectedSensorPosition();
+    return Math.abs(rightClimberMotor.getSelectedSensorPosition());
   
+  }
+
+  //zero the extend and retract climber encoders
+  public void zeroClimberEncoders()
+  {
+    leftClimberMotor.setSelectedSensorPosition(0);
+    rightClimberMotor.setSelectedSensorPosition(0);
   }
 
   // getting the current position of the left rotate motor encoder
@@ -128,6 +127,13 @@ public class Climber extends SubsystemBase {
 
     return rightRotateMotor.getSelectedSensorPosition();
 
+  }
+
+  //zero the extend and retract climber encoders
+  public void zeroRotateClimberEncoders()
+  {
+    leftRotateMotor.setSelectedSensorPosition(0);
+    rightRotateMotor.setSelectedSensorPosition(0);
   }
 
   // getting the current left climber angle

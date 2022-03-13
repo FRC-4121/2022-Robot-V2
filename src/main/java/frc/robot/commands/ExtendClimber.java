@@ -13,31 +13,56 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ExtendClimber extends CommandBase {
 
   private final Climber m_climber;
+  private double leftSpeed;
+  private double rightSpeed;
+  private double leftStopPos;
+  private double rightStopPos;
   
   //constructor
-  public ExtendClimber(Climber subsystem) {
+  public ExtendClimber(Climber climb) {
 
-    m_climber = subsystem;
-    addRequirements(subsystem);
+    // Initialize class variables
+    m_climber = climb;
+
+    // Add subsystem requirements
+    addRequirements(climb);
     
   }
 
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+
+    leftSpeed = climberSpeed;
+    rightSpeed = climberSpeed;
+    leftStopPos = 10000000;
+    rightStopPos = 10000000;
+
+    if(!climberEncoderInit)
+    {
+      m_climber.zeroClimberEncoders();
+      m_climber.zeroRotateClimberEncoders();
+      climberEncoderInit = true;
+    }
+  }
 
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //if(m_climber.getLeftClimbEncoderPosition() <= climberMaxEncoder && m_climber.getRightCLimbEncoderPosition()<= climberMaxEncoder){
-      m_climber.climbExtend(climberSpeed);
-    //}
 
-    
-   //SmartDashboard.putNumber("left climb encoder", m_climber.getLeftClimbEncoderPosition());
-    //SmartDashboard.putNumber("Right climb encoder", m_climber.getRightCLimbEncoderPosition());
+    double leftClimberPos = m_climber.getLeftClimbEncoderPosition();
+    if (leftClimberPos < leftStopPos) {
+      m_climber.runLeftClimber(leftSpeed);
+    }
+
+    double rightClimberPos = m_climber.getRightCLimbEncoderPosition();
+    if (rightClimberPos < rightStopPos) {
+      m_climber.runRightClimber(-rightSpeed * ClimberExtendLimiter);
+    }
+
+
   }
 
 
@@ -54,13 +79,31 @@ public class ExtendClimber extends CommandBase {
   @Override
   public boolean isFinished() {
     
-    boolean thereYet = false;
-    
-    //*if(m_climber.getLeftClimbEncoderPosition() >= climberMaxEncoder || m_climber.getRightCLimbEncoderPosition() >= climberMaxEncoder )
-   // {
-     // thereYet = true;
-    //}
-    return thereYet;
+    boolean doneYet = false;
+
+     // Only run left climber if within bounds
+     double leftClimberPos = m_climber.getLeftClimbEncoderPosition();
+     if(leftClimberPos <= climbMinEncoder-1  || leftClimberPos > leftClimbMaxEncoder - climbEncoderTolerance){
+      leftSpeed = 0;
+      leftStopPos = leftClimberPos;
+     }
+ 
+     // Only run right climber if within bounds
+     double rightClimberPos = m_climber.getRightCLimbEncoderPosition();
+     if(rightClimberPos <= climbMinEncoder-1 || rightClimberPos > rightClimbMaxEncoder - climbEncoderTolerance){
+      rightSpeed = 0;
+      rightStopPos = rightClimberPos;
+     }
+
+     SmartDashboard.putNumber("Left climb encoder", leftClimberPos);
+     SmartDashboard.putNumber("Right climb encoder", rightClimberPos);
+ 
+     if(leftSpeed == 0 && rightSpeed == 0)
+     {
+       doneYet = true;
+     }
+
+    return doneYet;
 
   }
   

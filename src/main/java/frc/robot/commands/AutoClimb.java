@@ -8,32 +8,50 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import static frc.robot.Constants.*;
-import edu.wpi.first.wpilibj.Timer;  
+import edu.wpi.first.wpilibj.Timer;
+import frc.robot.ExtraClasses.*;
 
 
 public class AutoClimb extends CommandBase {
   
-  Climber climber = new Climber();
-  Drivetrain drivetrain = new Drivetrain();
-  Timer timer = new Timer();
+  // Declare class variables
+  Climber climber;
+  Drivetrain drivetrain;
+  NetworkTableQuerier ntables;
+  Timer timer;
+  double startTime;
   double stopTime;
+  int climbStep;
+  boolean climbTraverse;
  
   /** Creates a new AutoClimb. */
-  //time for stop tima cannot be higher than 30, because the end gfame is only 30 seconds
-  public AutoClimb(Climber climb, Drivetrain drive,double time) {
+  //time for stop tima cannot be higher than 30, because the end of game is only 30 seconds
+  public AutoClimb(Climber climb, Drivetrain drive, NetworkTableQuerier tables, double time) {
     
+    // Initialize class variables
     climber = climb;
     drivetrain = drive;
+    ntables = tables;
     stopTime = time;
-    addRequirements(climb,drive);
-    // Use addRequirements() here to declare subsystem dependencies.
+    climbStep = 1;
+    climbTraverse = false;
+
+    // Declare subsystem requirements
+    addRequirements(climb, drive);
+
+    // Create a new timer
+    timer = new Timer();
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
 
+    // Start the timer and get initial time
     timer.start();
+    startTime = timer.get();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -58,8 +76,10 @@ public class AutoClimb extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     
+    // Stop all motors
     climber.rotateClimbStop();
     climber.climbStop();
+
   }
 
   // Returns true when the command should end.

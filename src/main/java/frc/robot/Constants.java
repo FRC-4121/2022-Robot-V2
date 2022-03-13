@@ -87,34 +87,43 @@ public final class Constants {
     //Climber variables
     public static final int kPIDLoopIdxClimb = 0;
     public static final int kTimeoutMsClimb = 20;
-    public static final int climberMaxEncoder = -135000; // TBD encoder raw sensor units (2048 in one rotation) for max height that climber should go
-    public static final int climberMinEncoder = -135000;//need to find
-    public static final double climberSpeed = 0.5;
+    public static final int rightClimbMaxEncoder = 171100; // TBD encoder raw sensor units (2048 in one rotation) for max height that climber should go
+    public static final int leftClimbMaxEncoder = 171100;
+    public static final int climbMinEncoder = 0;//need to find
+    public static final int climbRotateMaxEncoder = -1000000;
+    public static final int climbRotateMinEncoder = 1000000;
+    public static final int climbEncoderTolerance = 3000;
+    public static final double climberSpeed = 0.3;
     public static final double rotateSpeed = 0.5;
-    public static double ClimberLimiter = 0.90;
+    public static double ClimberExtendLimiter = 0.785;
+    public static double ClimberRetractLimiter = 0.9;
     public static double rotateClimberLimiter = 0.9;
-    //many will be needed
+    public static boolean climberEncoderInit = false;
+    public static final double climberStartPos = 50;
 
     //Shooter variables
     public static double shooterTargetRPM = 100;// need to test to figure out
     public static boolean shootLow = true;
     public static double lidarMin = 3;
-    public static double lidarMax = 100;//need to test to find
+    public static double lidarMax = 72;//need to test to find
     public static double visionDistanceTolerance = 10;
     public static double defaultShooterSpeed = 0.3;
     public static final double kP_Shoot = 0.000075; //was 0.1
     public static final double kI_Shoot = 0.0000;
     public static final double kD_Shoot = 0;
     public static final double kF_Shoot = -1;
-    public static final double distanceCorrection = 12;//need to find
+    public static final double distanceCorrection = 0;//need to find
     public static final int kPIDLoopIdxShoot = 0;
     public static final int kTimeoutMsShoot = 20;
     public static final int kShooterMaxRPM = 6100;
-    public static boolean toggleShooterOnOrOff = false; //true runs the shooter motors, false keeps them off.
+    public static boolean toggleShooterOnOrOff = true; //true runs the shooter motors, false keeps them off.
     
     //Intake variables
-    public static double intakeRaiseEncoderLimit = 10000;//need to find out
-    public static double intakeLowerEncoderLimit = 10000;//also need to find
+    public static final double kIntakeSpeed = 0.1;
+    public static int intakeRaiseEncoderLimit = 100000; //need to find out
+    public static int intakeLowerEncoderLimit = -100000; //also need to find
+    public static int intakeEncoderTolerance = 10;
+    public static boolean intakeEncodersInit = false;
 
     //General variables
     public static boolean killAuto = false;

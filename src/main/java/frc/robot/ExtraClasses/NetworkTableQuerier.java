@@ -133,6 +133,7 @@ public class NetworkTableQuerier implements Runnable {
         tapeDistance = visionTable.getEntry("TapeDistance");
         tapeOffset = visionTable.getEntry("TapeOffset");
         saveVideo = visionTable.getEntry("SaveVideo");
+        colorSelection = visionTable.getEntry("BallColor");
 
         SmartDashboard.putBoolean("TargetLock", targetLock.getBoolean(false));
         SmartDashboard.putNumber("TapeOffset", tapeOffset.getDouble(0));
@@ -241,6 +242,11 @@ public class NetworkTableQuerier implements Runnable {
     public synchronized void zeroPiGyro(){
 
         zeroGyro.setNumber(1);
+    }
+
+    public synchronized void setColor(int color)
+    {
+        colorSelection.setNumber(color);
     }
 
 }

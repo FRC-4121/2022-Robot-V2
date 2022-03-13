@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class LidarSensor {
 
 // Offset for cm
-private static final int CALIBRATION_OFFSET = -18;
+private static final int CALIBRATION_OFFSET = 0;
 
 private Counter counter;
 

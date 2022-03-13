@@ -15,33 +15,59 @@ public class RetractClimber extends CommandBase {
 
    
   //constructor
-  public RetractClimber(Climber subsystem) {
-    m_climber = subsystem;
-    addRequirements(subsystem);
+  public RetractClimber(Climber climb) {
+    
+    // Initialize class variables
+    m_climber = climb;
+
+    // Add subsystem requirements
+    addRequirements(climb);
+
   }
 
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+
+    if(!climberEncoderInit)
+    {
+      m_climber.zeroClimberEncoders();
+      m_climber.zeroRotateClimberEncoders();
+      climberEncoderInit = true;
+    }
+  }
 
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //if(m_climber.getLeftClimbEncoderPosition() >= climberMinEncoder && m_climber.getRightCLimbEncoderPosition() >= climberMinEncoder){
-      m_climber.climbRetract(climberSpeed);
-    //}
+
+    // Only run left climber if within bounds
+    double leftClimberPos = m_climber.getLeftClimbEncoderPosition();
+   // if(leftClimberPos > climbMinEncoder && leftClimberPos <= leftClimbMaxEncoder + 1){
+      m_climber.runLeftClimber(-climberSpeed);
+   // }
+
+    // Only run right climber if within bounds
+    double rightClimberPos = m_climber.getRightCLimbEncoderPosition();
+   // if(rightClimberPos > climbMinEncoder && rightClimberPos <= rightClimbMaxEncoder + 1){
+      m_climber.runRightClimber(climberSpeed * ClimberRetractLimiter);
+   // }
       
-      SmartDashboard.putNumber("left climb encoder", m_climber.getLeftClimbEncoderPosition());
-      SmartDashboard.putNumber("Right climb encoder", m_climber.getRightCLimbEncoderPosition());
+    SmartDashboard.putNumber("Left climb encoder", leftClimberPos);
+    SmartDashboard.putNumber("Right climb encoder", rightClimberPos);
+
   }
 
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted){
+
+    // Stop climber motors
     m_climber.climbStop();
+
   }
 
   
@@ -49,13 +75,8 @@ public class RetractClimber extends CommandBase {
   @Override
   public boolean isFinished() {
     
-    boolean thereYet = false;
-    
-   // if(m_climber.getLeftClimbEncoderPosition() <= climberMinEncoder || m_climber.getRightCLimbEncoderPosition() <= climberMinEncoder )
-    //{
-      //thereYet = true;
-   // }
-    return thereYet;
+    return false;
+
   }
   
 }

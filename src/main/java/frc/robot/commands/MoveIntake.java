@@ -6,60 +6,65 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
-import edu.wpi.first.wpilibj.Timer;
 import static frc.robot.Constants.*;
 
 
 public class MoveIntake extends CommandBase {
 
-  private Intake intake = new Intake();
-  private Timer timer = new Timer();
-  private double startTime;
-  private double stopTime;
+  // Declare class variables
+  private Intake intake;
 
   /** Creates a new DropIntake. */
   public MoveIntake(Intake i) {
+
+    // Initialize class variables
     intake = i;
-    // stopTime = stoptime;
+
+    // Add subsystem requirements
     addRequirements(intake);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.start();
-    startTime = timer.get();
+
+    if(!intakeEncodersInit)
+    {
+      intake.zeroIntakeEncoder();
+      intakeEncodersInit = true;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {   
-    if(intake.getIntakeReleaseEncoderPosition() <= intakeRaiseEncoderLimit){
-      intake.intakeLower();
-    }      
+  public void execute() { 
+    
+    // Run the intake release motor
+    double intakePos = intake.getIntakeReleaseEncoderPosition();
+    if (intakePos >= intakeLowerEncoderLimit + intakeEncoderTolerance && intakePos <= intakeRaiseEncoderLimit - intakeEncoderTolerance)
+    {
+      intake.runIntakeRelease(kIntakeSpeed);
+    }
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
+    // Stop the intake motor
     intake.intakeReleaseStop();
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
 
-    double time = timer.get();
-    boolean thereYet = false;
+    // Never stop the command
+    return false;
 
-   /* if (intake.getIntakeReleaseEncoderPosition() >= intakeLowerEncoderLimit) {
-      thereYet = true;
-    }
-    else if (time - startTime >= stopTime) {
-        thereYet = true;
-    }
-*/
-    return thereYet;
   }
   
 }

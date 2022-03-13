@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -31,6 +31,7 @@ public class RobotContainer {
   private final Climber climber = new Climber();
   private final Shooter shooter = new Shooter();
   private final Processor processor = new Processor();
+  private final CameraController camera = new CameraController();
 
 
   private final NetworkTableQuerier table = new NetworkTableQuerier();
@@ -46,6 +47,7 @@ public class RobotContainer {
   private final RetractClimber retractClimberCommand = new RetractClimber(climber);
   private final RotateClimberFront rotateClimberFrontCommand = new RotateClimberFront(climber);
   private final RotateClimberBack rotateClimberBackCommand = new RotateClimberBack(climber);
+  private final RunClimberStart climberStartCommand = new RunClimberStart(climber);
  //private final AutoClimb autoClimbCommand = new AutoClimb(climber);
 
 
@@ -63,12 +65,12 @@ public class RobotContainer {
   private final MoveIntake dropintakeCommand = new MoveIntake(intake);
   private final RaiseIntake raiseIntakeCommand = new RaiseIntake(intake);
 
-
-
   //loader
   private final RunLoader runloader = new RunLoader(processor);
 
-
+  //launchpad
+  private final SetRedBallColor setRedBall = new SetRedBallColor(table);
+  private final SetBlueBallColor setBlueBall = new SetBlueBallColor(table);
 
 
 
@@ -82,6 +84,7 @@ public class RobotContainer {
   private final JoystickButton climberRetractButton;
   private final JoystickButton climberRotateFrontButton;
   private final JoystickButton climberRotateBackButton;
+  private final JoystickButton climberStartButton;
   private final JoystickButton shooterButton;
   private final JoystickButton loaderButton;
   private final JoystickButton raiseButton;
@@ -115,6 +118,7 @@ public class RobotContainer {
     climberRetractButton = new JoystickButton(xboxClimber, xboxLeftBumber);
     climberRotateFrontButton = new JoystickButton(xboxClimber, xboxYButton);
     climberRotateBackButton = new JoystickButton(xboxClimber, xboxXButton);
+    climberStartButton = new JoystickButton(xboxClimber, xboxBButton);
     shooterButton = new JoystickButton(xbox, xboxRightBumber);
     runShooterButton = new JoystickButton(xbox,xboxBButton);
     loaderButton = new JoystickButton(xbox, xboxAButton);
@@ -129,12 +133,26 @@ public class RobotContainer {
     AutoPos1 = new JoystickButton(launchpad,LaunchPadDial1);
     AutoPos2 = new JoystickButton(launchpad,LaunchPadDial2);
     AutoPos3 = new JoystickButton(launchpad,LaunchPadDial3);
+    redButton = new JoystickButton(launchpad, LaunchPadSwitch5top);
+    blueButton = new JoystickButton(launchpad, LaunchPadSwitch5bottom);
 
     //Configure default commands
     configureDefaultCommands();
 
     // Configure the button bindings
     configureButtonBindings();
+
+    // Set initial ball color
+    int ballColor = getColorSelection();
+    table.setColor(ballColor);
+    if (ballColor == 1)
+    {
+      SmartDashboard.putString("Ball Color", "Red");
+    }
+    else
+    {
+      SmartDashboard.putString("Ball Color", "Blue");
+    }
 
   }
 
@@ -153,7 +171,7 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(driveCommand);
 
     //Shooter -> run shooter all of the time with auto speed control
-    //shooter.setDefaultCommand(autoShoot);
+    shooter.setDefaultCommand(autoShoot);
   }
   
   private void configureButtonBindings() {
@@ -169,6 +187,7 @@ public class RobotContainer {
     climberRetractButton.whileHeld(retractClimberCommand);
     climberRotateFrontButton.whileHeld(rotateClimberFrontCommand);
     climberRotateBackButton.whileHeld(rotateClimberBackCommand);
+    climberStartButton.whenPressed(climberStartCommand);
     //autoClimbButton.whileHeld(autoClimbCommand);
 
     //shooter
@@ -181,6 +200,10 @@ public class RobotContainer {
 
     //loader
     loaderButton.whileHeld(runloader);
+
+    //launchpad
+    redButton.whenPressed(setRedBall);
+    blueButton.whenPressed(setBlueBall);
     
     
     

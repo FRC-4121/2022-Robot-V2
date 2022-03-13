@@ -61,7 +61,7 @@ public class ControlShooterSpeed extends CommandBase {
 
     // Create ballistics tables for high and low goals
     ballisticsHigh = new Ballistics(105, 34, 5, kShooterMaxRPM, 6, .25);
-    ballisticsLow = new Ballistics(41, 34, 5, kShooterMaxRPM, 6, 0.25);
+    ballisticsLow = new Ballistics(37.3, 34, 5, kShooterMaxRPM, 6, 0.25);
 
     // Initialize LIDAR distance sensor
     lidar = new LidarSensor(new DigitalInput(LIDAR_PORT));
@@ -98,7 +98,7 @@ public class ControlShooterSpeed extends CommandBase {
       {
 
         // Get lidar distance
-        lidarDistance = lidar.getDistance();
+        lidarDistance = lidar.getDistance() - distanceCorrection;
         avgLidarDistance = lidarFilter.calculate(lidarDistance);
         SmartDashboard.putNumber("Lidar Distance: ", avgLidarDistance);
         
@@ -106,6 +106,11 @@ public class ControlShooterSpeed extends CommandBase {
         if(avgLidarDistance >= lidarMin && avgLidarDistance <= lidarMax)
         {
           lidarDistanceGood = true;
+          SmartDashboard.putBoolean("LidarGood", lidarDistanceGood);
+        }
+        else
+        {
+          lidarDistanceGood = false;
         }
 
         // Get target lock from shooter camera
@@ -137,10 +142,10 @@ public class ControlShooterSpeed extends CommandBase {
 
           // get tballistics data
           if (shootLow) {
-            ballisticsDataLow = ballisticsLow.queryBallisticsTable(targetDistance -distanceCorrection);
+            ballisticsDataLow = ballisticsLow.queryBallisticsTable(targetDistance);
             shotPossible = ballisticsDataLow[0];
           } else {
-            ballisticsDataHigh = ballisticsHigh.queryBallisticsTable(targetDistance-distanceCorrection);
+            ballisticsDataHigh = ballisticsHigh.queryBallisticsTable(targetDistance);
             shotPossible = ballisticsDataHigh[0];
           }
           
@@ -156,7 +161,7 @@ public class ControlShooterSpeed extends CommandBase {
               targetSpeed = ballisticsDataLow[2];
               //System.out.println("LOW" + targetSpeed);
               //System.out.println("Possiblity low" + ballisticsDataLow[0] + "\n and high " + ballisticsDataHigh[0] + " other things idk" + ballisticsDataLow[1] + ballisticsDataLow[2]);
-              System.out.println("HELLO" + ballisticsDataHigh[0]);
+              //System.out.println("HELLO" + ballisticsDataHigh[0]);
             } else {
               targetSpeed = ballisticsDataHigh[2];
               //System.out.println("HIGH" + targetSpeed);
