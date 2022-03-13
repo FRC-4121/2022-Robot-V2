@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import edu.wpi.first.wpilibj.AnalogInput;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class Climber extends SubsystemBase {
@@ -18,15 +17,6 @@ public class Climber extends SubsystemBase {
   private final WPI_TalonFX leftClimberMotor = new WPI_TalonFX(LEFT_CLIMBER);
   private final WPI_TalonFX rightClimberMotor = new WPI_TalonFX(RIGHT_CLIMBER);
 
-  // setting up the falcons for rotating the climber
-  private final WPI_TalonFX leftRotateMotor = new WPI_TalonFX(LEFT_ROTATE_CLIMBER);
-  private final WPI_TalonFX rightRotateMotor = new WPI_TalonFX(RIGHT_ROTATE_CLIMBER);
-
-  // setting up the absolute encoders for climber angle
-  private final AnalogInput leftAngleEncoder = new AnalogInput(LEFT_CLIMBER_ANGLE);
-  private final AnalogInput rightAngleEncoder = new AnalogInput(RIGHT_CLIMBER_ANGLE);
-
-
   /** Creates a new Climber. */
   public Climber() {
 
@@ -34,15 +24,11 @@ public class Climber extends SubsystemBase {
     leftClimberMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kPIDLoopIdxClimb, kTimeoutMsClimb);
     rightClimberMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kPIDLoopIdxClimb, kTimeoutMsClimb);
 
-    // setting the encoders for the rotating motors
-    leftRotateMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kPIDLoopIdxClimb, kTimeoutMsClimb);
-    rightRotateMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kPIDLoopIdxClimb, kTimeoutMsClimb);
-
+    
     //setting all motors to brake mode
     leftClimberMotor.setNeutralMode(NeutralMode.Brake);
     rightClimberMotor.setNeutralMode(NeutralMode.Brake);
-    leftRotateMotor.setNeutralMode(NeutralMode.Brake);
-    rightRotateMotor.setNeutralMode(NeutralMode.Brake);
+    
     
   }
 
@@ -67,29 +53,7 @@ public class Climber extends SubsystemBase {
 
   }
   
-  public void rotateClimbStop(){
-  
-    leftRotateMotor.set(ControlMode.PercentOutput, 0);
-    rightRotateMotor.set(ControlMode.PercentOutput, 0);
-  
-  }
-  
-  public void rotateClimbOut(double speed){
-      
-    // setting the speeds for rotating outwards
-    leftRotateMotor.set(ControlMode.PercentOutput, speed);
-    rightRotateMotor.set(ControlMode.PercentOutput, speed * rotateClimberLimiter);
-  
-  }
-  
-  public void rotateClimbIn(double speed){
-           
-    // setting the speeds for rotating inwards
-    leftRotateMotor.set(ControlMode.PercentOutput, speed);
-    rightRotateMotor.set(ControlMode.PercentOutput, speed * rotateClimberLimiter);
-  
-  }
-  
+ 
   // getting the current position of the left climber motor encoder
   public double getLeftClimbEncoderPosition()
   {
@@ -113,43 +77,6 @@ public class Climber extends SubsystemBase {
     rightClimberMotor.setSelectedSensorPosition(0);
   }
 
-  // getting the current position of the left rotate motor encoder
-  public double getLeftRotateEncoderPosition()
-  {
-
-    return leftRotateMotor.getSelectedSensorPosition();
-
-  }
-
-  // getting the current position of the right rotate motor encoder 
-  public double getRightRotateEncoderPosition()
-  {
-
-    return rightRotateMotor.getSelectedSensorPosition();
-
-  }
-
-  //zero the extend and retract climber encoders
-  public void zeroRotateClimberEncoders()
-  {
-    leftRotateMotor.setSelectedSensorPosition(0);
-    rightRotateMotor.setSelectedSensorPosition(0);
-  }
-
-  // getting the current left climber angle
-  public double getLeftClimberAngle()
-  {
-
-    return (leftAngleEncoder.getVoltage()/5.0)*360.0;
-
-  }
-
-  public double getRightClimberAngle()
-  {
-
-    return (rightAngleEncoder.getVoltage()/5.0)*360.0;
-
-  }
   
   @Override
   public void periodic() {

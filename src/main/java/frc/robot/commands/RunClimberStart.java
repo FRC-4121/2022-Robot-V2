@@ -22,10 +22,9 @@ public class RunClimberStart extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
- 
   
     climber.zeroClimberEncoders();
-    climber.zeroRotateClimberEncoders();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.

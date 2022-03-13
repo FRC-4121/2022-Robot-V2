@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 import static frc.robot.Constants.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.RotateClimber;
+
 
 public class RetractClimber extends CommandBase {
 
@@ -33,7 +35,7 @@ public class RetractClimber extends CommandBase {
     if(!climberEncoderInit)
     {
       m_climber.zeroClimberEncoders();
-      m_climber.zeroRotateClimberEncoders();
+      //m_climber.zeroRotateClimberEncoders();
       climberEncoderInit = true;
     }
   }

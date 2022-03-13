@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 import static frc.robot.Constants.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.RotateClimber;
 
 
 public class ExtendClimber extends CommandBase {
@@ -23,6 +24,7 @@ public class ExtendClimber extends CommandBase {
 
     // Initialize class variables
     m_climber = climb;
+    
 
     // Add subsystem requirements
     addRequirements(climb);
@@ -42,7 +44,7 @@ public class ExtendClimber extends CommandBase {
     if(!climberEncoderInit)
     {
       m_climber.zeroClimberEncoders();
-      m_climber.zeroRotateClimberEncoders();
+      //r_climber.zeroRotateClimberEncoders();
       climberEncoderInit = true;
     }
   }

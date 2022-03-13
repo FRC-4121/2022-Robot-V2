@@ -29,6 +29,7 @@ public class RobotContainer {
   private final Drivetrain drivetrain = new Drivetrain();
   private final Intake intake = new Intake();
   private final Climber climber = new Climber();
+  private final RotateClimber rotateClimber= new RotateClimber();
   private final Shooter shooter = new Shooter();
   private final Processor processor = new Processor();
   private final CameraController camera = new CameraController();
@@ -45,8 +46,8 @@ public class RobotContainer {
   //Climbing Commands
   private final ExtendClimber extendClimberCommand = new ExtendClimber(climber);
   private final RetractClimber retractClimberCommand = new RetractClimber(climber);
-  private final RotateClimberFront rotateClimberFrontCommand = new RotateClimberFront(climber);
-  private final RotateClimberBack rotateClimberBackCommand = new RotateClimberBack(climber);
+  private final RotateClimberFront rotateClimberFrontCommand = new RotateClimberFront(rotateClimber);
+  private final RotateClimberBack rotateClimberBackCommand = new RotateClimberBack(rotateClimber);
   private final RunClimberStart climberStartCommand = new RunClimberStart(climber);
  //private final AutoClimb autoClimbCommand = new AutoClimb(climber);
 

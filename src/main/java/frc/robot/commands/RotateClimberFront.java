@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.RotateClimber;
 import static frc.robot.Constants.*;
 
 
@@ -14,10 +14,10 @@ public class RotateClimberFront extends CommandBase {
   public static final int climberMaxRotateEncoder = 0; // Move these to constants
   public static final int climberMinRotateEncoder = 0;
  
-private final Climber m_climber;
+private final RotateClimber m_climber;
 
   /** Creates a new RotateClimberFront. */
-  public RotateClimberFront(Climber climber) {
+  public RotateClimberFront(RotateClimber climber) {
    m_climber = climber;
    
    addRequirements(climber);
@@ -30,7 +30,6 @@ private final Climber m_climber;
 
     if(!climberEncoderInit)
     {
-      m_climber.zeroClimberEncoders();
       m_climber.zeroRotateClimberEncoders();
       climberEncoderInit = true;
     }
@@ -40,7 +39,8 @@ private final Climber m_climber;
   @Override
   public void execute() {
     //if(m_climber.getLeftRotateEncoderPosition() <= climberMaxRotateEncoder && m_climber.getRightRotateEncoderPosition() <= climberMaxRotateEncoder){
-      m_climber.rotateClimbOut(-rotateSpeed);
+      m_climber.rotateLeft(-rotateSpeed);
+      m_climber.rotateRight(-rotateSpeed * rotateClimberLimiter);
     //}
   }
 
