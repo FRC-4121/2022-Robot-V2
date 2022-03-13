@@ -1,73 +1,60 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.DrivetrainConstants.*;
-import static frc.robot.Constants.*;
 import frc.robot.ExtraClasses.PIDControl;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.Processor;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Intake;
 import frc.robot.ExtraClasses.NetworkTableQuerier;
-
+import frc.robot.subsystems.Processor;
+import static frc.robot.Constants.*;
 
 public class AutoPickUpBall extends CommandBase {
-
-  // Declare class variables
+  
   private final Drivetrain drivetrain;
   private final Processor processor;
-  private final Intake intake;
   private final NetworkTableQuerier ntables;
+  // private final Processor processor;
 
-  private boolean endRun;
-  private boolean executeTurn;
-  private boolean holdAngle;
-  private boolean slowSpeed;
-  private boolean markerFound;
-
-  private double ballDistance;
-  private double ballOffset;
+  private double targetDistance;
+  private double targetAngle;
   private double direction;
   private double stopTime;
-  private double startTime;
-  private double angleCorrection;
-  private double speedCorrection;
-  private double currentGyroAngle;
-  private double targetGyroAngle;
-  private double angleDeadband;
 
+  private double angleCorrection, angleError, speedCorrection;
+  private double startTime;
   private double distanceTraveled;
-  private double totalDistance;
-  private double targetDistance;
+
+  private double targetGyro;
+  private double actualGyro;
+  private boolean holdGyro;
+
   private double leftEncoderStart;
   private double rightEncoderStart;
-  private double leftEncoderStart2;
-  private double rightEncoderStart2;
 
-  private Timer timer;
+  private boolean isBallOnBoard;
 
-  private PIDControl pidAngle;
+  private Timer timer = new Timer();
+  private PIDControl pidAngle; 
 
-  public AutoPickUpBall(Drivetrain drive, Intake in, Processor process, NetworkTableQuerier table, double deadband,
-      double time) {
 
-    // Set class variables
-    drivetrain = drive;
+  public AutoPickUpBall(Drivetrain drive, Processor process,NetworkTableQuerier table, double time) {
+
     processor = process;
-    intake = in;
+    drivetrain = drive;
     ntables = table;
-    angleDeadband = deadband;
+    addRequirements(drivetrain, processor);
+
     stopTime = time;
 
-    // Add subsystem requirements
-    addRequirements(drivetrain, intake, processor);
-
-    // Create the PID controller
     pidAngle = new PIDControl(kP_Turn, kI_Turn, kD_Turn);
 
   }
@@ -76,41 +63,18 @@ public class AutoPickUpBall extends CommandBase {
   @Override
   public void initialize() {
 
-    // Start the timer and get the command start time
-    timer = new Timer();
     timer.start();
     startTime = timer.get();
 
-    // Initialize class variables
-    direction = -1; //? this is going to be constant and not change but ok
     angleCorrection = 0;
+    angleError = 0;
     speedCorrection = 1;
-    targetGyroAngle = 0;
-    distanceTraveled = 0;
-    totalDistance = 0;
-    targetDistance = 150;// in inches; test value, possibly needs slight adjustment
-    leftEncoderStart = 0;
-    rightEncoderStart = 0;
-    leftEncoderStart2 = 0;
-    rightEncoderStart2 = 0;
 
-    // Initialize command state control flags
-    executeTurn = false;
-    endRun = false;
+    holdGyro = false;
+    targetGyro = drivetrain.getGyroAngle();
+    actualGyro = drivetrain.getGyroAngle();
 
-    // Initialize driving control flags
-    holdAngle = false;
-    slowSpeed = false;
-    markerFound = false;
-
-    // Zero gyro angle
-    drivetrain.zeroGyro();
-
-    drivetrain.zeroEncoders();
-    leftEncoderStart = drivetrain.getMasterLeftEncoderPosition();
-    rightEncoderStart = drivetrain.getMasterRightEncoderPosition();
-    SmartDashboard.putNumber("LeftEncStart", leftEncoderStart);
-    SmartDashboard.putNumber("RightEncStart", rightEncoderStart);
+    isBallOnBoard = true;
 
   }
 
@@ -118,161 +82,80 @@ public class AutoPickUpBall extends CommandBase {
   @Override
   public void execute() {
 
-    // Get current values from vision and gyro
-    ballDistance = ntables.getVisionDouble("BallDistance0");
-    ballOffset = ntables.getVisionDouble("BallOffset0");
+    // Get vision values
+    double ballOffset = ntables.getVisionDouble("BallOffset0");
+    double ballDistance = ntables.getVisionDouble("BallDistance0");
+    boolean foundBall = ntables.getVisionBoolean("FoundBall");
+    SmartDashboard.putBoolean("FoundBAll", foundBall);
+    
 
-    // Check if we are close enough and centered enough to hold the angle
-    if (holdAngle == false) {
+    // Read current gyro angle
+    actualGyro = drivetrain.getGyroAngle();
 
-      if (ballDistance < 55 && Math.abs(ballOffset) < 4) {
-
-        holdAngle = true;
-        targetGyroAngle = currentGyroAngle;
-
-      }
-
-    } else if (holdAngle == false) {
-
-      // Calculate angle correction for driving
-      angleCorrection = pidAngle.run(ballOffset, 0); //is this dead code?? cuz it's else if but same condition.
-
-    } else {
-
-      // Calculate angle correction for driving
-      angleCorrection = pidAngle.run(currentGyroAngle, targetGyroAngle);
-
-    } 
-
-    // Determine speed correction based on distance
-    if (!slowSpeed) {
-      if (ballDistance > 60) {// && ballCount < 2 && Math.abs(nextBallAngle) < 60 ) {
-
-        speedCorrection = 1;
-
-      } else {
-
-        speedCorrection = .9;
-        slowSpeed = true;
-
-      }
-    } else {
-      speedCorrection = .9;
+    // Update target gyro angle unless we are holding
+    if (holdGyro == false){
+      targetGyro = actualGyro;
     }
+    
+    SmartDashboard.putNumber("ActualGyro", actualGyro);
+    SmartDashboard.putNumber("TargetGyro", targetGyro);
 
-    // Send all flags and updating info to SmartDash regardless of command state
-    SmartDashboard.putBoolean("ExecuteTurn", executeTurn);
-    SmartDashboard.putBoolean("HoldAngle", endRun);
-    SmartDashboard.putBoolean("EndRun", endRun);
-    SmartDashboard.putNumber("Ball Count", ballsOnBoard);
+    // Calculate correction based on ball offset if far away
+    // or based on gyro angle if close enough
+    if (holdGyro == false){
+      angleCorrection = pidAngle.run(ballOffset, 0);
+    } else {
+      angleCorrection = pidAngle.run(actualGyro, targetGyro);
+    }
+    
+    // Calculate speed correction based on distance
+    if ((ballDistance > 30) && foundBall == true){
+      speedCorrection = 1;
+    }else{
+      speedCorrection = 1;
+    }
+    SmartDashboard.putNumber("SpeedCorrect", speedCorrection);
+
+    // Run drive train
+    direction = -1;
+    if (foundBall) {
+      drivetrain.autoDrive(speedCorrection * direction * kAutoDriveSpeed + angleCorrection, speedCorrection * direction*kAutoDriveSpeed - angleCorrection);
+    } else {
+      drivetrain.stopDrive();//modified for showcase purposes
+    }
     SmartDashboard.putNumber("Angle Correction", angleCorrection);
-    SmartDashboard.putNumber("Speed Correction", speedCorrection);
-    SmartDashboard.putNumber("Total Distance", totalDistance);
-    SmartDashboard.putNumber("Distance Traveled", distanceTraveled);
-
-    // Run the processor and intake
-    processor.runProcessor();
-    intake.runIntake();
-
-    // Drive based on speed and angle corrections determined within the sequence
-    // driving now moved down here, logic tree should just determine the corrections
-    // :)
-    drivetrain.autoDrive(direction * speedCorrection * kAutoDriveSpeed + angleCorrection,
-        direction * speedCorrection * kAutoDriveSpeed - angleCorrection);
-
-    // Count encoder revs until such distance that we definitely get past the line
-    double totalRotationsRight = Math.abs((drivetrain.getMasterRightEncoderPosition() - rightEncoderStart));
-    double totalRotationsLeft = Math.abs((drivetrain.getMasterLeftEncoderPosition() - leftEncoderStart));
-    totalDistance = (kWheelDiameter * Math.PI * (totalRotationsLeft + totalRotationsRight) / 2.0)
-        / AUTO_ENCODER_REVOLUTION_FACTOR;
-
+    // processor.runProcessor(false);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
     drivetrain.stopDrive();
-    processor.stopProcessor();
-    intake.stopIntake();
-
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // Initialize stopping flag and send to SmartDash
+    
     boolean thereYet = false;
-    SmartDashboard.putBoolean("ThereYet", thereYet);
 
-    // Get current time
     double time = timer.get();
 
-    // Check for max time
-    if (stopTime <= time - startTime) {
+    isBallOnBoard = processor.getIntakeSwitch();
+ 
+    SmartDashboard.putNumber("Auto Time", time);
+    SmartDashboard.putNumber("Auto Start Time", startTime);
+    SmartDashboard.putBoolean("BallOnBoard", isBallOnBoard);
 
-      // Set flag
+    if(isBallOnBoard == true) {
       thereYet = true;
-
-    } else {
-
-      // If we are finishing the run
-      if (endRun) {
-
-        // Count encoder revs until such distance that we definitely get past the line
-        double totalRotationsRight = Math.abs((drivetrain.getMasterRightEncoderPosition() - rightEncoderStart2));
-        double totalRotationsLeft = Math.abs((drivetrain.getMasterLeftEncoderPosition() - leftEncoderStart2));
-        distanceTraveled = (kWheelDiameter * Math.PI * (totalRotationsLeft + totalRotationsRight) / 2.0)
-            / AUTO_ENCODER_REVOLUTION_FACTOR;
-
-        // //Check if distance is far enough yet, then stop
-        double markerDistance = ntables.getVisionDouble("MarkerDistance0");
-        if (markerFound == true && markerDistance <= 31) {
-          markerFound = false;
-          SmartDashboard.putBoolean("MarkerEnd", markerFound);
-          thereYet = true;
-        }
-
-      } // else {
-
-      // if(drivetrain.getProcessorEntry() == false) {
-
-      // Increment ball count
-      // ballCount++;
-
-      // Check if we have picked up last ball
-      // if (ballsOnBoard == 2) {
-
-      // Move to ending the run
-      // endRun = true;
-      // executeTurn = false;
-
-      // Reset the encoders for the distance-driving part of the program
-      // drivetrain.zeroEncoders();
-      // leftEncoderStart2 = drivetrain.getMasterLeftEncoderPosition();
-      // rightEncoderStart2 = drivetrain.getMasterRightEncoderPosition();
-      // SmartDashboard.putNumber("LeftEncStart2", leftEncoderStart2);
-      // SmartDashboard.putNumber("RightEncStart2", rightEncoderStart2);
-
-      // //Orient to 0 degrees or nearest marker
-      // double markerCount = ntables.getVisionDouble("MarkersFound");
-      // double markerDistance = ntables.getVisionDouble("MarkerOffset0");
-      // if (markerCount >= 1){
-      // targetDistance = markerDistance;
-      // }
-
-      else {
-
-        // Set flags
-        executeTurn = true;
-        holdAngle = false;
-
-      }
+      ballsOnBoard++;
     }
-    
-    // Return stopping flag
+    else if (stopTime <= time - startTime){
+      thereYet = true;
+    }
+    SmartDashboard.putBoolean("Auto TY", thereYet);
     return thereYet;
 
   }
-
 }

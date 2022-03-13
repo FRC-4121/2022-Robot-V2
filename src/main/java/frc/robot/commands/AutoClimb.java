@@ -77,7 +77,7 @@ public class AutoClimb extends CommandBase {
   public void end(boolean interrupted) {
     
     // Stop all motors
-    climber.rotateClimbStop();
+    //climber.rotateClimbStop();
     climber.climbStop();
 
   }

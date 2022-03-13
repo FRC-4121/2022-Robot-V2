@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Processor;
+import static frc.robot.Constants.*;
 
 
 public class PickUpBall extends CommandBase {
@@ -14,6 +15,7 @@ public class PickUpBall extends CommandBase {
   //creating intake subsystem
   private final Intake mainIntake;
   private final Processor mainProcessor; //processor should run when intake runs
+  private boolean isBallOnBoard = false;
 
   //constructor
   public PickUpBall(Intake intake, Processor processor){
@@ -32,7 +34,12 @@ public class PickUpBall extends CommandBase {
   @Override
   public void execute(){
       mainIntake.runIntake();
-      mainProcessor.runProcessor();     
+      mainProcessor.runProcessor();   
+      
+      isBallOnBoard = mainProcessor.getIntakeSwitch();
+      if(isBallOnBoard == true) {
+        ballsOnBoard++;
+      }
   }
 
   
