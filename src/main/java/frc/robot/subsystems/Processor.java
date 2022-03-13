@@ -7,9 +7,16 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.DigitalInput;
+
 
 
 public class Processor extends SubsystemBase {
+
+  //Limit switches to count balls on board
+  private DigitalInput intakeSwitch = new DigitalInput(1);
+  //private DigitalInput ShooterSwitch = new DigitalInput(2);
+
 
   //we have two motors facing each other but both running to feed in, so one of them must be in the opposite direction AKA negative.
   private WPI_TalonSRX leftProcessor = new WPI_TalonSRX(LEFT_PROCESSOR);
@@ -57,5 +64,16 @@ public class Processor extends SubsystemBase {
   {
     loader.set(0);
   }  
+
+  public boolean getIntakeSwitch()
+  {
+    return intakeSwitch.get();
+  }
+
+  /*public boolean getShooterSwitch()
+  {
+    return ShooterSwitch.get();
+  }
+  */
 
 }
