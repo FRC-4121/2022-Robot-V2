@@ -35,7 +35,7 @@ public class ShootBall extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    isShootBall = shooter.getShooterSwitch();
+    
 
   }
 
@@ -43,7 +43,8 @@ public class ShootBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute(){
-
+    //is the ball shot
+    isShootBall = shooter.getShooterSwitch();
 
   //  if (Math.abs(shooter.getRPM()) >= shooterTargetRPM) {
     processor.runLoader(0.2);

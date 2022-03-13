@@ -52,6 +52,7 @@ public class AutoShoot extends CommandBase {
       processor.runLoader(0.2);
       processor.runProcessor();
     }
+    
   
   }
 
@@ -69,6 +70,14 @@ public class AutoShoot extends CommandBase {
   public boolean isFinished() {
     boolean doneYet = false;
     
+    //is the ball shot
+    isShootBall = shooter.getShooterSwitch();
+
+    if(isShootBall == true )
+    {
+      ballsOnBoard--;
+    }
+
     if(ballsOnBoard == 0)
     {
       doneYet = true;
