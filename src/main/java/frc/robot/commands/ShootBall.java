@@ -19,6 +19,8 @@ public class ShootBall extends CommandBase {
   private final Shooter shooter;
   private final Processor processor;
   private final NetworkTableQuerier table;
+  private boolean isShootBall = false;
+
   
   
   /** Creates a new ShootBall. */
@@ -33,7 +35,7 @@ public class ShootBall extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    isShootBall = shooter.getShooterSwitch();
 
   }
 
@@ -48,6 +50,11 @@ public class ShootBall extends CommandBase {
     processor.runProcessor();
    // }
     SmartDashboard.putNumber("Shooter RPM", shooter.getRPM());
+
+    if(isShootBall == true)
+    {
+      ballsOnBoard--;
+    }
   }
 
 

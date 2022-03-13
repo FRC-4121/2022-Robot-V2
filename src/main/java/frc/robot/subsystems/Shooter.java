@@ -9,6 +9,8 @@ import static frc.robot.Constants.*;
 import static frc.robot.Constants.DrivetrainConstants.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.math.filter.MedianFilter;
+import edu.wpi.first.wpilibj.DigitalInput;
+
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 
@@ -17,6 +19,9 @@ public class Shooter extends SubsystemBase {
   //attributes; variables
   private WPI_TalonFX shooterMotor = new WPI_TalonFX(SHOOTER);
   private double speed;
+
+  //Limit switch to count balls on board
+  private DigitalInput ShooterSwitch = new DigitalInput(2);
   
   private MedianFilter rpmFilter;
   
@@ -92,4 +97,10 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
     
   }
+
+  public boolean getShooterSwitch()
+  {
+    return ShooterSwitch.get();
+  }
+  
 }

@@ -18,6 +18,8 @@ public class AutoShoot extends CommandBase {
   private final Processor processor;
   private Timer timer = new Timer();
   private double endTime;
+  private boolean isShootBall = false;
+
   
   /** Creates a new ShootBall. */
   public AutoShoot(Shooter subsystem, Processor anotherSubsystem, double time) {
