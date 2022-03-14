@@ -44,7 +44,6 @@ public class ExtendClimber extends CommandBase {
     if(!climberEncoderInit)
     {
       m_climber.zeroClimberEncoders();
-      //r_climber.zeroRotateClimberEncoders();
       climberEncoderInit = true;
     }
   }

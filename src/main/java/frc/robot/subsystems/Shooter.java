@@ -21,7 +21,7 @@ public class Shooter extends SubsystemBase {
   private double speed;
 
   //Limit switch to count balls on board
-  private DigitalInput ShooterSwitch = new DigitalInput(2);
+  //private DigitalInput ShooterSwitch = new DigitalInput(2);
   
   private MedianFilter rpmFilter;
   
@@ -100,7 +100,8 @@ public class Shooter extends SubsystemBase {
 
   public boolean getShooterSwitch()
   {
-    return ShooterSwitch.get();
+    //return ShooterSwitch.get();
+    return false;
   }
   
 }

@@ -9,8 +9,12 @@ import frc.robot.subsystems.Climber;
 import static frc.robot.Constants.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+
+//this puts the climber at a starting position... hopefully.
 public class RunClimberStart extends CommandBase {
  
+
+
   private Climber climber;
 
   /** Creates a new RunClimberStart. */
