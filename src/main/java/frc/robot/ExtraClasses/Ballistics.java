@@ -63,8 +63,8 @@ public class Ballistics {
     /* 2-d ballistics array
      * Structure:  each internal array is [distance, angle, speed, height, possibility of shot]
      */ 
-    public static double[][] ballisticsTable;
-
+    public double[][] ballisticsTable;
+    //3-14-22 changed this variable to not be static^
 
     /*
      * Class constructor

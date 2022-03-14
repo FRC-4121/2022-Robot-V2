@@ -42,7 +42,7 @@ public class AutoPickUpBall extends CommandBase {
 
   private boolean isBallOnBoard;
 
-  private Timer timer = new Timer();
+  private Timer timer;
   private PIDControl pidAngle; 
 
 
@@ -54,7 +54,7 @@ public class AutoPickUpBall extends CommandBase {
     addRequirements(drivetrain, processor);
 
     stopTime = time;
-
+    timer = new Timer();
     pidAngle = new PIDControl(kP_Turn, kI_Turn, kD_Turn);
 
   }
@@ -74,7 +74,7 @@ public class AutoPickUpBall extends CommandBase {
     targetGyro = drivetrain.getGyroAngle();
     actualGyro = drivetrain.getGyroAngle();
 
-    isBallOnBoard = true;
+    isBallOnBoard = false;
 
   }
 
@@ -87,7 +87,8 @@ public class AutoPickUpBall extends CommandBase {
     double ballDistance = ntables.getVisionDouble("BallDistance0");
     boolean foundBall = ntables.getVisionBoolean("FoundBall");
     SmartDashboard.putBoolean("FoundBAll", foundBall);
-    
+    SmartDashboard.putNumber("ballDistance", ballDistance);
+    SmartDashboard.putNumber("ballOffset", ballOffset);
 
     // Read current gyro angle
     actualGyro = drivetrain.getGyroAngle();
@@ -119,7 +120,19 @@ public class AutoPickUpBall extends CommandBase {
     // Run drive train
     direction = -1;
     if (foundBall) {
-      drivetrain.autoDrive(speedCorrection * direction * kAutoDriveSpeed + angleCorrection, speedCorrection * direction*kAutoDriveSpeed - angleCorrection);
+      double leftDriveSpeed = (speedCorrection * direction * kAutoDriveSpeed) + angleCorrection;
+      SmartDashboard.putNumber("Left Drive Speed", leftDriveSpeed);
+      double rightDriveSpeed = (speedCorrection * direction * kAutoDriveSpeed) - angleCorrection;
+      SmartDashboard.putNumber("Right Drive Speed", rightDriveSpeed);
+
+
+      SmartDashboard.putNumber("EAspeedCorrection",speedCorrection);
+      SmartDashboard.putNumber("EAdirection",direction);
+      SmartDashboard.putNumber("EAkAutoDriveSpeed",kAutoDriveSpeed);
+      SmartDashboard.putNumber("EAangleCorrection",angleCorrection);
+
+
+      drivetrain.autoDrive(leftDriveSpeed, rightDriveSpeed);
     } else {
       drivetrain.stopDrive();//modified for showcase purposes
     }

@@ -234,7 +234,7 @@ public class RobotContainer {
 
     //Auto setup
     //plan(in constants): 1-4; 1 being leftmost position and 4 being right most
-      if (plan == 1)
+   /*   if (plan == 1)
     {
       return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12, 1); //change numbers.
     }
@@ -251,12 +251,12 @@ public class RobotContainer {
       return new AutoGroup(intake, shooter, drivetrain, table, processor, 0, 12,  -1);
     }
     return null;
-
+*/
 
 
     //return new ExtendClimber(climber);
-    // return new AutoGetAllBalls(drivetrain, pneumatics, process2, ntables, ballData, 2, 100);
-    // return new AutoShootTimed(drivetrain, shooter, pneumatics, process2, turret, ntables, 60);
+     return new AutoPickUpBall(drivetrain, processor, table, 15);
+    // return new AutoShooTimed(drivetrain, shooter, pneumatics, process2, turret, ntables, 60);
     // return new RunHoodToPos(turret, 240);
   }
 

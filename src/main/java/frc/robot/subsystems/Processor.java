@@ -67,6 +67,7 @@ public class Processor extends SubsystemBase {
 
   public boolean getIntakeSwitch()
   {
+    System.out.println(intakeSwitch.get());
     return intakeSwitch.get();
   }
 

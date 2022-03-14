@@ -105,7 +105,7 @@ public final class Constants {
     public static double shooterTargetRPM = 100;// need to test to figure out
     public static boolean shootLow = true;
     public static double lidarMin = 3;
-    public static double lidarMax = 72;//need to test to find
+    public static double lidarMax = 140;//need to test to find
     public static double visionDistanceTolerance = 10;
     public static double defaultShooterSpeed = 0.3;
     public static final double kP_Shoot = 0.000075; //was 0.1
@@ -141,7 +141,7 @@ public final class Constants {
         public static final double kHighGearSpeedCap = 1.0;
         public static final double kJoystickSpeedCorr = 0.72;
         public static final double kManualDriveSpeed = 0.75;
-        public static final double kAutoDriveSpeed = .4;
+        public static final double kAutoDriveSpeed = .6;
         public static final double kAutoDriveSpeedMin = 0.25;
         public static final double kAutoShootDriveSpeed = 0.75;
         public static final double kAutoTurnSpeed = 0.5;

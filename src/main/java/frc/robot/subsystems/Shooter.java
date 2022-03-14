@@ -100,8 +100,11 @@ public class Shooter extends SubsystemBase {
 
   public boolean getShooterSwitch()
   {
+    //System.out.println(ShooterSwitch.get());
     //return ShooterSwitch.get();
     return false;
   }
+
+  
   
 }
