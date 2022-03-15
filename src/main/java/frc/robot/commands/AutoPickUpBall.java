@@ -152,7 +152,7 @@ public class AutoPickUpBall extends CommandBase {
     
     boolean thereYet = false;
 
-    double time = timer.get();
+    /*double time = timer.get();
 
     isBallOnBoard = processor.getIntakeSwitch();
  
@@ -167,7 +167,7 @@ public class AutoPickUpBall extends CommandBase {
     else if (stopTime <= time - startTime){
       thereYet = true;
     }
-    SmartDashboard.putBoolean("Auto TY", thereYet);
+    SmartDashboard.putBoolean("Auto TY", thereYet);*/ //MAYBE THE ISSUE IS HERE <_---0----------------------
     return thereYet;
 
   }
