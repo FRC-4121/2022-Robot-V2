@@ -164,7 +164,7 @@ public class ControlShooterSpeed extends CommandBase {
             if (shootLow)
             {
               //targetSpeed = ballisticsDataLow[2];
-              //WE did a few tests and derived an equation where there's a relationship between distance and 
+              //We did a few tests and derived an equation where there's a relationship between distance and 
               if ( targetDistance <= 26){
                 shooterTargetRPM = 1403;
               }
