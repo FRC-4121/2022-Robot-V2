@@ -255,7 +255,7 @@ public class RobotContainer {
 
 
     //return new ExtendClimber(climber);
-     return new AutoPickUpBall(drivetrain, processor, table, 15);
+     return new AutoPickUpBall(drivetrain, processor, intake, table, 15);
     // return new AutoShooTimed(drivetrain, shooter, pneumatics, process2, turret, ntables, 60);
     // return new RunHoodToPos(turret, 240);
   }

@@ -50,7 +50,7 @@ public class AutoShoot extends CommandBase {
     // Load the balls to the shooter once the shooter gets up to speed
     if (Math.abs(shooter.getRPM()) >= shooterTargetRPM) {
       processor.runLoader(0.2);
-      processor.runProcessor();
+      processor.runProcessor(0.15);
     }
     
   

@@ -88,7 +88,7 @@ public class Shooter extends SubsystemBase {
 
   public double getRPM()
   {
-    return rpmFilter.calculate(shooterMotor.getSelectedSensorVelocity() * 600 / 2048);
+    return Math.abs(rpmFilter.calculate(shooterMotor.getSelectedSensorVelocity() * 600 / 2048));
   }
 
   @Override

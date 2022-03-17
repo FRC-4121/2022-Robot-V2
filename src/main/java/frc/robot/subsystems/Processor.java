@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Processor extends SubsystemBase {
@@ -32,15 +32,17 @@ public class Processor extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    
+    SmartDashboard.putBoolean("Intake Switch", getIntakeSwitch());
+    
   }
 
 
   // method to run tyhe motor for the processor wheels
-  public void runProcessor()
+  public void runProcessor(double speed)
   {
-    leftProcessor.set(0.15);
-    rightProcessor.set(-0.15);
+    leftProcessor.set(speed);
+    rightProcessor.set(-speed);
     
   }
 
@@ -67,8 +69,9 @@ public class Processor extends SubsystemBase {
 
   public boolean getIntakeSwitch()
   {
-    System.out.println(intakeSwitch.get());
+
     return intakeSwitch.get();
+
   }
 
   

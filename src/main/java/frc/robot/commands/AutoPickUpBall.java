@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.ExtraClasses.NetworkTableQuerier;
 import frc.robot.subsystems.Processor;
+import frc.robot.subsystems.Intake;
 import static frc.robot.Constants.*;
 
 public class AutoPickUpBall extends CommandBase {
@@ -22,11 +23,10 @@ public class AutoPickUpBall extends CommandBase {
   private final Drivetrain drivetrain;
   private final Processor processor;
   private final NetworkTableQuerier ntables;
-  // private final Processor processor;
+  private final Intake intake;
 
   private double targetDistance;
   private double targetAngle;
-  private double direction;
   private double stopTime;
 
   private double angleCorrection, angleError, speedCorrection;
@@ -46,11 +46,12 @@ public class AutoPickUpBall extends CommandBase {
   private PIDControl pidAngle; 
 
 
-  public AutoPickUpBall(Drivetrain drive, Processor process,NetworkTableQuerier table, double time) {
+  public AutoPickUpBall(Drivetrain drive, Processor process, Intake in, NetworkTableQuerier table, double time) {
 
     processor = process;
     drivetrain = drive;
     ntables = table;
+    intake = in;
     addRequirements(drivetrain, processor);
 
     stopTime = time;
@@ -70,7 +71,9 @@ public class AutoPickUpBall extends CommandBase {
     angleError = 0;
     speedCorrection = 1;
 
-    holdGyro = false;
+    drivetrain.zeroGyro();
+
+    holdGyro = true;
     targetGyro = drivetrain.getGyroAngle();
     actualGyro = drivetrain.getGyroAngle();
 
@@ -82,8 +85,11 @@ public class AutoPickUpBall extends CommandBase {
   @Override
   public void execute() {
 
+    processor.runProcessor(0.1);
+    intake.runIntake();
+
     // Get vision values
-    double ballOffset = ntables.getVisionDouble("BallOffset0");
+    double ballOffset = ntables.getVisionDouble("BallOffset0") + kCameraCorrection;
     double ballDistance = ntables.getVisionDouble("BallDistance0");
     boolean foundBall = ntables.getVisionBoolean("FoundBall");
     SmartDashboard.putBoolean("FoundBAll", foundBall);
@@ -98,9 +104,6 @@ public class AutoPickUpBall extends CommandBase {
       targetGyro = actualGyro;
     }
     
-    SmartDashboard.putNumber("ActualGyro", actualGyro);
-    SmartDashboard.putNumber("TargetGyro", targetGyro);
-
     // Calculate correction based on ball offset if far away
     // or based on gyro angle if close enough
     if (holdGyro == false){
@@ -115,35 +118,68 @@ public class AutoPickUpBall extends CommandBase {
     }else{
       speedCorrection = 1;
     }
-    SmartDashboard.putNumber("SpeedCorrect", speedCorrection);
 
     // Run drive train
-    direction = -1;
-    if (foundBall) {
-      double leftDriveSpeed = (speedCorrection * direction * kAutoDriveSpeed) + angleCorrection;
+    if (foundBall) 
+    {
+
+      // Calculate left side drive speed 
+      double leftDriveSpeed = (speedCorrection * kAutoDriveSpeed) - angleCorrection;
+      if (leftDriveSpeed > 1)
+      {
+        leftDriveSpeed = 1;
+      }
+      else if (leftDriveSpeed < -1)
+      {
+        leftDriveSpeed = -1;
+      }
+
+      // Calculate right side drive speed
+      double rightDriveSpeed = (speedCorrection * kAutoDriveSpeed) + angleCorrection;
+      if (rightDriveSpeed > 1)
+      {
+        rightDriveSpeed = 1;
+      }
+      else if (rightDriveSpeed < -1)
+      {
+        rightDriveSpeed = -1;
+      }
+      
+      // Drive the bot
+      drivetrain.autoDrive(-leftDriveSpeed, -rightDriveSpeed);
+
+      // Put values on dashboard for testing
       SmartDashboard.putNumber("Left Drive Speed", leftDriveSpeed);
-      double rightDriveSpeed = (speedCorrection * direction * kAutoDriveSpeed) - angleCorrection;
       SmartDashboard.putNumber("Right Drive Speed", rightDriveSpeed);
-
-
       SmartDashboard.putNumber("EAspeedCorrection",speedCorrection);
-      SmartDashboard.putNumber("EAdirection",direction);
       SmartDashboard.putNumber("EAkAutoDriveSpeed",kAutoDriveSpeed);
       SmartDashboard.putNumber("EAangleCorrection",angleCorrection);
+      SmartDashboard.putNumber("SpeedCorrect", speedCorrection);
+      SmartDashboard.putNumber("ActualGyro", actualGyro);
+      SmartDashboard.putNumber("TargetGyro", targetGyro);
+      SmartDashboard.putNumber("Angle Correct", angleCorrection);
+  
+    } 
+    else 
+    {
 
-
-      drivetrain.autoDrive(leftDriveSpeed, rightDriveSpeed);
-    } else {
       drivetrain.stopDrive();//modified for showcase purposes
+
     }
+
     SmartDashboard.putNumber("Angle Correction", angleCorrection);
-    // processor.runProcessor(false);
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
+    // Stop all motors
     drivetrain.stopDrive();
+    processor.stopProcessor();
+    intake.stopIntake();
+
   }
 
   // Returns true when the command should end.
@@ -152,22 +188,27 @@ public class AutoPickUpBall extends CommandBase {
     
     boolean thereYet = false;
 
-    /*double time = timer.get();
+    double time = timer.get();
 
-    isBallOnBoard = processor.getIntakeSwitch();
+    //isBallOnBoard = processor.getIntakeSwitch();
+    isBallOnBoard = false;
  
     SmartDashboard.putNumber("Auto Time", time);
     SmartDashboard.putNumber("Auto Start Time", startTime);
     SmartDashboard.putBoolean("BallOnBoard", isBallOnBoard);
 
-    if(isBallOnBoard == true) {
+    if(isBallOnBoard == true)
+    {
       thereYet = true;
       ballsOnBoard++;
     }
-    else if (stopTime <= time - startTime){
+    else if (stopTime <= time - startTime)
+    {
       thereYet = true;
     }
-    SmartDashboard.putBoolean("Auto TY", thereYet);*/ //MAYBE THE ISSUE IS HERE <_---0----------------------
+
+    SmartDashboard.putBoolean("Auto TY", thereYet); //MAYBE THE ISSUE IS HERE <_---0----------------------
+
     return thereYet;
 
   }

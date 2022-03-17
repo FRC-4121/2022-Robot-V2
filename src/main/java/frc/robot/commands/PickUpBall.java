@@ -35,7 +35,7 @@ public class PickUpBall extends CommandBase {
   @Override
   public void execute(){
       mainIntake.runIntake();
-      mainProcessor.runProcessor();   
+      mainProcessor.runProcessor(0.1);   
       
       isBallOnBoard = mainProcessor.getIntakeSwitch();
       if(isBallOnBoard == true) {

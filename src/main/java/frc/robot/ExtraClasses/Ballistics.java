@@ -46,7 +46,7 @@ public class Ballistics {
     public double [] timeInAir; //quadratic equations have 2 roots. One of these is a positive time.
 
     //Ballistics array configuration values
-    public static int minDistance = 24;//in inches
+    public static int minDistance = 2;//in inches
     public static int maxDistance = 480;//in inches
     public int distanceIncrement = 1;//not recommended to change this value
     

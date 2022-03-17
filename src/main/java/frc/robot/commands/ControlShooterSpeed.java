@@ -61,7 +61,7 @@ public class ControlShooterSpeed extends CommandBase {
 
     // Create ballistics tables for high and low goals
     ballisticsHigh = new Ballistics(105, 34, 5, kShooterMaxRPM, 6, .25);
-    ballisticsLow = new Ballistics(37.3, 34, 5, kShooterMaxRPM, 6, 0.25);
+    ballisticsLow = new Ballistics(37, 34, 5, kShooterMaxRPM, 6, 0.25);
 
     // Initialize LIDAR distance sensor
     lidar = new LidarSensor(new DigitalInput(LIDAR_PORT));
@@ -84,11 +84,15 @@ public class ControlShooterSpeed extends CommandBase {
     shooterSpeedCorrection = 0;
     targetDistance = -1;
     targetSpeed = shooterTargetRPM;
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
+    
+    OKToShoot = false;
+
     if(toggleShooterOnOrOff){
       
       targetDistance = -1;
@@ -98,8 +102,8 @@ public class ControlShooterSpeed extends CommandBase {
       {
 
         // Get lidar distance
-        lidarDistance = lidar.getDistance() - distanceCorrection;
-        avgLidarDistance = lidarFilter.calculate(lidarDistance);
+        avgLidarDistance = lidar.getDistance() - distanceCorrection;
+        //avgLidarDistance = lidarFilter.calculate(lidarDistance);
         SmartDashboard.putNumber("Lidar Distance: ", avgLidarDistance);
         
         //check the distance from lidar
@@ -123,7 +127,7 @@ public class ControlShooterSpeed extends CommandBase {
         SmartDashboard.putNumber("Camera Distance: ", avgCameraDistance);
 
         // Choose proper target distance
-        if (false)
+        if (targetLock && false) //WE Decided not to use camera distance because it's very shakey
         {
 
           targetDistance = avgCameraDistance;
@@ -131,7 +135,7 @@ public class ControlShooterSpeed extends CommandBase {
 
         } else if (lidarDistanceGood) /* need a max distance as well */ {
 
-          targetDistance = avgLidarDistance;
+          targetDistance = avgLidarDistance - distanceCorrection;
           SmartDashboard.putNumber("Target Distance: ", targetDistance);
 
         } 
@@ -141,15 +145,16 @@ public class ControlShooterSpeed extends CommandBase {
         if (targetDistance > 0) {
 
           // get tballistics data
-          if (shootLow) {
+          /*if (shootLow) {
             ballisticsDataLow = ballisticsLow.queryBallisticsTable(targetDistance);
             shotPossible = ballisticsDataLow[0];
           } else {
             ballisticsDataHigh = ballisticsHigh.queryBallisticsTable(targetDistance);
             shotPossible = ballisticsDataHigh[0];
           }
-          
-
+          */
+                    
+          shotPossible = 1;
           if (shotPossible == 0) {
             SmartDashboard.putBoolean("Shot Possible", false);
             //setting the target speed to the default speed
@@ -158,23 +163,29 @@ public class ControlShooterSpeed extends CommandBase {
             SmartDashboard.putBoolean("Shot Possible", true);
             if (shootLow)
             {
-              targetSpeed = ballisticsDataLow[2];
-              //System.out.println("LOW" + targetSpeed);
-              //System.out.println("Possiblity low" + ballisticsDataLow[0] + "\n and high " + ballisticsDataHigh[0] + " other things idk" + ballisticsDataLow[1] + ballisticsDataLow[2]);
-              //System.out.println("HELLO" + ballisticsDataHigh[0]);
+              //targetSpeed = ballisticsDataLow[2];
+              //WE did a few tests and derived an equation where there's a relationship between distance and 
+              if ( targetDistance <= 26){
+                shooterTargetRPM = 1403;
+              }
+              else{
+                shooterTargetRPM = targetDistance * 8.5035 + 1169.8;
+
+              }
+
             } else {
-              targetSpeed = ballisticsDataHigh[2];
+              //targetSpeed = ballisticsDataHigh[2];
               //System.out.println("HIGH" + targetSpeed);
             }
             
           }
           SmartDashboard.putNumber("BallisticsTarget", targetSpeed);
-          targetRPM = targetSpeed * kShooterMaxRPM;
+          //shooterTargetRPM = targetSpeed * kShooterMaxRPM;
           SmartDashboard.putNumber("BallisticsRPM", targetSpeed * kShooterMaxRPM);
           currentRPM = Math.abs(shooter.getRPM());
 
           // Correct speed based on PID
-          shooterSpeedCorrection = -pidShooterSpeed.run(currentRPM, targetRPM);
+          shooterSpeedCorrection = -pidShooterSpeed.run(currentRPM, shooterTargetRPM);
 
           // if (Math.abs(currentRPM - targetRPM) > 50) {
           //   if (currentRPM < targetRPM) {
@@ -231,8 +242,11 @@ public class ControlShooterSpeed extends CommandBase {
       }
 
 
+      
+      OKToShoot = (currentRPM >= shooterTargetRPM - shooterRPMTol && currentRPM <= shooterTargetRPM + shooterRPMTol);
       //SmartDashboard.putNumber("Shooter Speed", shooter.getShooterSpeed());
       SmartDashboard.putNumber("Shooter RPM", shooter.getRPM());
+      SmartDashboard.putNumber("Target RPM", shooterTargetRPM);
     }
     else{
       shooter.shooterStop();

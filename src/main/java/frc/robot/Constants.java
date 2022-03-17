@@ -103,20 +103,22 @@ public final class Constants {
 
     //Shooter variables
     public static double shooterTargetRPM = 100;// need to test to figure out
+    public static final double shooterRPMTol = 100;  // tolerance for shooter RPM
     public static boolean shootLow = true;
-    public static double lidarMin = 3;
+    public static double lidarMin = 2;
     public static double lidarMax = 140;//need to test to find
     public static double visionDistanceTolerance = 10;
-    public static double defaultShooterSpeed = 0.3;
-    public static final double kP_Shoot = 0.000075; //was 0.1
+    public static double defaultShooterSpeed = 0.25;
+    public static final double kP_Shoot = 0.0002; //was 0.1
     public static final double kI_Shoot = 0.0000;
-    public static final double kD_Shoot = 0;
+    public static final double kD_Shoot = 0.00005;
     public static final double kF_Shoot = -1;
     public static final double distanceCorrection = 0;//need to find
     public static final int kPIDLoopIdxShoot = 0;
     public static final int kTimeoutMsShoot = 20;
     public static final int kShooterMaxRPM = 6100;
     public static boolean toggleShooterOnOrOff = true; //true runs the shooter motors, false keeps them off.
+    public static boolean OKToShoot = false;
     
     //Intake variables
     public static final double kIntakeSpeed = 0.1;
@@ -128,6 +130,7 @@ public final class Constants {
     //General variables
     public static boolean killAuto = false;
     public static int ballsOnBoard = 0;
+    public static final double kCameraCorrection = 3.5;
     
 
     public static class DrivetrainConstants {
@@ -141,7 +144,7 @@ public final class Constants {
         public static final double kHighGearSpeedCap = 1.0;
         public static final double kJoystickSpeedCorr = 0.72;
         public static final double kManualDriveSpeed = 0.75;
-        public static final double kAutoDriveSpeed = .6;
+        public static final double kAutoDriveSpeed = 0.4;
         public static final double kAutoDriveSpeedMin = 0.25;
         public static final double kAutoShootDriveSpeed = 0.75;
         public static final double kAutoTurnSpeed = 0.5;
@@ -155,7 +158,7 @@ public final class Constants {
         public static final double kP_Straight = 0.012;  //was 0.024
         public static final double kI_Straight = 0.0;
         public static final double kD_Straight = 0.0;
-        public static final double kP_Turn = .002;//was .003
+        public static final double kP_Turn = .008;//was .002
         public static final double kI_Turn = 0.0;
         public static final double kD_Turn = 0.001;//was 0.0004
         public static final double kP_DriveAngle = .003;//was .005

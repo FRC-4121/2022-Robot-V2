@@ -62,7 +62,7 @@ public class DriveWithJoysticks extends CommandBase {
     // Drive using xbox joystick values
     // kSpeedCorrection is to slow down the right motors because left motors were
     // running slower
-    drivetrain.drive(-kJoystickSpeedCorr * Xbox.getLeftY(), -kJoystickSpeedCorr * Xbox.getRightY());
+    drivetrain.drive(kJoystickSpeedCorr * Xbox.getLeftY(), kJoystickSpeedCorr * Xbox.getRightY() * kSpeedCorrection);
 
   }
 
