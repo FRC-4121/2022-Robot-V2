@@ -103,15 +103,16 @@ public final class Constants {
 
     //Shooter variables
     public static double shooterTargetRPM = 100;// need to test to figure out
+    public static double shooterActualRPM = 0;
     public static final double shooterRPMTol = 100;  // tolerance for shooter RPM
     public static boolean shootLow = true;
     public static double lidarMin = 2;
     public static double lidarMax = 140;//need to test to find
     public static double visionDistanceTolerance = 10;
     public static double defaultShooterSpeed = 0.25;
-    public static final double kP_Shoot = 0.0002; //was 0.1
-    public static final double kI_Shoot = 0.0000;
-    public static final double kD_Shoot = 0.00005;
+    public static final double kP_Shoot = 0.00025; //was 0.1
+    public static final double kI_Shoot = 0.00002;
+    public static final double kD_Shoot = 0.000055;
     public static final double kF_Shoot = -1;
     public static final double distanceCorrection = 0;//need to find
     public static final int kPIDLoopIdxShoot = 0;
@@ -119,6 +120,7 @@ public final class Constants {
     public static final int kShooterMaxRPM = 6100;
     public static boolean toggleShooterOnOrOff = true; //true runs the shooter motors, false keeps them off.
     public static boolean OKToShoot = false;
+    public static boolean runAutoSpeedControl = true;
     
     //Intake variables
     public static final double kIntakeSpeed = 0.1;
@@ -126,10 +128,11 @@ public final class Constants {
     public static int intakeLowerEncoderLimit = -100000; //also need to find
     public static int intakeEncoderTolerance = 10;
     public static boolean intakeEncodersInit = false;
+    public static String intakePosition = "UP";
 
     //General variables
     public static boolean killAuto = false;
-    public static int ballsOnBoard = 0;
+    public static int ballsOnBoard = 1;
     public static final double kCameraCorrection = 3.5;
     
 

@@ -47,8 +47,6 @@ public class ControlShooterSpeed extends CommandBase {
   private MedianFilter cameraFilter;
   private double avgLidarDistance;
   private double avgCameraDistance;
-  
-  private boolean runAutoSpeedControl = true;
 
   private double[] ballisticsDataHigh;
   private double[] ballisticsDataLow;
@@ -182,10 +180,10 @@ public class ControlShooterSpeed extends CommandBase {
           SmartDashboard.putNumber("BallisticsTarget", targetSpeed);
           //shooterTargetRPM = targetSpeed * kShooterMaxRPM;
           SmartDashboard.putNumber("BallisticsRPM", targetSpeed * kShooterMaxRPM);
-          currentRPM = Math.abs(shooter.getRPM());
+          shooterActualRPM = Math.abs(shooter.getRPM());
 
-          // Correct speed based on PID
-          shooterSpeedCorrection = -pidShooterSpeed.run(currentRPM, shooterTargetRPM);
+          //Correct speed based on PID
+          shooterSpeedCorrection = -pidShooterSpeed.run(shooterActualRPM, shooterTargetRPM);
 
           // if (Math.abs(currentRPM - targetRPM) > 50) {
           //   if (currentRPM < targetRPM) {
@@ -202,6 +200,7 @@ public class ControlShooterSpeed extends CommandBase {
 
           // Correct shooter speed control input
           // targetShooterSpeedCorrected = targetShooterSpeed * kSpeedCorrectionFactor;
+          targetSpeed = shooterTargetRPM/kShooterMaxRPM;
           targetShooterSpeedCorrected = targetSpeed + shooterSpeedCorrection;
 
           // Ensure corrected speed is within bounds

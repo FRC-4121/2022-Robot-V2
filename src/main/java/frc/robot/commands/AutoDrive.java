@@ -52,9 +52,8 @@ public class AutoDrive extends CommandBase {
     stopTime = time;
     drivetrain = drive;
 
-   
-    
-    addRequirements(drivetrain); 
+    addRequirements(drivetrain);
+
   }
 
 
@@ -66,6 +65,10 @@ public class AutoDrive extends CommandBase {
     timer.start();
     startTime = timer.get();
 
+    // Zero the gyro and encoders
+    drivetrain.zeroGyro();
+    drivetrain.zeroEncoders();
+
     leftEncoderStart = drivetrain.getMasterLeftEncoderPosition();
     rightEncoderStart = drivetrain.getMasterRightEncoderPosition();
 
@@ -75,6 +78,7 @@ public class AutoDrive extends CommandBase {
     //The constants for these need to be figured out
     pidDriveAngle = new PIDControl(kP_DriveAngle, kI_DriveAngle, kD_DriveAngle);
     pidDriveDistance = new PIDControl(kP_Straight, kI_Straight, kD_Straight);
+
   }
 
 
@@ -88,25 +92,25 @@ public class AutoDrive extends CommandBase {
     // SmartDashboard.putNumber("AngleCor", angleCorrection);
 
     // Calculate speed correction based on distance to target
-    totalRotationsRight = Math.abs((Math.abs(drivetrain.getMasterRightEncoderPosition()) - rightEncoderStart));
-    totalRotationsLeft = Math.abs((Math.abs(drivetrain.getMasterLeftEncoderPosition()) - leftEncoderStart));
-    distanceTraveled = (kWheelDiameter * Math.PI * (totalRotationsLeft + totalRotationsRight) / 2.0) / (DrivetrainConstants.kTalonFXPPR * kGearRatio);
-    speedCorrection = pidDriveDistance.run(distanceTraveled, targetDriveDistance); //the closer, the slower robot move. The further, the faster the robot moves
-    SmartDashboard.putNumber("DrSpCorrection", speedCorrection);
+    // totalRotationsRight = Math.abs((Math.abs(drivetrain.getMasterRightEncoderPosition()) - rightEncoderStart));
+    // totalRotationsLeft = Math.abs((Math.abs(drivetrain.getMasterLeftEncoderPosition()) - leftEncoderStart));
+    // distanceTraveled = (kWheelDiameter * Math.PI * (totalRotationsLeft + totalRotationsRight) / 2.0) / (DrivetrainConstants.kTalonFXPPR * kGearRatio);
+    // speedCorrection = pidDriveDistance.run(distanceTraveled, targetDriveDistance); //the closer, the slower robot move. The further, the faster the robot moves
+    // SmartDashboard.putNumber("DrSpCorrection", speedCorrection);
 
     //Check for overspeed correction
-    if(speedCorrection > 1){
+    // if(speedCorrection > 1){
 
-       speedCorrection = 1;
+    //    speedCorrection = 1;
 
-    } else if (speedCorrection < -1) {
+    // } else if (speedCorrection < -1) {
 
-      speedCorrection = -1;
+    //   speedCorrection = -1;
 
-    }
+    // }
 
 
-    driveSpeed = direction * speedCorrection * kAutoShootDriveSpeed;
+    driveSpeed = direction * speedCorrection * kAutoDriveSpeed;
 
     SmartDashboard.putNumber("DriveSpeed", driveSpeed);
     // Enforce minimum speed
@@ -152,6 +156,7 @@ public class AutoDrive extends CommandBase {
     double totalRotationsLeft = Math.abs((drivetrain.getMasterLeftEncoderPosition() - leftEncoderStart));
 
     distanceTraveled = (kWheelDiameter * Math.PI * (totalRotationsLeft + totalRotationsRight) / 2.0) / AUTO_ENCODER_REVOLUTION_FACTOR;
+    SmartDashboard.putNumber("Distance", distanceTraveled);
 
   }
 
@@ -177,8 +182,7 @@ public class AutoDrive extends CommandBase {
       thereYet = true;
     } else if (time - startTime >= stopTime) {
       thereYet = true;
-    } else if (killAuto == true)
-    {
+    } else if (killAuto == true) {
       thereYet = true;
     }
 
@@ -186,3 +190,4 @@ public class AutoDrive extends CommandBase {
   }
 
 }
+

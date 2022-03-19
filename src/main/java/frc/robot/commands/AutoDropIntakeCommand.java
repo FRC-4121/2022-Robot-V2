@@ -5,32 +5,27 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Intake;
-import static frc.robot.Constants.*;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import static frc.robot.Constants.*;
 
 
-public class RaiseIntake extends CommandBase {
+public class AutoDropIntakeCommand extends CommandBase {
+  
+   // Declare class variables
+   private Intake intake;
 
-  private Intake intake = new Intake();
+   //time
+   private double startTime;
+   private Timer timer;
+   private double stopTime = 2;
+   private double time;
 
-    //time
-    private double startTime;
-    private Timer timer;
-    private double stopTime = 4.8;
-    private double time;
-
-  /** Creates a new RaiseIntake. */
-  public RaiseIntake(Intake i) {
-
-    // Initialize class variables
-    intake = i;
-    timer = new Timer();
-
-    // Add subsystem requirements
-    addRequirements(intake);
-
+  /** Creates a new AutoDropIntakeCommand. */
+  public AutoDropIntakeCommand(Intake intake, double time) {
+    
+     stopTime = time;
+     addRequirements(intake); 
   }
 
   // Called when the command is initially scheduled.
@@ -39,28 +34,24 @@ public class RaiseIntake extends CommandBase {
 
     intake.zeroIntakeEncoder();
     intakeEncodersInit = true;
-
     timer.start();
     startTime = timer.get();
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    // Only move intake if within bounds
-    if (intakePosition != "UP")
-    {
-      intake.runIntakeRelease(-kIntakeSpeed);
-    }
+    // Run the intake release motor
+    intake.runIntakeRelease(kIntakeSpeed);
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+    
+    // Stop the intake motor
     intake.intakeReleaseStop();
     
   }
@@ -73,22 +64,17 @@ public class RaiseIntake extends CommandBase {
 
     time = timer.get();
 
-    if (intakePosition == "UP")
-    {
-
-      doneYet = true;
-
-    }
-    else if (time - startTime >= stopTime)
+    if (time - startTime >= stopTime)
     {
       doneYet = true;
-      intakePosition = "UP";
+      intakePosition = "DOWN";
     }
 
-    SmartDashboard.putString("intake Pos",intakePosition);
+    //SmartDashboard.putString("intake Pos",intakePosition);
 
     return doneYet;
 
   }
-  
+ 
 }
+

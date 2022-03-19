@@ -7,6 +7,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoSource;
 import frc.robot.subsystems.*;
 
 
@@ -31,6 +34,14 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    // Start camera capture
+    // VideoSource intakeCamera = new UsbCamera("Intake View", 0);
+    // intakeCamera.setResolution(160, 120);
+    // intakeCamera.setFPS(30);
+    // CameraServer.addCamera(intakeCamera);
+    CameraServer.startAutomaticCapture();
+
    }
 
   /**
@@ -48,7 +59,11 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
-    int ballColor = m_robotContainer.getColorSelection();
+    // Get ball color
+    m_robotContainer.getColorSelection();
+
+    //get Shooter Selection
+    m_robotContainer.getShooterSelection();
 
   }
 

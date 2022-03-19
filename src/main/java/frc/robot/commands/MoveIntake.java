@@ -4,9 +4,11 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 import static frc.robot.Constants.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class MoveIntake extends CommandBase {
@@ -14,12 +16,18 @@ public class MoveIntake extends CommandBase {
   // Declare class variables
   private Intake intake;
 
+  //time
+  private double startTime;
+  private Timer timer;
+  private double stopTime = 2;
+  private double time;
+
   /** Creates a new DropIntake. */
   public MoveIntake(Intake i) {
 
     // Initialize class variables
     intake = i;
-
+    timer = new Timer();
     // Add subsystem requirements
     addRequirements(intake);
 
@@ -29,20 +37,19 @@ public class MoveIntake extends CommandBase {
   @Override
   public void initialize() {
 
-    if(!intakeEncodersInit)
-    {
       intake.zeroIntakeEncoder();
       intakeEncodersInit = true;
-    }
+      timer.start();
+      startTime = timer.get();
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
-    
+
     // Run the intake release motor
-    double intakePos = intake.getIntakeReleaseEncoderPosition();
-    if (intakePos >= intakeLowerEncoderLimit + intakeEncoderTolerance && intakePos <= intakeRaiseEncoderLimit - intakeEncoderTolerance)
+    if (intakePosition != "DOWN");
     {
       intake.runIntakeRelease(kIntakeSpeed);
     }
@@ -61,10 +68,25 @@ public class MoveIntake extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    boolean doneYet = false;
 
-    // Never stop the command
-    return false;
+    time = timer.get();
 
+    if (intakePosition == "DOWN")
+    {
+
+      doneYet = true;
+
+    }
+    else if (time - startTime >= stopTime)
+    {
+      doneYet = true;
+      intakePosition = "DOWN";
+    }
+
+    SmartDashboard.putString("intake Pos",intakePosition);
+
+    return doneYet;
   }
   
 }

@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Processor;
 import static frc.robot.Constants.*;
 import edu.wpi.first.wpilibj.Timer;
@@ -14,19 +13,21 @@ import edu.wpi.first.wpilibj.Timer;
 public class AutoShoot extends CommandBase {
 
   //attributes; variables
-  private final Shooter shooter;
   private final Processor processor;
   private Timer timer = new Timer();
+  private double startTime;
   private double endTime;
-  private boolean isShootBall = false;
+  private double delayTime;
 
   
   /** Creates a new ShootBall. */
-  public AutoShoot(Shooter subsystem, Processor anotherSubsystem, double time) {
-    shooter = subsystem;
-    processor = anotherSubsystem;
-    endTime = time;
-    addRequirements(subsystem,anotherSubsystem);
+  public AutoShoot(Processor process, double stoptime, double delay) {
+
+    processor = process;
+    endTime = stoptime;
+    delayTime = delay;
+    addRequirements(processor);
+
   }
 
 
@@ -35,8 +36,7 @@ public class AutoShoot extends CommandBase {
   public void initialize() {
 
     timer.start();
-    //We are going to need some kind of way to make sure we are targeting the goal, if we do it in here
-    //we also need to find the distance from the goal that we are, and change the speed accordingly
+    startTime = timer.get();
 
   }
 
@@ -45,12 +45,15 @@ public class AutoShoot extends CommandBase {
   @Override
   public void execute(){
 
-    shooter.shooterRun(-30);
+    double currentTime = timer.get();
+    double elapsedTime = currentTime - startTime;
 
     // Load the balls to the shooter once the shooter gets up to speed
-    if (Math.abs(shooter.getRPM()) >= shooterTargetRPM) {
+    if (elapsedTime >= delayTime && Math.abs(shooterActualRPM) >= shooterTargetRPM) {
+
       processor.runLoader(0.2);
       processor.runProcessor(0.15);
+
     }
     
   
@@ -59,25 +62,19 @@ public class AutoShoot extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted){
-    shooter.shooterStop();
+
     processor.stopLoader();
     processor.stopProcessor();
+
   }
 
   
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+
     boolean doneYet = false;
     
-    //is the ball shot
-    isShootBall = shooter.getShooterSwitch();
-
-    if(isShootBall == true )
-    {
-      ballsOnBoard--;
-    }
-
     if(ballsOnBoard == 0)
     {
       doneYet = true;

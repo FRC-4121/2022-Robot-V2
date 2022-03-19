@@ -16,7 +16,8 @@ public class PickUpBall extends CommandBase {
   //creating intake subsystem
   private final Intake mainIntake;
   private final Processor mainProcessor; //processor should run when intake runs
-  private boolean isBallOnBoard = false;
+  private boolean isBallOnBoard = true;
+  private boolean firstTime = true;
 
   //constructor
   public PickUpBall(Intake intake, Processor processor){
@@ -38,10 +39,15 @@ public class PickUpBall extends CommandBase {
       mainProcessor.runProcessor(0.1);   
       
       isBallOnBoard = mainProcessor.getIntakeSwitch();
-      if(isBallOnBoard == true) {
+      if(isBallOnBoard == false && firstTime == true) {
         ballsOnBoard++;
-        SmartDashboard.putNumber("BallsOnBoard", ballsOnBoard);
+        firstTime = false;
+      } else if(isBallOnBoard)
+      {
+        firstTime = true;
       }
+      SmartDashboard.putNumber("BallsOnBoard", ballsOnBoard);
+
   }
 
   

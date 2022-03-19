@@ -32,8 +32,6 @@ public class RobotContainer {
   private final RotateClimber rotateClimber= new RotateClimber();
   private final Shooter shooter = new Shooter();
   private final Processor processor = new Processor();
-  private final CameraController camera = new CameraController();
-
 
   private final NetworkTableQuerier table = new NetworkTableQuerier();
 
@@ -80,7 +78,6 @@ public class RobotContainer {
 
   //xboxButtons
   private final JoystickButton intakeButton;
-  private final JoystickButton moveIntake;
   private final JoystickButton climberExtendButton;
   private final JoystickButton climberRetractButton;
   private final JoystickButton climberRotateFrontButton;
@@ -99,6 +96,9 @@ public class RobotContainer {
   private final JoystickButton AutoPos3;
   private static JoystickButton redButton;
   private static JoystickButton blueButton;
+  private static JoystickButton shooterControlButton;
+  private static JoystickButton lowerIntakeButton;
+  private static JoystickButton raiseIntakeButton;
   //private final JoystickButton autoClimbButton;
 
   
@@ -113,7 +113,6 @@ public class RobotContainer {
 
   
     //xboxButtons
-    moveIntake = new JoystickButton(xbox, xboxXButton);
     intakeButton = new JoystickButton(xbox, xboxLeftBumber); //feeds to processor
     climberExtendButton = new JoystickButton(xboxClimber, xboxRightBumber);
     climberRetractButton = new JoystickButton(xboxClimber, xboxLeftBumber);
@@ -136,6 +135,9 @@ public class RobotContainer {
     AutoPos3 = new JoystickButton(launchpad,LaunchPadDial3);
     redButton = new JoystickButton(launchpad, LaunchPadSwitch5top);
     blueButton = new JoystickButton(launchpad, LaunchPadSwitch5bottom);
+    shooterControlButton = new JoystickButton(launchpad, LaunchPadSwitch7);
+    lowerIntakeButton = new JoystickButton(launchpad, LaunchPadSwitch6bottom);
+    raiseIntakeButton = new JoystickButton(launchpad, LaunchPadSwitch6top); 
 
     //Configure default commands
     configureDefaultCommands();
@@ -143,17 +145,6 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    // Set initial ball color
-    int ballColor = getColorSelection();
-    table.setColor(ballColor);
-    if (ballColor == 1)
-    {
-      SmartDashboard.putString("Ball Color", "Red");
-    }
-    else
-    {
-      SmartDashboard.putString("Ball Color", "Blue");
-    }
 
   }
 
@@ -180,8 +171,8 @@ public class RobotContainer {
 
     //intake
     intakeButton.whileHeld(intakeCommand); //whileHeld
-    moveIntake.whileHeld(dropintakeCommand);
-    raiseButton.whileHeld(raiseIntakeCommand);
+    lowerIntakeButton.whenPressed(dropintakeCommand);
+    raiseIntakeButton.whenPressed(raiseIntakeCommand);
 
     //climber
     climberExtendButton.whileHeld(extendClimberCommand);
@@ -216,16 +207,31 @@ public class RobotContainer {
 
    
   //gets the color selected for the match
-  public static int getColorSelection()
+  public void getColorSelection()
   {
     
     if (blueButton.get() == true) {
-      return 2;
+      table.setColor(2);
+      SmartDashboard.putString("Ball Color", "Blue");
     } else if (redButton.get() == true) {
-      return 1;
+      table.setColor(1);
+      SmartDashboard.putString("Ball Color", "Red");
     } else {
-      return -1;
+      table.setColor(1);
+      SmartDashboard.putString("Ball Color", "Red");
     }
+  }
+
+  public void getShooterSelection()
+  {
+
+    if(shooterControlButton.get() == true)
+    {
+      runAutoSpeedControl = false;
+    } else {
+      runAutoSpeedControl = true;
+    }
+
   }
   
 
@@ -254,10 +260,10 @@ public class RobotContainer {
 */
 
 
-    //return new ExtendClimber(climber);
-     return new AutoPickUpBall(drivetrain, processor, intake, table, 15);
-    // return new AutoShooTimed(drivetrain, shooter, pneumatics, process2, turret, ntables, 60);
-    // return new RunHoodToPos(turret, 240);
+    return new AutoGroup1(processor, drivetrain, intake, 65, 4, 10);
+    //return new AutoIntakeAndMoveGroup(intake, drivetrain, 65, 10);
+    //return new AutoDrive(drivetrain, 65, 0, -1, 10);
+
   }
 
 
