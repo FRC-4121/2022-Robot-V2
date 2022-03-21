@@ -197,12 +197,6 @@ public class RobotContainer {
     redButton.whenPressed(setRedBall);
     blueButton.whenPressed(setBlueBall);
     
-    
-    
-    
-
-    
-    
   }
 
    
@@ -260,10 +254,9 @@ public class RobotContainer {
 */
 
 
-    return new AutoGroup1(processor, drivetrain, intake, 65, 4, 10);
-    //return new AutoIntakeAndMoveGroup(intake, drivetrain, 65, 10);
-    //return new AutoDrive(drivetrain, 65, 0, -1, 10);
-
+    //return new AutoGroup1(processor, drivetrain, intake, 65, 4, 10);
+    return new AutoGroup2(drivetrain, processor, intake, table, 120, 10, 3);
+    //return new AutoPickUpBall(drivetrain, processor, intake, table, 10);
   }
 
 

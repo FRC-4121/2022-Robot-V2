@@ -222,11 +222,18 @@ public class ControlShooterSpeed extends CommandBase {
           // will need to revert to a pid for RPM in some way. This would be sufficiently
           // complicated that it is a low priority, however.
 
+          OKToShoot = (shooterActualRPM >= shooterTargetRPM - shooterRPMTol && shooterActualRPM <= shooterTargetRPM + shooterRPMTol);
+
         } else {
 
           //Run shooter at default speed
           shooterSpeedCorrection = 0;
           shooter.shooterRun(-defaultShooterSpeed);
+
+          // Check if OK to shoot
+          shooterActualRPM = Math.abs(shooter.getRPM());
+          targetRPM = defaultShooterSpeed * kShooterMaxRPM;
+          OKToShoot = (shooterActualRPM >= shooterTargetRPM - shooterRPMTol && shooterActualRPM <= shooterTargetRPM + shooterRPMTol);
 
         }
 
@@ -238,18 +245,35 @@ public class ControlShooterSpeed extends CommandBase {
         shooterSpeedCorrection = 0;
         shooter.shooterRun(-defaultShooterSpeed);
 
+        // Check if OK to shoot
+        shooterActualRPM = Math.abs(shooter.getRPM());
+        targetRPM = defaultShooterSpeed * kShooterMaxRPM;
+       // OKToShoot = (shooterActualRPM >= shooterTargetRPM - shooterRPMTol-100 && shooterActualRPM <= shooterTargetRPM + shooterRPMTol);
+       //if shooter speed is constant, allaw the ball to be shot all of the time 
+       OKToShoot = true;
       }
 
-
-      
-      OKToShoot = (currentRPM >= shooterTargetRPM - shooterRPMTol && currentRPM <= shooterTargetRPM + shooterRPMTol);
       //SmartDashboard.putNumber("Shooter Speed", shooter.getShooterSpeed());
       SmartDashboard.putNumber("Shooter RPM", shooter.getRPM());
       SmartDashboard.putNumber("Target RPM", shooterTargetRPM);
+
     }
     else{
+
       shooter.shooterStop();
+      
     }
+
+    // Get shooter switch value
+    if (!shooter.getShooterSwitch())
+    {
+      isBallShot = 1;
+    }
+    else
+    {
+      isBallShot = 0;
+    }
+    SmartDashboard.putNumber("Ball Shot", isBallShot);
   
   }
 

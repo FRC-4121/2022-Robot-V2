@@ -16,8 +16,6 @@ public class Processor extends SubsystemBase {
   //Limit switches to count balls on board
   private DigitalInput intakeSwitch = new DigitalInput(1);
   
-
-
   //we have two motors facing each other but both running to feed in, so one of them must be in the opposite direction AKA negative.
   private WPI_TalonSRX leftProcessor = new WPI_TalonSRX(LEFT_PROCESSOR);
   private WPI_TalonSRX rightProcessor = new WPI_TalonSRX(RIGHT_PROCESSOR);

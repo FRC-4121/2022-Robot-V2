@@ -43,7 +43,8 @@ public class AutoPickUpBall extends CommandBase {
   private boolean isBallOnBoard;
 
   private Timer timer;
-  private PIDControl pidAngle; 
+  private PIDControl pidAngle;
+  private boolean runProcessor;
 
 
   public AutoPickUpBall(Drivetrain drive, Processor process, Intake in, NetworkTableQuerier table, double time) {
@@ -73,11 +74,12 @@ public class AutoPickUpBall extends CommandBase {
 
     drivetrain.zeroGyro();
 
-    holdGyro = true;
+    holdGyro = false;
     targetGyro = drivetrain.getGyroAngle();
     actualGyro = drivetrain.getGyroAngle();
 
-    isBallOnBoard = false;
+    isBallOnBoard = true;
+    runProcessor = false;
 
   }
 
@@ -163,7 +165,7 @@ public class AutoPickUpBall extends CommandBase {
     else 
     {
 
-      drivetrain.stopDrive();//modified for showcase purposes
+      //drivetrain.stopDrive();//modified for showcase purposes
 
     }
 
@@ -190,14 +192,31 @@ public class AutoPickUpBall extends CommandBase {
 
     double time = timer.get();
 
-    //isBallOnBoard = processor.getIntakeSwitch();
-    isBallOnBoard = false;
+    isBallOnBoard = true;
+    isBallOnBoard = processor.getIntakeSwitch();
  
     SmartDashboard.putNumber("Auto Time", time);
     SmartDashboard.putNumber("Auto Start Time", startTime);
     SmartDashboard.putBoolean("BallOnBoard", isBallOnBoard);
 
-    if(isBallOnBoard == true)
+    if(isBallOnBoard == false) {
+      runProcessor = true;
+      drivetrain.stopDrive();
+    }
+    else if (isBallOnBoard)
+    {
+      if (runProcessor)
+      {
+        thereYet = true;
+        runProcessor = false;
+      }
+      else
+      {
+        thereYet = false;
+      }
+    }
+
+    if(isBallOnBoard == false)
     {
       thereYet = true;
       ballsOnBoard++;

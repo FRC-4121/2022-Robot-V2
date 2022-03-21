@@ -49,7 +49,7 @@ public class AutoShoot extends CommandBase {
     double elapsedTime = currentTime - startTime;
 
     // Load the balls to the shooter once the shooter gets up to speed
-    if (elapsedTime >= delayTime && Math.abs(shooterActualRPM) >= shooterTargetRPM) {
+    if (elapsedTime >= delayTime && OKToShoot) {
 
       processor.runLoader(0.2);
       processor.runProcessor(0.15);
@@ -75,6 +75,11 @@ public class AutoShoot extends CommandBase {
 
     boolean doneYet = false;
     
+    if (isBallShot == 1)
+    {
+      ballsOnBoard--;
+    }
+
     if(ballsOnBoard == 0)
     {
       doneYet = true;

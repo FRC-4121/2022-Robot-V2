@@ -10,8 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSource;
-import frc.robot.subsystems.*;
-
+import static frc.robot.Constants.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -77,6 +76,11 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+
+    // Turn off auto shooter speed control
+    runAutoSpeedControl = false;
+
+    // Get the autonomous command
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -91,6 +95,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -98,6 +103,10 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    // Turn on auto shooter speed control
+    runAutoSpeedControl = true;
+
   }
 
   /** This function is called periodically during operator control. */

@@ -9,10 +9,12 @@ import frc.robot.subsystems.Shooter;
 
 public class RunShooter extends CommandBase {
   
-  private final Shooter shooter = new Shooter();
+  private final Shooter shooter;
   
   /** Creates a new RunShooter. */
   public RunShooter(Shooter shoot) {
+
+    shooter = shoot;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

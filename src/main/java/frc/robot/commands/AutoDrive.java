@@ -66,7 +66,7 @@ public class AutoDrive extends CommandBase {
     startTime = timer.get();
 
     // Zero the gyro and encoders
-    drivetrain.zeroGyro();
+    //drivetrain.zeroGyro();
     drivetrain.zeroEncoders();
 
     leftEncoderStart = drivetrain.getMasterLeftEncoderPosition();
