@@ -255,7 +255,7 @@ public class RobotContainer {
 
 
     //return new AutoGroup1(processor, drivetrain, intake, 65, 4, 10);
-    return new AutoGroup2(drivetrain, processor, intake, table, 120, 10, 3);
+    return new AutoGroup3(drivetrain, processor, intake, table, 95, 10, 3);
     //return new AutoPickUpBall(drivetrain, processor, intake, table, 10);
   }
 

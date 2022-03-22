@@ -93,10 +93,10 @@ public final class Constants {
     public static final int climbRotateMaxEncoder = -1000000;
     public static final int climbRotateMinEncoder = 1000000;
     public static final int climbEncoderTolerance = 3000;
-    public static final double climberSpeed = 0.3;
+    public static final double climberSpeed = 0.4;
     public static final double rotateSpeed = 0.5;
-    public static double ClimberExtendLimiter = 0.785;
-    public static double ClimberRetractLimiter = 0.9;
+    public static double ClimberExtendLimiter = 0.94;
+    public static double ClimberRetractLimiter = 0.94;
     public static double rotateClimberLimiter = 0.9;
     public static boolean climberEncoderInit = false;
     public static final double climberStartPos = 50;
@@ -109,9 +109,9 @@ public final class Constants {
     public static double lidarMin = 2;
     public static double lidarMax = 140;//need to test to find
     public static double visionDistanceTolerance = 10;
-    public static double defaultShooterSpeed = 0.23;
-    public static final double kP_Shoot = 0.00025; //was 0.1
-    public static final double kI_Shoot = 0.00002;
+    public static double defaultShooterSpeed = 0.25;
+    public static final double kP_Shoot = 0.00027; //was 0.1
+    public static final double kI_Shoot = 0.000025;
     public static final double kD_Shoot = 0.000055;
     public static final double kF_Shoot = -1;
     public static final double distanceCorrection = 0;//need to find
@@ -164,7 +164,7 @@ public final class Constants {
         public static final double kD_Straight = 0.0;
         public static final double kP_Turn = .008;//was .002
         public static final double kI_Turn = 0.0;
-        public static final double kD_Turn = 0.001;//was 0.0004
+        public static final double kD_Turn = 0.0015;//was 0.0004
         public static final double kP_DriveAngle = .003;//was .005
         public static final double kI_DriveAngle = 0.0;
         public static final double kD_DriveAngle = 0.0004;

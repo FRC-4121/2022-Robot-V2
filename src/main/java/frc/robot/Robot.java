@@ -61,9 +61,6 @@ public class Robot extends TimedRobot {
     // Get ball color
     m_robotContainer.getColorSelection();
 
-    //get Shooter Selection
-    m_robotContainer.getShooterSelection();
-
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -111,7 +108,12 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+    //get Shooter Selection
+    m_robotContainer.getShooterSelection();
+
+  }
 
   @Override
   public void testInit() {

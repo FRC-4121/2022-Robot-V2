@@ -15,7 +15,7 @@ public class AutoGroup1 extends SequentialCommandGroup {
   /** Creates a new AutoGroup1. */
   public AutoGroup1(Processor processor, Drivetrain drivetrain, Intake intake, double distance, double delaytime, double stoptime) {
     // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+    
     addCommands(new MoveIntake(intake), new AutoShoot(processor, stoptime, delaytime), new AutoIntakeAndMoveGroup(intake, drivetrain, distance, stoptime));
   }
 }

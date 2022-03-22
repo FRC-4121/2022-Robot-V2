@@ -232,7 +232,7 @@ public class ControlShooterSpeed extends CommandBase {
 
           // Check if OK to shoot
           shooterActualRPM = Math.abs(shooter.getRPM());
-          targetRPM = defaultShooterSpeed * kShooterMaxRPM;
+          shooterTargetRPM = defaultShooterSpeed * kShooterMaxRPM;
           OKToShoot = (shooterActualRPM >= shooterTargetRPM - shooterRPMTol && shooterActualRPM <= shooterTargetRPM + shooterRPMTol);
 
         }
@@ -247,10 +247,10 @@ public class ControlShooterSpeed extends CommandBase {
 
         // Check if OK to shoot
         shooterActualRPM = Math.abs(shooter.getRPM());
-        targetRPM = defaultShooterSpeed * kShooterMaxRPM;
-       // OKToShoot = (shooterActualRPM >= shooterTargetRPM - shooterRPMTol-100 && shooterActualRPM <= shooterTargetRPM + shooterRPMTol);
-       //if shooter speed is constant, allaw the ball to be shot all of the time 
-       OKToShoot = true;
+        shooterTargetRPM = defaultShooterSpeed * kShooterMaxRPM;
+        //shooter wasn't ramping up high enough in teleop drive testing
+        OKToShoot = (shooterActualRPM >= shooterTargetRPM - shooterRPMTol - 200 && shooterActualRPM <= shooterTargetRPM + shooterRPMTol);
+       
       }
 
       //SmartDashboard.putNumber("Shooter Speed", shooter.getShooterSpeed());

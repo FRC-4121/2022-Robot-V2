@@ -73,6 +73,10 @@ public class AutoPickUpBall extends CommandBase {
     speedCorrection = 1;
 
     drivetrain.zeroGyro();
+    drivetrain.zeroEncoders();
+
+    leftEncoderStart = drivetrain.getMasterLeftEncoderPosition();
+    rightEncoderStart = drivetrain.getMasterRightEncoderPosition();
 
     holdGyro = false;
     targetGyro = drivetrain.getGyroAngle();
@@ -115,10 +119,10 @@ public class AutoPickUpBall extends CommandBase {
     }
     
     // Calculate speed correction based on distance
-    if ((ballDistance > 30) && foundBall == true){
+    if ((ballDistance > 50) && foundBall == true){
       speedCorrection = 1;
     }else{
-      speedCorrection = 1;
+      speedCorrection = .6;
     }
 
     // Run drive train
@@ -153,9 +157,9 @@ public class AutoPickUpBall extends CommandBase {
       // Put values on dashboard for testing
       SmartDashboard.putNumber("Left Drive Speed", leftDriveSpeed);
       SmartDashboard.putNumber("Right Drive Speed", rightDriveSpeed);
-      SmartDashboard.putNumber("EAspeedCorrection",speedCorrection);
-      SmartDashboard.putNumber("EAkAutoDriveSpeed",kAutoDriveSpeed);
-      SmartDashboard.putNumber("EAangleCorrection",angleCorrection);
+      SmartDashboard.putNumber("SpeedCorrection",speedCorrection);
+      SmartDashboard.putNumber("kAutoDriveSpeed",kAutoDriveSpeed);
+      SmartDashboard.putNumber("angleCorrection",angleCorrection);
       SmartDashboard.putNumber("SpeedCorrect", speedCorrection);
       SmartDashboard.putNumber("ActualGyro", actualGyro);
       SmartDashboard.putNumber("TargetGyro", targetGyro);
@@ -170,6 +174,12 @@ public class AutoPickUpBall extends CommandBase {
     }
 
     SmartDashboard.putNumber("Angle Correction", angleCorrection);
+
+    double totalRotationsRight = Math.abs((drivetrain.getMasterRightEncoderPosition() - rightEncoderStart)); //does getEncoderPosition return rotations or another unit?
+    double totalRotationsLeft = Math.abs((drivetrain.getMasterLeftEncoderPosition() - leftEncoderStart));
+
+    distanceTraveled = (kWheelDiameter * Math.PI * (totalRotationsLeft + totalRotationsRight) / 2.0) / AUTO_ENCODER_REVOLUTION_FACTOR;
+    SmartDashboard.putNumber("Distance", distanceTraveled);
     
   }
 

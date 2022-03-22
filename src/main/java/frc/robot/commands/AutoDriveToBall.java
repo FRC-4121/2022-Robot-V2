@@ -158,7 +158,7 @@ public class AutoDriveToBall extends CommandBase {
     {
       thereYet = true;
     }
-    SmartDashboard.putBoolean("Auto TY", thereYet);
+    SmartDashboard.putBoolean("Auto ThereYet", thereYet);
     return thereYet;
 
   }

@@ -16,7 +16,7 @@ public class AutoGroup2 extends SequentialCommandGroup {
   /** Creates a new AutoGroup2. */
   public AutoGroup2(Drivetrain drivetrain, Processor processor, Intake intake, NetworkTableQuerier tables, double distance, double stopTime, double delayTime) {
     // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new AutoIntakeAndShoot(intake, processor, stopTime, delayTime), new AutoPickUpBall(drivetrain, processor, intake, tables, stopTime), new AutoDrive(drivetrain, distance, 0, 1, 10));
+    
+    addCommands(new AutoIntakeAndShoot(intake, processor, stopTime, delayTime), new AutoPickUpBall(drivetrain, processor, intake, tables, stopTime));
   }
 }
