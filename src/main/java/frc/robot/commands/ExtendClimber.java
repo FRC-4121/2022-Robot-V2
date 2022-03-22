@@ -18,6 +18,8 @@ public class ExtendClimber extends CommandBase {
   private double rightSpeed;
   private double leftStopPos;
   private double rightStopPos;
+  double leftClimberPos;
+  double rightClimberPos;
   
   //constructor
   public ExtendClimber(Climber climb) {
@@ -41,7 +43,7 @@ public class ExtendClimber extends CommandBase {
     leftStopPos = 10000000;
     rightStopPos = 10000000;
 
-    if(!climberEncoderInit)
+    if(!climberEncoderInit)//happens only once @ beginning 
     {
       m_climber.zeroClimberEncoders();
       climberEncoderInit = true;
@@ -53,13 +55,20 @@ public class ExtendClimber extends CommandBase {
   @Override
   public void execute() {
 
-    double leftClimberPos = m_climber.getLeftClimbEncoderPosition();
-    if (leftClimberPos < leftStopPos) {
-      m_climber.runLeftClimber(leftSpeed);
+    leftClimberPos = m_climber.getLeftClimbEncoderPosition();
+    if(leftClimberPos <= climbMinEncoder-1  || leftClimberPos > leftClimbMaxEncoder - climbEncoderTolerance) {
+      m_climber.runLeftClimber(0);
+    }
+    else{
+      m_climber.runLeftClimber(leftSpeed); 
     }
 
-    double rightClimberPos = m_climber.getRightCLimbEncoderPosition();
-    if (rightClimberPos < rightStopPos) {
+    rightClimberPos = m_climber.getRightCLimbEncoderPosition();
+    if(rightClimberPos <= climbMinEncoder-1 || rightClimberPos > rightClimbMaxEncoder - climbEncoderTolerance) {
+      m_climber.runRightClimber(0);
+    }
+    else
+    {
       m_climber.runRightClimber(-rightSpeed * ClimberExtendLimiter);
     }
 
@@ -83,14 +92,14 @@ public class ExtendClimber extends CommandBase {
     boolean doneYet = false;
 
      // Only run left climber if within bounds
-     double leftClimberPos = m_climber.getLeftClimbEncoderPosition();
+     leftClimberPos = m_climber.getLeftClimbEncoderPosition();
      if(leftClimberPos <= climbMinEncoder-1  || leftClimberPos > leftClimbMaxEncoder - climbEncoderTolerance){
       leftSpeed = 0;
       leftStopPos = leftClimberPos;
      }
  
      // Only run right climber if within bounds
-     double rightClimberPos = m_climber.getRightCLimbEncoderPosition();
+     rightClimberPos = m_climber.getRightCLimbEncoderPosition();
      if(rightClimberPos <= climbMinEncoder-1 || rightClimberPos > rightClimbMaxEncoder - climbEncoderTolerance){
       rightSpeed = 0;
       rightStopPos = rightClimberPos;

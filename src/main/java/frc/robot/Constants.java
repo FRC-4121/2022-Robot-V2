@@ -87,16 +87,16 @@ public final class Constants {
     //Climber variables
     public static final int kPIDLoopIdxClimb = 0;
     public static final int kTimeoutMsClimb = 20;
-    public static final int rightClimbMaxEncoder = 171100; // TBD encoder raw sensor units (2048 in one rotation) for max height that climber should go
-    public static final int leftClimbMaxEncoder = 171100;
+    public static final int rightClimbMaxEncoder = 185100; // TBD encoder raw sensor units (2048 in one rotation) for max height that climber should go
+    public static final int leftClimbMaxEncoder = 204100;
     public static final int climbMinEncoder = 0;//need to find
     public static final int climbRotateMaxEncoder = -1000000;
     public static final int climbRotateMinEncoder = 1000000;
     public static final int climbEncoderTolerance = 3000;
     public static final double climberSpeed = 0.4;
     public static final double rotateSpeed = 0.5;
-    public static double ClimberExtendLimiter = 0.94;
-    public static double ClimberRetractLimiter = 0.94;
+    public static double ClimberExtendLimiter = 0.93;
+    public static double ClimberRetractLimiter = 0.93;
     public static double rotateClimberLimiter = 0.9;
     public static boolean climberEncoderInit = false;
     public static final double climberStartPos = 50;
@@ -109,7 +109,7 @@ public final class Constants {
     public static double lidarMin = 2;
     public static double lidarMax = 140;//need to test to find
     public static double visionDistanceTolerance = 10;
-    public static double defaultShooterSpeed = 0.25;
+    public static double defaultShooterSpeed = 0.26;
     public static final double kP_Shoot = 0.00027; //was 0.1
     public static final double kI_Shoot = 0.000025;
     public static final double kD_Shoot = 0.000055;
@@ -146,7 +146,7 @@ public final class Constants {
         public static final double kWheelDiameter = 6.0;
         public static final double kLowGearSpeedCap = 0.8;//In case full speed draws excessive power, these are an emergency measure
         public static final double kHighGearSpeedCap = 1.0;
-        public static final double kJoystickSpeedCorr = 0.72;
+        public static final double kJoystickSpeedCorr = 0.8;
         public static final double kManualDriveSpeed = 0.75;
         public static final double kAutoDriveSpeed = 0.5;
         public static final double kAutoDriveSpeedMin = 0.25;

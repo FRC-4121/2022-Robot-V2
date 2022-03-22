@@ -171,12 +171,12 @@ public class Drivetrain extends SubsystemBase {
     if(DIRECTION_MULTIPLIER == 1){
       SmartDashboard.putNumber("Left Drive Speed", currentGear * DIRECTION_MULTIPLIER * leftJoyY);
       SmartDashboard.putNumber("Right Drive Speed", currentGear * DIRECTION_MULTIPLIER * rightJoyY);
-      drivetrain.tankDrive(currentGear * DIRECTION_MULTIPLIER * leftJoyY, currentGear * DIRECTION_MULTIPLIER * rightJoyY);    
+      drivetrain.tankDrive(currentGear * DIRECTION_MULTIPLIER * leftJoyY * kSpeedCorrection, currentGear * DIRECTION_MULTIPLIER * rightJoyY);    
     }
     else{
       SmartDashboard.putNumber("Left Drive Speed", currentGear * DIRECTION_MULTIPLIER * rightJoyY);
       SmartDashboard.putNumber("Right Drive Speed", currentGear * DIRECTION_MULTIPLIER * leftJoyY);
-      drivetrain.tankDrive(currentGear * DIRECTION_MULTIPLIER * rightJoyY, currentGear * DIRECTION_MULTIPLIER * leftJoyY);    
+      drivetrain.tankDrive(currentGear * DIRECTION_MULTIPLIER * rightJoyY, currentGear * DIRECTION_MULTIPLIER * leftJoyY * kSpeedCorrection);    
     }
 
    // SmartDashboard.putNumber("Left Master Voltage", leftMasterFalcon.getOutputVoltage());

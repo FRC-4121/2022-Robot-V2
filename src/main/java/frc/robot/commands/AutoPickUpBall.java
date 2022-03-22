@@ -46,6 +46,8 @@ public class AutoPickUpBall extends CommandBase {
   private PIDControl pidAngle;
   private boolean runProcessor;
 
+  private boolean isSlowSpeed;
+
 
   public AutoPickUpBall(Drivetrain drive, Processor process, Intake in, NetworkTableQuerier table, double time) {
 
@@ -84,6 +86,7 @@ public class AutoPickUpBall extends CommandBase {
 
     isBallOnBoard = true;
     runProcessor = false;
+    isSlowSpeed = false;
 
   }
 
@@ -119,10 +122,14 @@ public class AutoPickUpBall extends CommandBase {
     }
     
     // Calculate speed correction based on distance
-    if ((ballDistance > 50) && foundBall == true){
-      speedCorrection = 1;
-    }else{
-      speedCorrection = .6;
+    if(!isSlowSpeed) //once it slows down it won't go back into fast mode again.
+    {
+      if ((ballDistance > 50) && foundBall == true) {
+        speedCorrection = 1;
+      } else {
+        speedCorrection = .6;
+        isSlowSpeed = true;
+      }
     }
 
     // Run drive train
