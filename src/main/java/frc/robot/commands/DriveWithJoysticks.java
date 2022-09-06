@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 import static frc.robot.Constants.DrivetrainConstants.*;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class DriveWithJoysticks extends CommandBase {
@@ -58,6 +59,8 @@ public class DriveWithJoysticks extends CommandBase {
     {
       directionChanged = false;
     }
+
+    SmartDashboard.putNumber("Gyro", drivetrain.getGyroAngle());
 
     // Drive using xbox joystick values
     // kSpeedCorrection is to slow down the right motors because left motors were

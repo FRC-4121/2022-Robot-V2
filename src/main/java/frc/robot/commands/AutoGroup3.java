@@ -17,6 +17,8 @@ public class AutoGroup3 extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new AutoIntakeAndShoot(intake, processor, 5, delayTime), new AutoPickUpBall(drivetrain, processor, intake, tables, stopTime), new AutoDrive(drivetrain, distance, 5, 1, 10), new AutoShoot(processor, 10, 0));
+    //addCommands(new AutoIntakeAndShoot(intake, processor, 5, delayTime), new AutoDrive(drivetrain, distance, 0, -1, 10));
+   
     //new AutoShoot(processor, 10, 2)
     //try 10 deg
     //try shooting w/o goin bak in

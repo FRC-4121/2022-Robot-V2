@@ -28,6 +28,7 @@ public class AutoPickUpBall extends CommandBase {
   private double targetDistance;
   private double targetAngle;
   private double stopTime;
+  private double driveSpeed;
 
   private double angleCorrection, angleError, speedCorrection;
   private double startTime;
@@ -36,17 +37,21 @@ public class AutoPickUpBall extends CommandBase {
   private double targetGyro;
   private double actualGyro;
   private boolean holdGyro;
+  private double currentGyroAngle = 0;
+  
 
   private double leftEncoderStart;
   private double rightEncoderStart;
 
   private boolean isBallOnBoard;
+  private boolean foundBall;
 
   private Timer timer;
   private PIDControl pidAngle;
   private boolean runProcessor;
 
   private boolean isSlowSpeed;
+  private PIDControl pidDriveAngle;
 
 
   public AutoPickUpBall(Drivetrain drive, Processor process, Intake in, NetworkTableQuerier table, double time) {
@@ -60,6 +65,7 @@ public class AutoPickUpBall extends CommandBase {
     stopTime = time;
     timer = new Timer();
     pidAngle = new PIDControl(kP_Turn, kI_Turn, kD_Turn);
+    pidDriveAngle = new PIDControl(kP_Turn, kI_Turn, kD_Turn);
 
   }
 
@@ -80,7 +86,7 @@ public class AutoPickUpBall extends CommandBase {
     leftEncoderStart = drivetrain.getMasterLeftEncoderPosition();
     rightEncoderStart = drivetrain.getMasterRightEncoderPosition();
 
-    holdGyro = false;
+    holdGyro = true;
     targetGyro = drivetrain.getGyroAngle();
     actualGyro = drivetrain.getGyroAngle();
 
@@ -100,7 +106,7 @@ public class AutoPickUpBall extends CommandBase {
     // Get vision values
     double ballOffset = ntables.getVisionDouble("BallOffset0") + kCameraCorrection;
     double ballDistance = ntables.getVisionDouble("BallDistance0");
-    boolean foundBall = ntables.getVisionBoolean("FoundBall");
+    foundBall = ntables.getVisionBoolean("FoundBall");
     SmartDashboard.putBoolean("FoundBAll", foundBall);
     SmartDashboard.putNumber("ballDistance", ballDistance);
     SmartDashboard.putNumber("ballOffset", ballOffset);
@@ -176,7 +182,43 @@ public class AutoPickUpBall extends CommandBase {
     else 
     {
 
-      //drivetrain.stopDrive();//modified for showcase purposes
+      // Calculate angle correction based on gyro reading
+    currentGyroAngle = drivetrain.getGyroAngle();
+    angleCorrection = pidDriveAngle.run(currentGyroAngle, 0); //the speed that the robot rotates from currentGyroAngle to targetAngle between -1 to 1
+    
+    driveSpeed = -1 * speedCorrection * kAutoDriveSpeed;
+
+    double leftSpeed = 0;
+    double rightSpeed = 0;
+    if (Math.abs(driveSpeed + angleCorrection) > 1){
+      if(driveSpeed + angleCorrection < 0) {//do this because angleCorrection is sometimes over 1 so hard code it to -1 or 1
+        leftSpeed = -1;
+      } else {
+        leftSpeed = 1;
+      }
+    } else {
+      leftSpeed = driveSpeed + angleCorrection;
+    }
+
+    if (Math.abs(driveSpeed - angleCorrection) > 1){
+      if(driveSpeed - angleCorrection < 0) { //do this because angleCorrection is sometimes over 1 so hard code it to -1 or 1
+        rightSpeed = -1;
+      } else {
+        rightSpeed = 1;
+      }
+    } else {
+      rightSpeed = driveSpeed - angleCorrection;
+    }
+    rightSpeed *= kSpeedCorrection; //this may need to be used on the left drive motors
+
+     // Run the drive
+     drivetrain.autoDrive(leftSpeed, rightSpeed); //from which method does this come from.
+
+     double totalRotationsRight = Math.abs((drivetrain.getMasterRightEncoderPosition() - rightEncoderStart)); //does getEncoderPosition return rotations or another unit?
+     double totalRotationsLeft = Math.abs((drivetrain.getMasterLeftEncoderPosition() - leftEncoderStart));
+ 
+     distanceTraveled = (kWheelDiameter * Math.PI * (totalRotationsLeft + totalRotationsRight) / 2.0) / AUTO_ENCODER_REVOLUTION_FACTOR;
+     
 
     }
 
@@ -241,6 +283,13 @@ public class AutoPickUpBall extends CommandBase {
     else if (stopTime <= time - startTime)
     {
       thereYet = true;
+    }
+
+    if(!foundBall)
+    {
+      if (distanceTraveled >= 100) {
+        thereYet = true;
+      }
     }
 
     SmartDashboard.putBoolean("Auto TY", thereYet); //MAYBE THE ISSUE IS HERE <_---0----------------------

@@ -121,6 +121,8 @@ public class AutoDriveToBall extends CommandBase {
       drivetrain.autoDrive(speedCorrection * direction * kAutoDriveSpeed + angleCorrection, speedCorrection * direction*kAutoDriveSpeed - angleCorrection);
     } else {
       drivetrain.stopDrive();//modified for showcase purposes
+      
+    
     }
     SmartDashboard.putNumber("Angle Correction", angleCorrection);
     // processor.runProcessor(false);

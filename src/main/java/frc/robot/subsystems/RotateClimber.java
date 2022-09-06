@@ -73,7 +73,7 @@ public class RotateClimber extends SubsystemBase {
   public double getLeftRotateEncoderPosition()
   {
 
-    return leftRotateMotor.getSelectedSensorPosition();
+    return Math.abs(leftRotateMotor.getSelectedSensorPosition());
 
   }
 
@@ -81,7 +81,7 @@ public class RotateClimber extends SubsystemBase {
   public double getRightRotateEncoderPosition()
   {
 
-    return rightRotateMotor.getSelectedSensorPosition();
+    return Math.abs(rightRotateMotor.getSelectedSensorPosition());
 
   }
 

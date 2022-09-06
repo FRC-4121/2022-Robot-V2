@@ -27,6 +27,16 @@ public final class Constants {
     public static final int RIGHT_MASTER_F = 1;
     public static final int RIGHT_SLAVE_F = 4;
 
+    //swerve drive motor IDs
+    public static final int LEFT_FRONT_DRIVE = 1;
+    public static final int LEFT_FRONT_ANGLE = 2;
+    public static final int RIGHT_FRONT_DRIVE = 3;
+    public static final int RIGHT_FRONT_ANGLE = 4;
+    public static final int LEFT_REAR_DRIVE = 5;
+    public static final int LEFT_REAR_ANGLE = 6;
+    public static final int RIGHT_REAR_DRIVE = 7;
+    public static final int RIGHR_REAR_ANGLE = 8;
+
     //climber motor IDs
     public static final int RIGHT_CLIMBER = 7;
     public static final int LEFT_CLIMBER = 5;
@@ -40,10 +50,10 @@ public final class Constants {
     //processor motor IDs
     public static final int INTAKE=20;
     public static final int INTAKERELEASE = 0;
-    public static final int LOADER = 27; 
+    public static final int LOADER = 27; //need to find, spark max
     public static final int SHOOTER = 10;
-    public static final int LEFT_PROCESSOR = 8;
-    public static final int RIGHT_PROCESSOR = 6;
+    public static final int LEFT_PROCESSOR = 8;//need to find, spark max
+    public static final int RIGHT_PROCESSOR = 6;//need to find, spark max
 
     //Drive control port IDs
     public static final int XBOX_PORT = 0;
@@ -87,18 +97,20 @@ public final class Constants {
     //Climber variables
     public static final int kPIDLoopIdxClimb = 0;
     public static final int kTimeoutMsClimb = 20;
-    public static final int rightClimbMaxEncoder = 185100; // TBD encoder raw sensor units (2048 in one rotation) for max height that climber should go
-    public static final int leftClimbMaxEncoder = 204100;
+    public static final int rightClimbMaxEncoder = 178100; // TBD encoder raw sensor units (2048 in one rotation) for max height that climber should go
+    public static final int leftClimbMaxEncoder = 219100;
     public static final int climbMinEncoder = 0;//need to find
-    public static final int climbRotateMaxEncoder = -1000000;
-    public static final int climbRotateMinEncoder = 1000000;
+    public static final int rightRotateMaxEncoder = 201000;
+    public static final int leftRotateMaxEncoder = 196000;
+    public static final int climbRotateMinEncoder = 0;
     public static final int climbEncoderTolerance = 3000;
     public static final double climberSpeed = 0.4;
     public static final double rotateSpeed = 0.5;
-    public static double ClimberExtendLimiter = 0.93;
-    public static double ClimberRetractLimiter = 0.93;
-    public static double rotateClimberLimiter = 0.9;
+    public static double ClimberExtendLimiter = 0.92;
+    public static double ClimberRetractLimiter = 0.92;
+    public static double rotateClimberLimiter = 0.95;
     public static boolean climberEncoderInit = false;
+    public static boolean climberRotateEncoderInit = false;
     public static final double climberStartPos = 50;
 
     //Shooter variables
@@ -131,12 +143,19 @@ public final class Constants {
     public static boolean intakeEncodersInit = false;
     public static String intakePosition = "UP";
 
+    //SwerveDrive constants
+    public static final double lengthFromAxle = 1.0;
+    public static final double widthFromAxle = 1.0;
+
     //General variables
     public static boolean killAuto = false;
     public static int ballsOnBoard = 1;
     public static final double kCameraCorrection = 3.5;
     
 
+    /*
+    Constants needed by drivetrains
+    */
     public static class DrivetrainConstants {
 
         public static final boolean kMotorInvert = true;//True -> right side motors are inverted
@@ -146,7 +165,7 @@ public final class Constants {
         public static final double kWheelDiameter = 6.0;
         public static final double kLowGearSpeedCap = 0.8;//In case full speed draws excessive power, these are an emergency measure
         public static final double kHighGearSpeedCap = 1.0;
-        public static final double kJoystickSpeedCorr = 0.8;
+        public static final double kJoystickSpeedCorr = 1;
         public static final double kManualDriveSpeed = 0.75;
         public static final double kAutoDriveSpeed = 0.5;
         public static final double kAutoDriveSpeedMin = 0.25;
@@ -177,8 +196,20 @@ public final class Constants {
         public static int DIRECTION_MULTIPLIER = 1;//Controls whether forward on joysticks is forward or backward on robot
         
         public static double kLowGearMultiplier = 0.40;
-        public static double kHighGearMultiplier = 0.80;
-        public static double currentGear = kHighGearMultiplier; 
+        public static double kHighGearMultiplier = 0.70;
+        public static double currentGear = kHighGearMultiplier;
+        
+        //Swerve drive constants
+        public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.546;
+        public static final double DRIVETRAIN_WHEELBASE_METERS = 0.546;
+        public static final double DRIVETRAIN_TRACKWIDTH_INCH = 21.50;
+        public static final double DRIVETRAIN_WHEELBASE_INCH = 21.5;
+        public static final double kP_SwerveDriveSpeed = 0.001;;
+        public static final double kI_SwerveDriveSpeed = 0.0;
+        public static final double kD_SwerveDriveSpeed = 0.0;
+        public static final double kP_SwerveDriveAngle = 0.001;
+        public static final double kI_SwerveDriveAngle = 0.0;
+        public static final double kD_SwerveDriveAngle = 0.0;
     
     }
 }

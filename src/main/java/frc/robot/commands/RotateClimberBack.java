@@ -7,13 +7,20 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.*;
 import frc.robot.subsystems.RotateClimber;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class RotateClimberBack extends CommandBase {
 
   public static final int climberMaxRotateEncoder = 0; // Move these to constants
   public static final int climberMinRotateEncoder = 0;
- 
+  private double leftSpeed;
+  private double rightSpeed;
+  private double leftStopPos;
+  private double rightStopPos;
+  double leftClimberPos;
+  double rightClimberPos;
+
   private final RotateClimber m_climber;
   
     /** Creates a new RotateClimberFront. */
@@ -28,19 +35,36 @@ public class RotateClimberBack extends CommandBase {
     @Override
     public void initialize() {
 
-      if (!climberEncoderInit) {
+      leftSpeed = climberSpeed;
+      rightSpeed = climberSpeed;
+      leftStopPos = 10000000;
+      rightStopPos = 10000000;
+    
+      if(!climberRotateEncoderInit)//happens only once @ beginning 
+      {
         m_climber.zeroRotateClimberEncoders();
-        climberEncoderInit = true;
+        climberRotateEncoderInit = true;
       }
     }
   
     // Called every time the scheduler runs while the comma      nd is scheduled.
     @Override
     public void execute() {
-      //if(m_climber.getLeftRotateEncoderPosition() >= climberMinRotateEncoder && m_climber.getRightRotateEncoderPosition() >= climberMinRotateEncoder){
-        m_climber.rotateLeft(rotateSpeed);
-        m_climber.rotateRight(rotateSpeed * rotateClimberLimiter);
-      //}
+
+
+      leftClimberPos = m_climber.getLeftRotateEncoderPosition();
+      if (leftClimberPos <= climbRotateMinEncoder - 1 || leftClimberPos > leftRotateMaxEncoder - climbEncoderTolerance) {
+        m_climber.rotateLeft(0);
+      } else {
+        m_climber.rotateLeft(leftSpeed);
+      }
+
+      rightClimberPos = m_climber.getRightRotateEncoderPosition();
+      if (rightClimberPos <= climbRotateMinEncoder - 1 || rightClimberPos > rightRotateMaxEncoder - climbEncoderTolerance) {
+        m_climber.rotateRight(0);
+      } else {
+        m_climber.rotateRight(rightSpeed * rotateClimberLimiter);
+      }      
       
     }
   
@@ -54,6 +78,31 @@ public class RotateClimberBack extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-      return false;
+        
+      boolean doneYet = false;
+
+      // Only run left climber if within bounds
+      leftClimberPos = m_climber.getLeftRotateEncoderPosition();
+      if(leftClimberPos <= climbRotateMinEncoder-1  || leftClimberPos > leftRotateMaxEncoder - climbEncoderTolerance){
+       leftSpeed = 0;
+       leftStopPos = leftClimberPos;
+      }
+  
+      // Only run right climber if within bounds
+      rightClimberPos = m_climber.getRightRotateEncoderPosition();
+      if(rightClimberPos <= climbRotateMinEncoder-1 || rightClimberPos > rightRotateMaxEncoder - climbEncoderTolerance){
+       rightSpeed = 0;
+       rightStopPos = rightClimberPos;
+      }
+ 
+      SmartDashboard.putNumber("Left rotate encoder", leftClimberPos);
+      SmartDashboard.putNumber("Right  rotate encoder", rightClimberPos);
+  
+      if(leftSpeed == 0 && rightSpeed == 0)
+      {
+        doneYet = true;
+      }
+ 
+     return doneYet;
     }
   }

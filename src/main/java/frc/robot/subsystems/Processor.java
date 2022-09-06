@@ -9,7 +9,7 @@ import static frc.robot.Constants.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import com.revrobotics.CANSparkMax;
 
 public class Processor extends SubsystemBase {
 
@@ -17,11 +17,11 @@ public class Processor extends SubsystemBase {
   private DigitalInput intakeSwitch = new DigitalInput(1);
   
   //we have two motors facing each other but both running to feed in, so one of them must be in the opposite direction AKA negative.
-  private WPI_TalonSRX leftProcessor = new WPI_TalonSRX(LEFT_PROCESSOR);
-  private WPI_TalonSRX rightProcessor = new WPI_TalonSRX(RIGHT_PROCESSOR);
+  private CANSparkMax leftProcessor = new CANSparkMax(LEFT_PROCESSOR,CANSparkMax.MotorType.kBrushless);
+  private CANSparkMax rightProcessor = new CANSparkMax(RIGHT_PROCESSOR,CANSparkMax.MotorType.kBrushless);
 
   //loader motor
-  private WPI_TalonSRX loader = new WPI_TalonSRX(LOADER);
+  private CANSparkMax loader = new CANSparkMax(LOADER,CANSparkMax.MotorType.kBrushless);
 
 
   /** Creates a new Processor. */
@@ -29,7 +29,7 @@ public class Processor extends SubsystemBase {
 
 
   @Override
-  public void periodic() {
+  public void periodic() { 
     
     SmartDashboard.putBoolean("Intake Switch", getIntakeSwitch());
     
