@@ -52,19 +52,19 @@ public class RotateClimberBack extends CommandBase {
     public void execute() {
 
 
-      leftClimberPos = m_climber.getLeftRotateEncoderPosition();
-      if (leftClimberPos <= climbRotateMinEncoder - 1 || leftClimberPos > leftRotateMaxEncoder - climbEncoderTolerance) {
-        m_climber.rotateLeft(0);
-      } else {
-        m_climber.rotateLeft(leftSpeed);
-      }
+     leftClimberPos = m_climber.getLeftRotateEncoderPosition();
+     // if (leftClimberPos <= climbRotateMinEncoder - 1 || leftClimberPos > leftRotateMaxEncoder - climbEncoderTolerance) {
+       // m_climber.rotateLeft(0);
+      //} else {
+        m_climber.rotateLeft(leftSpeed * rotateClimberLimiter);
+     // }
 
       rightClimberPos = m_climber.getRightRotateEncoderPosition();
-      if (rightClimberPos <= climbRotateMinEncoder - 1 || rightClimberPos > rightRotateMaxEncoder - climbEncoderTolerance) {
+     /* if (rightClimberPos <= climbRotateMinEncoder - 1 || rightClimberPos > rightRotateMaxEncoder - climbEncoderTolerance) {
         m_climber.rotateRight(0);
-      } else {
-        m_climber.rotateRight(rightSpeed * rotateClimberLimiter);
-      }      
+      } else {*/
+        m_climber.rotateRight(rightSpeed);
+     // }      
       
     }
   

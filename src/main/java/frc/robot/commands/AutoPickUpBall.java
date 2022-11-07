@@ -292,7 +292,7 @@ public class AutoPickUpBall extends CommandBase {
       }
     }
 
-    SmartDashboard.putBoolean("Auto TY", thereYet); //MAYBE THE ISSUE IS HERE <_---0----------------------
+    SmartDashboard.putBoolean("Auto TY", thereYet); //MAYBE THE ISSUE IS HERE <_-------------------------
 
     return thereYet;
 

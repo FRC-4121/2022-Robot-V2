@@ -106,9 +106,9 @@ public final class Constants {
     public static final int climbEncoderTolerance = 3000;
     public static final double climberSpeed = 0.4;
     public static final double rotateSpeed = 0.5;
-    public static double ClimberExtendLimiter = 0.92;
-    public static double ClimberRetractLimiter = 0.92;
-    public static double rotateClimberLimiter = 0.95;
+    public static double ClimberExtendLimiter = 1.0;
+    public static double ClimberRetractLimiter = 1.0;
+    public static double rotateClimberLimiter = 0.75;
     public static boolean climberEncoderInit = false;
     public static boolean climberRotateEncoderInit = false;
     public static final double climberStartPos = 50;

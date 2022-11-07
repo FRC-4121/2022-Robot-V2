@@ -13,7 +13,7 @@ import static frc.robot.Constants.*;
 import static frc.robot.Constants.DrivetrainConstants.*;
 import frc.robot.ExtraClasses.*;
 
-public class SwerveWheel extends SubsystemBase {
+public class SwerveWheel extends SubsystemBase { 
 
   /* Declare motor variables */
   private WPI_TalonFX swerveDriveMotor;

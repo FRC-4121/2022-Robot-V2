@@ -38,7 +38,7 @@ public class RunClimberStart extends CommandBase {
     // Only run left climber if within bounds
     double leftClimberPos = climber.getLeftClimbEncoderPosition();
     if(leftClimberPos <= climberStartPos){
-      climber.runLeftClimber(climberSpeed);
+      climber.runLeftClimber(climberSpeed); // Multiply this value by "ClimberExtendLimiter" or 0.92
     }
 
     // Only run right climber if within bounds

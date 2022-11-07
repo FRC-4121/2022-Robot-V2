@@ -35,7 +35,7 @@ public class Intake extends SubsystemBase {
   /* Method to run the motor for the intake wheels */
   public void runIntake()
   {
-    intakeMain.set(-0.35);
+    intakeMain.set(-0.5);
   }
  
   /* Method to stop the motor for the intake wheels */

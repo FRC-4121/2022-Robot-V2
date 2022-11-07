@@ -16,8 +16,8 @@ public class AutoGroup3 extends SequentialCommandGroup {
   public AutoGroup3(Drivetrain drivetrain, Processor processor, Intake intake, NetworkTableQuerier tables, double distance, double stopTime, double delayTime) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new AutoIntakeAndShoot(intake, processor, 5, delayTime), new AutoPickUpBall(drivetrain, processor, intake, tables, stopTime), new AutoDrive(drivetrain, distance, 5, 1, 10), new AutoShoot(processor, 10, 0));
-    //addCommands(new AutoIntakeAndShoot(intake, processor, 5, delayTime), new AutoDrive(drivetrain, distance, 0, -1, 10));
+    //addCommands(new AutoIntakeAndShoot(intake, processor, 5, delayTime), new AutoPickUpBall(drivetrain, processor, intake, tables, stopTime), new AutoDrive(drivetrain, distance, 5, 1, 10), new AutoShoot(processor, 10, 0));
+    addCommands(new AutoIntakeAndShoot(intake, processor, 5, delayTime), new AutoDrive(drivetrain, distance, 0, -1, 10)); //if you change to this, in robotcontainer you have to change distance to 135
    
     //new AutoShoot(processor, 10, 2)
     //try 10 deg
