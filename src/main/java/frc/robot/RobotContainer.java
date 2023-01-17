@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
+
 public class RobotContainer {
   
   //Driver controllers
@@ -32,6 +33,7 @@ public class RobotContainer {
   private final RotateClimber rotateClimber= new RotateClimber();
   private final Shooter shooter = new Shooter();
   private final Processor processor = new Processor();
+  private final Pneumatics pneumatic = new Pneumatics();
 
   private final NetworkTableQuerier table = new NetworkTableQuerier();
 
@@ -70,8 +72,10 @@ public class RobotContainer {
   //launchpad
   private final SetRedBallColor setRedBall = new SetRedBallColor(table);
   private final SetBlueBallColor setBlueBall = new SetBlueBallColor(table);
-
-
+  
+  //pneumatics
+  private final ExtendCommand extend = new ExtendCommand(pneumatic);
+  private final RetractCommand retract = new RetractCommand(pneumatic);
 
   //===BUTTONS===// //They're being initialized in RobotContainer
 
@@ -171,8 +175,8 @@ public class RobotContainer {
 
     //intake
     intakeButton.whileHeld(intakeCommand); //whileHeld
-    lowerIntakeButton.whenPressed(dropintakeCommand);
-    raiseIntakeButton.whenPressed(raiseIntakeCommand);
+    lowerIntakeButton.whenPressed(extend);
+    raiseIntakeButton.whenPressed(retract);
 
     //climber
     climberExtendButton.whileHeld(extendClimberCommand);
